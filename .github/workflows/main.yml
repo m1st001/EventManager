@@ -3,10 +3,10 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 jobs:
@@ -24,13 +24,13 @@ jobs:
         dotnet-version: '9.0.x' # Specify your .NET version
 
     - name: Build .NET Web API
-      run: dotnet build --configuration Release
+      run: dotnet build EventManager.Webapi --configuration Release
 
     - name: Publish .NET Web API
-      run: dotnet publish --configuration Release -o out
+      run: dotnet publish EventManager.Webapi --configuration Release -o out
 
     - name: Build Docker image for .NET Web API
-      run: docker build -t yourdockerhubusername/dotnet-webapi -f Dockerfile .
+      run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/dotnet-webapi -f Dockerfile .
 
     - name: Login to DockerHub
       uses: docker/login-action@v2
@@ -70,4 +70,4 @@ jobs:
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
     - name: Push Docker image for Vite React app
-      run: docker push yourdockerhubusername/vite-reactapp
+      run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/vite-reactapp
