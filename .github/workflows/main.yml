@@ -23,6 +23,9 @@ jobs:
       with:
         dotnet-version: '9.0.x' # Specify your .NET version
 
+    - name: List files in directory
+      run: ls -R
+
     - name: Build .NET Web API
       run: dotnet build --configuration Release EventManager.Webapi
 
