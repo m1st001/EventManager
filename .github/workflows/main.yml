@@ -33,7 +33,7 @@ jobs:
       run: dotnet publish --configuration Release -o out 
 
     - name: Build Docker image for .NET Web API
-      run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/dotnet-webapi -f Dockerfile . 
+      run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/dotnet-webapi . 
 
     - name: Login to DockerHub
       uses: docker/login-action@v2
