@@ -1,11 +1,18 @@
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var webapi = builder.AddProject<Projects.EventManager_WebApi>("webapi")
     .WithExternalHttpEndpoints();
 
 var frontend = builder.AddNpmApp("frontend", "../eventmanager.frontend")
-    .WithHttpEndpoint(env: "PORT")
     .WithReference(webapi)
+    .WaitFor(webapi)
+    .WithEnvironment("BROWSER", "none")
+    .WithHttpEndpoint(env: "VITE_PORT")
     .WithExternalHttpEndpoints();
 
-builder.Build().Run();
+var app = builder.Build();
+
+app.Run();
