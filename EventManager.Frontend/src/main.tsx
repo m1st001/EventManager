@@ -8,11 +8,11 @@ import EventsPage from "./pages/EventsPage.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
           <Routes>
-              <Route path="/EventManager/" element={<LandingPage />} />
-              <Route path="/EventManager/create" element={<CreateEventPage />} />
-              <Route path="/EventManager/events" element={<EventsPage />} />
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/create" element={<CreateEventPage />} />
+              <Route path="/events" element={<EventsPage />} />
           </Routes>
       </BrowserRouter>
   </StrictMode>,
