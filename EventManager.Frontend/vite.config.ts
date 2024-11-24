@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    base: '/<REPO>/',
+    base: '/EventManager/',
     server: {
       port: parseInt(env.VITE_PORT),
       proxy: {
