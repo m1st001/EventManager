@@ -7,6 +7,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
+    base: '/<REPO>/',
     server: {
       port: parseInt(env.VITE_PORT),
       proxy: {
