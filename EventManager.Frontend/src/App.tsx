@@ -6,8 +6,15 @@ import EventsPage from "./pages/EventsPage.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
 import Navbar from "./components/Navbar.tsx";
 import BottomBar from "./components/BottomBar.tsx";
+import { createTheme, ThemeProvider } from "@mui/material";
 
 const App = () => {
+  const darkTheme = createTheme({
+    palette: {
+      mode: "dark",
+    },
+  });
+
   const router = createBrowserRouter(
     [
       {
@@ -32,9 +39,11 @@ const App = () => {
   );
   return (
     <div>
-      <Navbar />
-      <RouterProvider router={router} />
-      <BottomBar />
+      <ThemeProvider theme={darkTheme}>
+        <Navbar />
+        <RouterProvider router={router} />
+        <BottomBar />
+      </ThemeProvider>
     </div>
   );
 };
