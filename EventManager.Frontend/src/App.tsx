@@ -6,7 +6,7 @@ import EventsPage from "./pages/EventsPage.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
 import Navbar from "./components/Navbar.tsx";
 import BottomBar from "./components/BottomBar.tsx";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { Container, createTheme, ThemeProvider } from "@mui/material";
 
 const App = () => {
   const darkTheme = createTheme({
@@ -41,7 +41,9 @@ const App = () => {
     <div>
       <ThemeProvider theme={darkTheme}>
         <Navbar />
-        <RouterProvider router={router} />
+        <Container maxWidth="lg">
+          <RouterProvider router={router} />
+        </Container>
         <BottomBar />
       </ThemeProvider>
     </div>

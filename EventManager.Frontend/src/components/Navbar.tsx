@@ -1,6 +1,7 @@
 import React from "react";
 import { StyledNavbar } from "./styles.ts";
-import { Button, Container, Toolbar } from "@mui/material";
+import { Box, Button, Container, Toolbar } from "@mui/material";
+import LoginGroup from "./loginGroup/LoginGroup.tsx";
 
 interface Page {
   name: string;
@@ -19,16 +20,19 @@ const Navbar = () => {
       <Container>
         <StyledNavbar position="static">
           <Container maxWidth="xl">
-            <Toolbar disableGutters>
-              {pages.map((page) => (
-                <Button
-                  sx={{ textAlign: "center" }}
-                  key={page.name}
-                  href={baseUrl + page.link}
-                >
-                  {page.name}
-                </Button>
-              ))}
+            <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
+              <Box>
+                {pages.map((page) => (
+                  <Button
+                    sx={{ textAlign: "center" }}
+                    key={page.name}
+                    href={baseUrl + page.link}
+                  >
+                    {page.name}
+                  </Button>
+                ))}
+              </Box>
+              <LoginGroup />
             </Toolbar>
           </Container>
         </StyledNavbar>

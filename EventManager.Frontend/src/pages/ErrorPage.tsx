@@ -1,11 +1,8 @@
 import React from "react";
+import { StyledContentBox } from "../components/styles.ts";
 
 const ErrorPage = () => {
-  return (
-    <div>
-      <h1>Error</h1>
-    </div>
-  );
+  return <StyledContentBox>123</StyledContentBox>;
 };
 
 export default ErrorPage;
