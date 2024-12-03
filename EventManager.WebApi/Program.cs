@@ -1,4 +1,5 @@
 using EventManager.WebApi.Data;
+using EventManager.WebApi.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,8 @@ app.UseCors(static builder =>
     builder.AllowAnyMethod()
         .AllowAnyHeader()
         .AllowAnyOrigin());
+
+app.RegisterEventEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
