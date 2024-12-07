@@ -5,5 +5,5 @@ namespace EventManager.WebApi.Data.Models;
 
 public class User : IdentityUser<int>, IUser
 {
-    
+    public string CustomTag { get; set; }
 }

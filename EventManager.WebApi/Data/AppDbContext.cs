@@ -1,9 +1,11 @@
 using EventManager.WebApi.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventManager.WebApi.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -12,5 +14,4 @@ public class AppDbContext : DbContext
     }
     
     public DbSet<Event> Events { get; set; }
-    public DbSet<User> Users { get; set; }
 }
