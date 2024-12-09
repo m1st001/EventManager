@@ -1,3 +1,4 @@
+using EventManager.WebApi.Data.Helpers;
 using EventManager.WebApi.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -14,4 +15,11 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     }
     
     public DbSet<Event> Events { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Event>().HasMany<User>();
+        SeedData.SeedContext(modelBuilder);
+    }
 }
