@@ -1,5 +1,6 @@
 ﻿using EventManager.WebApi.Data;
 using EventManager.WebApi.Data.Models;
+using EventManager.WebApi.Services.Abstractions;
 
 namespace EventManager.WebApi.Endpoints;
 
@@ -7,15 +8,12 @@ public static class EventEndpoints
 {
     public static void RegisterEventEndpoints(this WebApplication app)
     {
-        app.MapGet("/events/1", GetAllEvents);
-    }
-    
-    static async Task<IResult> GetAllEvents(AppDbContext db)
-    {
-        return TypedResults.Ok(new Event
-        {
-            Id = 1,
-            EventName = "Event1",
-        });
+        var events = app.MapGroup("/events").WithOpenApi();
+        
+        events.MapGet("/", async (IEventService eventService)
+            => TypedResults.Ok(await eventService.GetAllEventsAsync()));
+        
+        events.MapGet("/{id:int}", async (int id, IEventService eventService)
+            => await eventService.GetEventByIdAsync(id));
     }
 }
