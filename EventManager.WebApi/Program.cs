@@ -1,5 +1,7 @@
 using EventManager.WebApi.Data;
 using EventManager.WebApi.Endpoints;
+using EventManager.WebApi.Services;
+using EventManager.WebApi.Services.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
+
+// Registering services
+builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ISubscribeService, SubscribeService>();
 
 builder.AddNpgsqlDbContext<AppDbContext>(connectionName: "postgresDb");
 
