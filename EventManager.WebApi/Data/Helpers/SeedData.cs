@@ -23,8 +23,8 @@ public static class SeedData
         var eventId = 1;
         var testEvents = new Faker<Event>()
             .RuleFor(e => e.Id, f => eventId++)
-            .RuleFor(e => e.Name, f => f.Name.FirstName())
-            .RuleFor(e => e.StartDate, f => f.Date.Future(1))
+            .RuleFor(e => e.Name, f => f.Commerce.ProductAdjective() + "Event")
+            .RuleFor(e => e.StartDate, f => f.Date.Future(1).ToUniversalTime())
             .RuleFor(e => e.CreatorId, f => f.PickRandom(1, 20))
             .RuleFor(e => e.Tags, f => f.Lorem.Words(f.Random.Int(1, 4)));
         var events = testEvents.Generate(20);
