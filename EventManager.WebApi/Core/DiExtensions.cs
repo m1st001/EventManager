@@ -1,5 +1,6 @@
 ﻿using EventManager.WebApi.Data;
 using EventManager.WebApi.Data.Models;
+using EventManager.WebApi.Endpoints;
 using EventManager.WebApi.Services;
 using EventManager.WebApi.Services.Abstractions;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -50,5 +51,13 @@ public static class DiExtensions
             opt.TokenLifespan = TimeSpan.FromMinutes(30)); //todo TimeSpan need add to config
 
         return services;
+    }
+    
+    public static WebApplication AddAllEndpoints(this WebApplication app)
+    {
+        app.RegisterEventEndpoints();
+        app.RegisterIdentityEndpoints();
+        
+        return app;
     }
 }

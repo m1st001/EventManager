@@ -32,7 +32,7 @@ app.UseCors(static builder =>
         .AllowAnyHeader()
         .AllowAnyOrigin());
 
-app.RegisterEventEndpoints();
+app.AddAllEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
