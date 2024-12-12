@@ -19,7 +19,9 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<Event>().HasMany<User>();
+        modelBuilder.Entity<Event>()
+            .HasMany(e => e.Participants).WithMany(u => u.ParticipatedInEvents);
+        modelBuilder.Entity<User>().HasMany(u => u.SubscribedToEvents);
         SeedData.SeedContext(modelBuilder);
     }
 }
