@@ -52,12 +52,15 @@ public static class DiExtensions
 
         return services;
     }
-    
+
+    /// <summary>
+    /// Add all endpoints
+    /// </summary>
     public static WebApplication AddAllEndpoints(this WebApplication app)
     {
         app.RegisterEventEndpoints();
         app.RegisterIdentityEndpoints();
-        
+
         return app;
     }
 }
