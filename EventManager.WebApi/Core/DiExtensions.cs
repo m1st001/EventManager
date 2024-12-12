@@ -15,7 +15,7 @@ public static class DiExtensions
     /// </summary>
     public static IServiceCollection AddIdentity(this IServiceCollection services)
     {
-        services.AddIdentity<User, IdentityRole>()
+        services.AddIdentity<User, IdentityRole<int>>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
 

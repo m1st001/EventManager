@@ -1,4 +1,6 @@
-﻿namespace EventManager.WebApi.Data.Models.Requests;
+﻿using System.Text.Json.Serialization;
+
+namespace EventManager.WebApi.Data.Models.Requests;
 
 /// <summary>
 /// Request for login endpoint
@@ -18,5 +20,6 @@ public record LoginRequest
     /// <summary>
     /// Remember me flag
     /// </summary>
+    [JsonIgnore]
     public bool RememberMe { get; set; } = false;
 }
