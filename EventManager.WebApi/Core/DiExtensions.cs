@@ -60,6 +60,7 @@ public static class DiExtensions
     {
         app.RegisterEventEndpoints();
         app.RegisterIdentityEndpoints();
+        app.RegisterSubscribeEndpoints();
 
         return app;
     }

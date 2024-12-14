@@ -1,6 +1,4 @@
-﻿using EventManager.WebApi.Data;
-using EventManager.WebApi.Data.Models;
-using EventManager.WebApi.Data.Models.Requests.Events;
+﻿using EventManager.WebApi.Data.Models.Requests.Events;
 using EventManager.WebApi.Services.Abstractions;
 
 namespace EventManager.WebApi.Endpoints;
@@ -25,7 +23,7 @@ public static class EventEndpoints
         events.MapPost("/", async (IEventService eventService, CreateEventRequest request) =>
         {
             var id = await eventService.AddEventAsync(request);
-            return id != -1 
+            return id != -1
                 ? TypedResults.Created()
                 : Results.Conflict();
         });

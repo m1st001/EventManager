@@ -3,7 +3,7 @@
 namespace EventManager.WebApi.Data.Models.Requests.Events;
 
 /// <summary>
-/// 
+/// DTO for creating an event.
 /// </summary>
 public record CreateEventRequest
 {
