@@ -1,6 +1,6 @@
 using EventManager.WebApi.Data;
 using EventManager.WebApi.Data.Models;
-using EventManager.WebApi.Data.Models.Abstractions;
+using EventManager.WebApi.Data.Models.Requests.Events;
 using EventManager.WebApi.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,17 +13,19 @@ public class EventService(AppDbContext context) : IEventService
         return await context.Events.ToListAsync();
     }
 
-    public async Task<Event> GetEventByIdAsync(int id)
+    public async Task<Event?> GetEventByIdAsync(int id)
     {
         return await context.Events.FindAsync(id);
     }
 
-    public Task AddEventAsync(User user)
+    public async Task<int> AddEventAsync(CreateEventRequest request)
     {
-        throw new NotImplementedException();
+        context.Events.Add(new Event(request));
+        await context.SaveChangesAsync();
+        return -1;
     }
 
-    public Task UpdateEventAsync(User user)
+    public Task UpdateEventAsync(Event @event)
     {
         throw new NotImplementedException();
     }

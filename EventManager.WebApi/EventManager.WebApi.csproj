@@ -22,4 +22,9 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Data\Models\Requests\Subscribe\" />
+      <Folder Include="Data\Models\Requests\Users\" />
+    </ItemGroup>
+
 </Project>
