@@ -36,9 +36,9 @@ public static class DiExtensions
     }
 
     /// <summary>
-    /// Add configuration for cookie
+    /// Configure cookies
     /// </summary>
-    public static IServiceCollection AddCookieConfig(this IServiceCollection services)
+    public static IServiceCollection ConfigureCookies(this IServiceCollection services)
     {
         services.ConfigureApplicationCookie(options =>
         {
@@ -56,7 +56,7 @@ public static class DiExtensions
     /// <summary>
     /// Add all endpoints
     /// </summary>
-    public static WebApplication AddAllEndpoints(this WebApplication app)
+    public static WebApplication MapEndpoints(this WebApplication app)
     {
         app.RegisterEventEndpoints();
         app.RegisterIdentityEndpoints();

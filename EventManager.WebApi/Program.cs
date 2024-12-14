@@ -16,7 +16,7 @@ builder.Services.AddAuthorization();
 // Registering custom services
 builder.Services.AddAllScoped();
 builder.Services.AddIdentity();
-builder.Services.AddCookieConfig();
+builder.Services.ConfigureCookies();
 
 builder.AddNpgsqlDbContext<AppDbContext>(connectionName: "postgresDb");
 
@@ -32,7 +32,7 @@ app.UseCors(static builder =>
         .AllowAnyHeader()
         .AllowAnyOrigin());
 
-app.AddAllEndpoints();
+app.MapEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
