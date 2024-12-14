@@ -1,4 +1,4 @@
-﻿namespace EventManager.WebApi.Data.Models.Requests;
+﻿namespace EventManager.WebApi.Data.Models.Requests.Auth;
 
 /// <summary>
 /// Request for registration endpoint

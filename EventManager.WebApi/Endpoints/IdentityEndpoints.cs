@@ -1,4 +1,4 @@
-﻿using EventManager.WebApi.Data.Models.Requests;
+﻿using EventManager.WebApi.Data.Models.Requests.Auth;
 using EventManager.WebApi.Services.Abstractions;
 
 namespace EventManager.WebApi.Endpoints;
