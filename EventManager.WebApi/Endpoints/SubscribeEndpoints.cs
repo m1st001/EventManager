@@ -9,12 +9,12 @@ public static class SubscribeEndpoints
     {
         app.MapPost("/subscribe", (ISubscribeService eventService, SubscribeEventRequest request) =>
         {
-            throw new NotImplementedException();
+            eventService.SubscribeAsync(request.UserId, request.EventId);
         });
         
         app.MapPost("/unsubscribe", (ISubscribeService eventService, SubscribeEventRequest request) =>
         {
-            throw new NotImplementedException();
+            eventService.SubscribeAsync(request.UserId, request.EventId);
         });
     }
 }
