@@ -20,18 +20,28 @@ public class EventService(AppDbContext context) : IEventService
 
     public async Task<int> AddEventAsync(CreateEventRequest request)
     {
-        context.Events.Add(new Event(request));
+        var created = context.Events.Add(new Event(request));
         await context.SaveChangesAsync();
-        return -1;
+        return created.Entity is not null ? created.Entity.Id : -1;
     }
 
-    public Task UpdateEventAsync(Event @event)
+    public async Task<Event?> UpdateEventAsync(int id, CreateEventRequest request)
     {
-        throw new NotImplementedException();
+        var updated = context.Events.Update(new Event(request));
+        await context.SaveChangesAsync();
+        return updated.Entity is not null ? updated.Entity : null;
     }
 
-    public Task DeleteEventAsync(int id)
+    public async Task<bool> DeleteEventAsync(int id)
     {
-        throw new NotImplementedException();
+        var eventToDelete = await context.Events.FindAsync(id);
+        if (eventToDelete is null)
+        {
+            return false;
+        }
+
+        context.Events.Remove(eventToDelete);
+        await context.SaveChangesAsync();
+        return true;
     }
 }
