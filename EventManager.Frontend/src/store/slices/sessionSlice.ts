@@ -4,6 +4,7 @@ const sessionSlice = createSlice({
   name: "session",
   initialState: {
     isLoggedIn: false,
+    userId: -1,
   },
   reducers: {
     updateSession: (state, action) => {

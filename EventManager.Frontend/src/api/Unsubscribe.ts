@@ -9,22 +9,23 @@
  * ---------------------------------------------------------------
  */
 
-import { WeatherForecast } from "./data-contracts";
-import { HttpClient, RequestParams } from "./http-client";
+import { SubscribeEventRequest } from "./data-contracts";
+import { ContentType, HttpClient, RequestParams } from "./http-client";
 
-export class Weatherforecast<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+export class Unsubscribe<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
    * No description
    *
    * @tags EventManager.WebApi
-   * @name GetWeatherForecast
-   * @request GET:/weatherforecast
+   * @name UnsubscribeCreate
+   * @request POST:/unsubscribe
    */
-  getWeatherForecast = (params: RequestParams = {}) =>
-    this.request<WeatherForecast[], any>({
-      path: `/weatherforecast`,
-      method: "GET",
-      format: "json",
+  unsubscribeCreate = (data: SubscribeEventRequest, params: RequestParams = {}) =>
+    this.request<void, any>({
+      path: `/unsubscribe`,
+      method: "POST",
+      body: data,
+      type: ContentType.Json,
       ...params,
     });
 }
