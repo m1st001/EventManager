@@ -11,6 +11,9 @@ public record CreateEventRequest
     [MaxLength(20)]
     public required string Name { get; set; }
     
+    [MaxLength(80)]
+    public string Description {get; set;}
+    
     [Required]
     public DateTime StartDate { get; set; }
     
