@@ -8,10 +8,7 @@ import {
   styled,
 } from "@mui/material";
 
-export const StyledNavbar = styled(AppBar)<AppBarProps>(() => ({
-  border: "solid",
-  borderRadius: 18,
-}));
+export const StyledNavbar = styled(AppBar)<AppBarProps>(() => ({}));
 export const StyledContentBox = styled(Box)<BoxProps>(() => ({
   marginTop: 20,
   marginBottom: 20,
