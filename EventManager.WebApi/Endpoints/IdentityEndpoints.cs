@@ -10,7 +10,7 @@ public static class IdentityEndpoints
     /// </summary>
     public static void RegisterIdentityEndpoints(this WebApplication app)
     {
-        var auth = app.MapGroup("authentication").WithOpenApi();
+        var auth = app.MapGroup("authentication").WithOpenApi().WithTags("Identity");
 
         auth.MapPost("login",
             async (IAuthenticationService authenticationService, LoginRequest request, bool rememberMe) =>

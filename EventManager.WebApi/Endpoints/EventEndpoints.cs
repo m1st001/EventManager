@@ -7,7 +7,7 @@ public static class EventEndpoints
 {
     public static void RegisterEventEndpoints(this WebApplication app)
     {
-        var events = app.MapGroup("/events").WithOpenApi();
+        var events = app.MapGroup("/events").WithOpenApi().WithTags("Events");
         
         events.MapGet("/", async (IEventService eventService)
             => TypedResults.Ok(await eventService.GetAllEventsAsync()));
