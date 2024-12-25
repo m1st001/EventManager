@@ -26,6 +26,19 @@ public interface IEventService
     /// <param name="request">Request</param>
     /// <returns>id of newly created event.</returns>
     Task<int> AddEventAsync(CreateEventRequest request); 
-    Task UpdateEventAsync(Event @event);
-    Task DeleteEventAsync(int id);
+    
+    /// <summary>
+    /// Update an existing event.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="request"></param>
+    /// <returns>Updated event entity.</returns>
+    Task<Event?> UpdateEventAsync(int id, CreateEventRequest request);
+    
+    /// <summary>
+    /// Delete an event.
+    /// </summary>
+    /// <param name="id">id of event to delete.</param>
+    /// <returns>true if deleted successfully.</returns>
+    Task<bool> DeleteEventAsync(int id);
 }

@@ -9,6 +9,7 @@ public class Event()
     public Event(CreateEventRequest request) : this()
     {
         Name = request.Name;
+        Description = request.Description;
         CreatorId = request.CreatorId;
         StartDate = request.StartDate;
         CreatorId = request.CreatorId;
@@ -20,6 +21,9 @@ public class Event()
     [MinLength(3)]
     [MaxLength(20)]
     public string Name { get; set; }
+    
+    [MaxLength(80)]
+    public string Description { get; set; }
 
     [Required]
     public DateTime StartDate { get; set; }

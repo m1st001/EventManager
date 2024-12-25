@@ -20,7 +20,7 @@ public class AuthenticationService(
         var existedUser = await _userManager.FindByNameAsync(username);
         if (existedUser is not null)
         {
-            _logger.LogError("User {} already exists", username);
+            _logger.LogError("User {username} already exists", username);
             return existedUser;
         }
 
@@ -54,5 +54,6 @@ public class AuthenticationService(
     public async Task Logout()
     {
         await _signInManager.SignOutAsync();
+        _logger.LogError("User successfully logged out");
     }
 }
