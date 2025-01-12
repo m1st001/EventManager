@@ -30,3 +30,11 @@ export const StyledEventCard = styled(Card)<CardProps>(() => ({
 export const StyledLoginGroup = styled("div")(() => ({
   position: "relative",
 }));
+export const ModalBox = styled(Box)<BoxProps>(() => ({
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  p: 4,
+}));
