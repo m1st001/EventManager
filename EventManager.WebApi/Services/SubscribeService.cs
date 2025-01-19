@@ -3,8 +3,9 @@ using EventManager.WebApi.Services.Abstractions;
 
 namespace EventManager.WebApi.Services;
 
-public class SubscribeService(AppDbContext context) : ISubscribeService
+public class SubscribeService(AppDbContext context, ILogger<SubscribeService> logger) : ISubscribeService
 {
+    private readonly ILogger _logger = logger;
     public async Task<bool> SubscribeAsync(int userId, int eventId)
     {
         var user = await context.Users.FindAsync(userId);
@@ -12,11 +13,14 @@ public class SubscribeService(AppDbContext context) : ISubscribeService
         
         if (user is null || @event is null)
         {
+            _logger.LogError("{user} or {event} not found", user, eventId);
             return false;
         }
         
         @event.Participants.Add(user);
         await context.SaveChangesAsync();
+        
+        _logger.LogInformation("Successfully subscribed to the event: {event}", eventId);
         return true;
     }
 
@@ -27,11 +31,14 @@ public class SubscribeService(AppDbContext context) : ISubscribeService
        
        if (user is null || @event is null)
        {
+           _logger.LogError("{user} or {event} not found", user, eventId);
            return false;
        }
        
        @event.Participants.Remove(user);
        await context.SaveChangesAsync();
-       return false;
+       
+       _logger.LogInformation("Successfully unsubscribed to the event: {event}", eventId);
+       return true;
     }
 }
