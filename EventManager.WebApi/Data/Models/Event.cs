@@ -1,15 +1,29 @@
 using System.ComponentModel.DataAnnotations;
 using EventManager.WebApi.Data.Models.Abstractions;
+using EventManager.WebApi.Data.Models.Requests.Events;
 
 namespace EventManager.WebApi.Data.Models;
 
-public class Event
+public class Event()
 {
+    public Event(CreateEventRequest request) : this()
+    {
+        Name = request.Name;
+        Description = request.Description;
+        CreatorId = request.CreatorId;
+        StartDate = request.StartDate;
+        CreatorId = request.CreatorId;
+        Tags = request.Tags;
+    }
+    
     public int Id { get; set; }
     
     [MinLength(3)]
     [MaxLength(20)]
-    public required string Name { get; set; }
+    public string Name { get; set; }
+    
+    [MaxLength(80)]
+    public string Description { get; set; }
 
     [Required]
     public DateTime StartDate { get; set; }

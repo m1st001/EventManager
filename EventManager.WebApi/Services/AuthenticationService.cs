@@ -54,5 +54,6 @@ public class AuthenticationService(
     public async Task Logout()
     {
         await _signInManager.SignOutAsync();
+        _logger.LogError("User successfully logged out");
     }
 }

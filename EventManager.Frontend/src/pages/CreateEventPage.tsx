@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
+import CreateEventForm from "../components/CreateEventForm.tsx";
 
 const CreateEventPage = () => {
-    return (
-        <div>
-            <h1>CreateEvent</h1>
-        </div>
-    );
+  return (
+    <div>
+      <CreateEventForm />
+    </div>
+  );
 };
 
 export default CreateEventPage;

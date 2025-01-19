@@ -20,8 +20,8 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Event>()
-            .HasMany(e => e.Participants).WithMany(u => u.ParticipatedInEvents);
-        modelBuilder.Entity<User>().HasMany(u => u.SubscribedToEvents);
+            .HasMany(e => e.Participants)
+            .WithMany(u => u.SubscribedToEvents);
         SeedData.SeedContext(modelBuilder);
     }
 }

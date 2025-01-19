@@ -11,7 +11,7 @@ namespace EventManager.WebApi.Core;
 public static class DiExtensions
 {
     /// <summary>
-    /// Add identity
+    /// Add identity.
     /// </summary>
     public static IServiceCollection AddIdentity(this IServiceCollection services)
     {
@@ -23,7 +23,7 @@ public static class DiExtensions
     }
 
     /// <summary>
-    /// Add all scoped services
+    /// Add all scoped services.
     /// </summary>
     public static IServiceCollection AddAllScoped(this IServiceCollection services)
     {
@@ -36,7 +36,7 @@ public static class DiExtensions
     }
 
     /// <summary>
-    /// Configure cookies
+    /// Configure cookies.
     /// </summary>
     public static IServiceCollection ConfigureCookies(this IServiceCollection services)
     {
@@ -54,12 +54,14 @@ public static class DiExtensions
     }
 
     /// <summary>
-    /// Add all endpoints
+    /// Add all endpoints.
     /// </summary>
     public static WebApplication MapEndpoints(this WebApplication app)
     {
         app.RegisterEventEndpoints();
         app.RegisterIdentityEndpoints();
+        app.RegisterSubscribeEndpoints();
+        app.RegisterUserEndpoints();
 
         return app;
     }
