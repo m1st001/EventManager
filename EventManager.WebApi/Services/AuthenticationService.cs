@@ -31,6 +31,7 @@ public class AuthenticationService(
         };
 
         await _userManager.CreateAsync(user, password);
+        _logger.LogInformation("{username} successfully registered", username);
 
         return user;
     }
@@ -46,6 +47,7 @@ public class AuthenticationService(
         }
 
         var result = await _signInManager.PasswordSignInAsync(user, password, useCookies, false);
+        _logger.LogInformation("{username} successfully logged", username);
 
         return result.Succeeded ? user : null;
     }
