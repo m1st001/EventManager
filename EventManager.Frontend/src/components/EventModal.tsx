@@ -1,6 +1,7 @@
 import React from "react";
 import { Event } from "../api/data-contracts.ts";
 import {
+  Box,
   Button,
   Card,
   CardActions,
@@ -22,11 +23,14 @@ const EventModal = (props: EventModalProps) => {
       <ModalBox>
         <Card>
           <CardContent>
-            <Typography>{props.eventProps.name}</Typography>
+            <Box marginBottom={2}>
+              <Typography variant="h4">{props.eventProps.name}</Typography>
+            </Box>
+            <Typography>{props.eventProps.startDate}</Typography>
+            <Typography>{props.eventProps.description}</Typography>
           </CardContent>
           <CardActions>
             <Button>Register</Button>
-            <Button>Close</Button>
           </CardActions>
         </Card>
       </ModalBox>
