@@ -3,8 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const sessionSlice = createSlice({
   name: "session",
   initialState: {
-    isLoggedIn: false,
+    isLoggedIn: true,
     userId: -1,
+    userName: "username",
   },
   reducers: {
     updateSession: (state, action) => {

@@ -1,23 +1,24 @@
 import React from "react";
 import { StyledLoginGroup } from "../styles.ts";
 import { Avatar, Box, Button } from "@mui/material";
+import store from "../../store/store.ts";
 
 const LoginGroup = () => {
-  const isLoggedIn = false;
-  if (isLoggedIn) {
+  const session = store.getState().session;
+  if (session.isLoggedIn) {
     return (
       <StyledLoginGroup>
-        <Button>Log in</Button>
-        <Button>Register</Button>
+        <Box display="flex" gap={2} justifyContent="space-between">
+          <Button>{session.userName}</Button>
+          <Avatar>H</Avatar>
+        </Box>
       </StyledLoginGroup>
     );
   }
   return (
     <StyledLoginGroup>
-      <Box display="flex" gap={2} justifyContent="space-between">
-        <Button>Profile</Button>
-        <Avatar>H</Avatar>
-      </Box>
+      <Button>Log in</Button>
+      <Button>Register</Button>
     </StyledLoginGroup>
   );
 };
