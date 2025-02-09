@@ -1,26 +1,23 @@
 import React from "react";
 import { StyledLoginGroup } from "../styles.ts";
 import { Avatar, Box, Button } from "@mui/material";
-import store from "../../store/store.ts";
+import { RootState } from "../../store/store.ts";
+import ButtonGroup from "./ButtonGroup.tsx";
+import { useSelector } from "react-redux";
 
 const LoginGroup = () => {
-  const session = store.getState().session;
+  const session = useSelector((state: RootState) => state.session);
   if (session.isLoggedIn) {
     return (
       <StyledLoginGroup>
         <Box display="flex" gap={2} justifyContent="space-between">
           <Button>{session.userName}</Button>
-          <Avatar>H</Avatar>
+          <Avatar>{session.userName.charAt(0)}</Avatar>
         </Box>
       </StyledLoginGroup>
     );
   }
-  return (
-    <StyledLoginGroup>
-      <Button>Log in</Button>
-      <Button>Register</Button>
-    </StyledLoginGroup>
-  );
+  return <ButtonGroup />;
 };
 
 export default LoginGroup;
