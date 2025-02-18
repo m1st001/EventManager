@@ -1,21 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@mui/material";
 import { StyledLoginGroup } from "../styles.ts";
-import { updateSession } from "../../store/slices/sessionSlice.ts";
-import { useDispatch } from "react-redux";
+import LoginModal from "./modals/LoginModal.tsx";
+import RegisterModal from "./modals/RegisterModal.tsx";
 
 const ButtonGroup = () => {
-  const dispatch = useDispatch();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
-  const onLogin = () => {
-    dispatch(updateSession({ isLoggedIn: true }));
-  };
+  const handleOpenLoginModal = () => setIsLoginModalOpen(true);
+  const handleCloseLoginModal = () => setIsLoginModalOpen(false);
+  const handleOpenRegisterModal = () => setIsRegisterModalOpen(true);
+  const handleCloseRegisterModal = () => setIsRegisterModalOpen(false);
 
   return (
-    <StyledLoginGroup>
-      <Button onClick={onLogin}>Log in</Button>
-      <Button>Register</Button>
-    </StyledLoginGroup>
+    <>
+      <StyledLoginGroup>
+        <Button onClick={handleOpenLoginModal}>Log in</Button>
+        <Button onClick={handleOpenRegisterModal}>Register</Button>
+      </StyledLoginGroup>
+      <LoginModal open={isLoginModalOpen} onClose={handleCloseLoginModal} />
+      <RegisterModal
+        open={isRegisterModalOpen}
+        onClose={handleCloseRegisterModal}
+      />
+    </>
   );
 };
 
