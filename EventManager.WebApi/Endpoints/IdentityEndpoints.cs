@@ -17,7 +17,7 @@ public static class IdentityEndpoints
             {
                 var user = await authenticationService.Login(request.Username, request.Password, rememberMe); // Login user
                 return user is not null
-                    ? TypedResults.Ok("Successfully logged in")
+                    ? TypedResults.Ok(user)
                     : Results.BadRequest("Username or password is incorrect");
             });
 

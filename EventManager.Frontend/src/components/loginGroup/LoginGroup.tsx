@@ -8,11 +8,12 @@ import { useSelector } from "react-redux";
 const LoginGroup = () => {
   const session = useSelector((state: RootState) => state.session);
   if (session.isLoggedIn) {
+    const username = session.userName ? session.userName : "";
     return (
       <StyledLoginGroup>
         <Box display="flex" gap={2} justifyContent="space-between">
-          <Button>{session.userName}</Button>
-          <Avatar>{session.userName.charAt(0)}</Avatar>
+          <Button>{username}</Button>
+          <Avatar>{username.charAt(0)}</Avatar>
         </Box>
       </StyledLoginGroup>
     );

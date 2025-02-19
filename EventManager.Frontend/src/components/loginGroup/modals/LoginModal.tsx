@@ -8,6 +8,7 @@ import {
   Checkbox,
   FormControlLabel,
   Modal,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
@@ -29,53 +30,58 @@ const LoginModal = (props: ModalProps) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("submitted");
     const credentials: LoginRequest = {
       username: username,
       password: password,
     };
-    dispatch(login(credentials));
+
+    dispatch(login(credentials)).then(() => {});
     props.onClose();
   };
   return (
-    <Modal open={props.open} onClose={props.onClose}>
-      <ModalBox>
-        <Card>
-          <form onSubmit={handleSubmit}>
-            <CardContent>
-              <Box marginBottom={2}>
-                <Typography variant="h4" justifySelf="center">
-                  Login
-                </Typography>
-              </Box>
-              <Box display="flex" flexDirection="column">
-                <TextField
-                  id="username"
-                  label="Username"
-                  size="small"
-                  margin="dense"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-                <TextField
-                  id="password"
-                  label="Password"
-                  type="password"
-                  size="small"
-                  margin="dense"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <FormControlLabel control={<Checkbox />} label="Remember me" />
-              </Box>
-            </CardContent>
-            <CardActions>
-              <Button type="submit">Login</Button>
-            </CardActions>
-          </form>
-        </Card>
-      </ModalBox>
-    </Modal>
+    <>
+      <Modal open={props.open} onClose={props.onClose}>
+        <form onSubmit={handleSubmit}>
+          <ModalBox>
+            <Card>
+              <CardContent>
+                <Box marginBottom={2}>
+                  <Typography variant="h4" justifySelf="center">
+                    Login
+                  </Typography>
+                </Box>
+                <Box display="flex" flexDirection="column">
+                  <TextField
+                    id="username"
+                    label="Username"
+                    size="small"
+                    margin="dense"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                  <TextField
+                    id="password"
+                    label="Password"
+                    type="password"
+                    size="small"
+                    margin="dense"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label="Remember me"
+                  />
+                </Box>
+              </CardContent>
+              <CardActions>
+                <Button type="submit">Login</Button>
+              </CardActions>
+            </Card>
+          </ModalBox>
+        </form>
+      </Modal>
+    </>
   );
 };
 

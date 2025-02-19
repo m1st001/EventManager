@@ -19,8 +19,10 @@ export const login = createAsyncThunk(
         },
       );
       dispatch(loginSuccess(response.data));
+      return true;
     } catch (error: any) {
       dispatch(loginFailure(error.message));
+      return false;
     }
   },
 );
