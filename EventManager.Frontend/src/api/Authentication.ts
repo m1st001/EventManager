@@ -9,14 +9,14 @@
  * ---------------------------------------------------------------
  */
 
-import { LoginRequest, RegisterRequest, User, Void } from "./data-contracts";
+import { LoginRequest, RegisterRequest, Void } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Authentication<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
    * No description
    *
-   * @tags EventManager.WebApi
+   * @tags Identity
    * @name LoginCreate
    * @request POST:/authentication/login
    */
@@ -27,7 +27,7 @@ export class Authentication<SecurityDataType = unknown> extends HttpClient<Secur
     data: LoginRequest,
     params: RequestParams = {},
   ) =>
-    this.request<User, any>({
+    this.request<Void, any>({
       path: `/authentication/login`,
       method: "POST",
       query: query,
@@ -39,12 +39,12 @@ export class Authentication<SecurityDataType = unknown> extends HttpClient<Secur
   /**
    * No description
    *
-   * @tags EventManager.WebApi
+   * @tags Identity
    * @name RegisterCreate
    * @request POST:/authentication/register
    */
   registerCreate = (data: RegisterRequest, params: RequestParams = {}) =>
-    this.request<User, any>({
+    this.request<Void, any>({
       path: `/authentication/register`,
       method: "POST",
       body: data,
@@ -55,14 +55,15 @@ export class Authentication<SecurityDataType = unknown> extends HttpClient<Secur
   /**
    * No description
    *
-   * @tags EventManager.WebApi
+   * @tags Identity
    * @name LogoutCreate
    * @request POST:/authentication/logout
    */
   logoutCreate = (params: RequestParams = {}) =>
-    this.request<Void, any>({
+    this.request<string, any>({
       path: `/authentication/logout`,
       method: "POST",
+      format: "json",
       ...params,
     });
 }

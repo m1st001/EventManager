@@ -41,6 +41,14 @@ const RegisterModal = (props: ModalProps) => {
                 size="small"
                 margin="dense"
               />
+              <TextField
+                id="repeatPpassword"
+                label="Repeat password"
+                type="password"
+                size="small"
+                margin="dense"
+              />
+              <TextField id="token" label="Token" size="small" margin="dense" />
             </Box>
           </CardContent>
           <CardActions>

@@ -15,7 +15,7 @@ export interface CreateEventRequest {
    * @maxLength 20
    */
   name?: string | null;
-  /** @maxLength 45 */
+  /** @maxLength 80 */
   description?: string | null;
   /** @format date-time */
   startDate: string;
@@ -32,7 +32,7 @@ export interface Event {
    * @maxLength 20
    */
   name?: string | null;
-  /** @maxLength 45 */
+  /** @maxLength 80 */
   description?: string | null;
   /** @format date-time */
   startDate: string;

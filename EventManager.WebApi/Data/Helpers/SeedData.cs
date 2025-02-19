@@ -15,7 +15,7 @@ public static class SeedData
             .RuleFor(u => u.Id, f => id++)
             .RuleFor(u => u.UserName, f => f.Name.FirstName())
             .RuleFor(u => u.Email, f => f.Internet.Email())
-            .RuleFor(o => o.PasswordHash, hasher.HashPassword(null,"password"));
+            .RuleFor(u => u.PasswordHash, hasher.HashPassword(null,"password"));
 
         var users = testUsers.Generate(20);
         modelBuilder.Entity<User>().HasData(users);
