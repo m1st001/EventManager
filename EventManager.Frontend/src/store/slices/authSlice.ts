@@ -9,6 +9,7 @@ const authSlice = createSlice({
   initialState: {
     isLoggedIn: false,
     userName: null,
+    userId: -1,
     userToken,
     loading: false,
     error: null,
@@ -21,6 +22,7 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
       state.userName = action.payload.userName;
       state.userToken = action.payload.userToken;
+      state.userId = action.payload.userId;
     },
     loginStart: (state) => {
       state.loading = true;

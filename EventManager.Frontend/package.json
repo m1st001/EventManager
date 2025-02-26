@@ -18,6 +18,7 @@
     "@mui/x-date-pickers": "^7.23.3",
     "@reduxjs/toolkit": "^2.4.0",
     "dayjs": "^1.11.13",
+    "formik": "^2.4.6",
     "framer-motion": "^11.11.17",
     "luxon": "^3.5.0",
     "openapi-typescript": "^7.4.3",
