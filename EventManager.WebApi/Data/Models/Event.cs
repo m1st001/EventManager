@@ -13,6 +13,7 @@ public class Event()
         CreatorId = request.CreatorId;
         StartDate = request.StartDate;
         CreatorId = request.CreatorId;
+        MaxParticipants = request.MaxParticipants;
         Tags = request.Tags;
     }
     
@@ -32,6 +33,8 @@ public class Event()
     public DateTime CreatedDate { get; } = DateTime.UtcNow;
     
     public ICollection<User> Participants { get; set; } = new List<User>();
+    
+    public int MaxParticipants { get; set; }
     
     public int CreatorId { get; set; }
     

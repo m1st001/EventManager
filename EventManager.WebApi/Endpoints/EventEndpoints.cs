@@ -26,7 +26,7 @@ public static class EventEndpoints
             return id != -1
                 ? TypedResults.Created()
                 : Results.Conflict();
-        });
+        }).RequireAuthorization();
 
         events.MapPut("/{id:int}", async (int id, IEventService eventService, CreateEventRequest request) =>
         {

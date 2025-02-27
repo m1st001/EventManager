@@ -16,7 +16,7 @@ export class Events<SecurityDataType = unknown> extends HttpClient<SecurityDataT
   /**
    * No description
    *
-   * @tags EventManager.WebApi
+   * @tags Events
    * @name EventsList
    * @request GET:/events
    */
@@ -30,7 +30,7 @@ export class Events<SecurityDataType = unknown> extends HttpClient<SecurityDataT
   /**
    * No description
    *
-   * @tags EventManager.WebApi
+   * @tags Events
    * @name EventsCreate
    * @request POST:/events
    */
@@ -46,7 +46,7 @@ export class Events<SecurityDataType = unknown> extends HttpClient<SecurityDataT
   /**
    * No description
    *
-   * @tags EventManager.WebApi
+   * @tags Events
    * @name EventsDetail
    * @request GET:/events/{id}
    */
@@ -60,7 +60,7 @@ export class Events<SecurityDataType = unknown> extends HttpClient<SecurityDataT
   /**
    * No description
    *
-   * @tags EventManager.WebApi
+   * @tags Events
    * @name EventsUpdate
    * @request PUT:/events/{id}
    */
@@ -76,7 +76,7 @@ export class Events<SecurityDataType = unknown> extends HttpClient<SecurityDataT
   /**
    * No description
    *
-   * @tags EventManager.WebApi
+   * @tags Events
    * @name EventsDelete
    * @request DELETE:/events/{id}
    */

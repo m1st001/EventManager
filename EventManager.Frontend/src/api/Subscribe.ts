@@ -16,7 +16,7 @@ export class Subscribe<SecurityDataType = unknown> extends HttpClient<SecurityDa
   /**
    * No description
    *
-   * @tags EventManager.WebApi
+   * @tags Subscriptions
    * @name SubscribeCreate
    * @request POST:/subscribe
    */

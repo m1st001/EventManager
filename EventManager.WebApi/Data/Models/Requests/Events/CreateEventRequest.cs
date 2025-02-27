@@ -20,4 +20,8 @@ public record CreateEventRequest
     public int CreatorId { get; set; }
     
     public string[] Tags { get; set; }
+    
+    [Required]
+    [Range(2, int.MaxValue)]
+    public int MaxParticipants { get; set; }
 };

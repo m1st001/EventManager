@@ -17,15 +17,17 @@ public static class IdentityEndpoints
             {
                 var user = await authenticationService.Login(request.Username, request.Password, rememberMe); // Login user
                 return user is not null
-                    ? TypedResults.Ok("Successfully logged in")
+                    ? TypedResults.Ok(user)
                     : Results.BadRequest("Username or password is incorrect");
             });
 
         auth.MapPost("register", async (IAuthenticationService authenticationService, RegisterRequest request) =>
         {
-            await authenticationService.Register(request.Username, request.Email, request.Password); // Register user
+            var user = await authenticationService.Register(request.Username, request.Email, request.Password); // Register user
 
-            return TypedResults.Ok("Successfully registered");
+            return user is not null
+                ? TypedResults.Ok("Successfully registered")
+                : Results.BadRequest("User is already registered");
         });
 
         auth.MapPost("logout", async (IAuthenticationService authenticationService) =>

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using EventManager.WebApi.Core;
 using EventManager.WebApi.Data;
 using EventManager.WebApi.Endpoints;
@@ -18,7 +19,10 @@ builder.Services.AddAllScoped();
 builder.Services.AddIdentity();
 builder.Services.ConfigureCookies();
 
-builder.AddNpgsqlDbContext<AppDbContext>(connectionName: "postgresDb");
+builder.AddNpgsqlDbContext<AppDbContext>(connectionName: "postgresDb", options =>
+{
+    options.CommandTimeout = 300;
+});
 
 var app = builder.Build();
 

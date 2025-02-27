@@ -16,7 +16,7 @@ export class Unsubscribe<SecurityDataType = unknown> extends HttpClient<Security
   /**
    * No description
    *
-   * @tags EventManager.WebApi
+   * @tags Subscriptions
    * @name UnsubscribeCreate
    * @request POST:/unsubscribe
    */

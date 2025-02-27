@@ -5,15 +5,36 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventManager.WebApi.Services;
 
-public class UserService(AppDbContext context) : IUserService
+public class UserService(AppDbContext context, ILogger<UserService> logger) : IUserService
 {
+    private readonly ILogger _logger = logger;
     public async Task<User?> GetUserByIdAsync(int id)
     {
-        return await context.Users.FindAsync(id);
+        var user = await context.Users.FindAsync(id);
+        
+        if (user is null)
+        {
+            _logger.LogError("User with id: {userId} not found", id);
+            return null;
+        }
+        
+        _logger.LogInformation("User with id: {userId} was found", id);
+
+        return user;
     }
 
     public async Task<User?> GetUserByNameAsync(string name)
     {
-        return await context.Users.FirstAsync(u => u.UserName == name);
+        var user = await context.Users.FirstOrDefaultAsync(u => u.UserName == name);
+        
+        if (user is null)
+        {
+            _logger.LogError("User with userName: {userName} not found", name);
+            return null;
+        }
+        
+        _logger.LogInformation("User with userName: {userName} was found", name);
+
+        return user;
     }
 }

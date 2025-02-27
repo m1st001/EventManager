@@ -15,13 +15,13 @@ public class AuthenticationService(
     private readonly ILogger _logger = logger;
 
     /// <inheritdoc cref="IAuthenticationService.Register"/>
-    public async Task<User> Register(string username, string? email, string password)
+    public async Task<User?> Register(string username, string? email, string password)
     {
         var existedUser = await _userManager.FindByNameAsync(username);
         if (existedUser is not null)
         {
-            _logger.LogError("User {username} already exists", username);
-            return existedUser;
+            _logger.LogError("User {} already exists", username);
+            return null;
         }
 
         var user = new User
@@ -31,6 +31,7 @@ public class AuthenticationService(
         };
 
         await _userManager.CreateAsync(user, password);
+        _logger.LogInformation("{username} successfully registered", username);
 
         return user;
     }
@@ -46,6 +47,7 @@ public class AuthenticationService(
         }
 
         var result = await _signInManager.PasswordSignInAsync(user, password, useCookies, false);
+        _logger.LogInformation("{username} successfully logged", username);
 
         return result.Succeeded ? user : null;
     }
