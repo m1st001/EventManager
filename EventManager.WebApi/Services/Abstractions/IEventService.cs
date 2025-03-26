@@ -19,6 +19,13 @@ public interface IEventService
     /// <param name="id">Event.Id</param>
     /// <returns>Event instance, null if not found.</returns>
     Task<Event?> GetEventByIdAsync(int id);
+    
+    /// <summary>
+    /// Gets all events userId:user is registered to.
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    Task<List<Event>> GetAllRegisteredEventsAsync(int userId);
 
     /// <summary>
     /// Create a new event.
