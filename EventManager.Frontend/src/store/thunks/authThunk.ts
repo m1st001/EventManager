@@ -1,17 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { loginFailure, loginStart, loginSuccess } from "../slices/authSlice.ts";
-import { Authentication } from "../../api/Authentication.ts";
 import { LoginRequest } from "../../api/data-contracts.ts";
+import { authClient } from "../../api/apiConfig.ts";
 
 export const login = createAsyncThunk(
   "auth/login",
   async (credentials: LoginRequest, { dispatch }) => {
     dispatch(loginStart());
     try {
-      const auth = new Authentication();
-      auth.baseUrl = import.meta.env.VITE_API_URL;
-
-      const response = await auth.loginCreate(
+      const response = await authClient.loginCreate(
         { rememberMe: false },
         {
           username: credentials.username,

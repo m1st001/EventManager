@@ -8,7 +8,6 @@ import {
   Checkbox,
   FormControlLabel,
   Modal,
-  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
