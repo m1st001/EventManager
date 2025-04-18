@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Alert,
   Box,
@@ -10,6 +10,10 @@ import {
   Modal,
   TextField,
   Typography,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
 import { ModalBox } from "../../styles.ts";
 import { RegisterRequest } from "../../../api/data-contracts.ts";
@@ -33,12 +37,36 @@ const RegisterModal = (props: ModalProps) => {
   const [registerError, setRegisterError] = useState<string>("");
   const [registerSuccess, setRegisterSuccess] = useState<boolean>(false);
 
+  // Password validation states
+  const [hasMinLength, setHasMinLength] = useState<boolean>(false);
+  const [hasUpperCase, setHasUpperCase] = useState<boolean>(false);
+  const [hasLowerCase, setHasLowerCase] = useState<boolean>(false);
+  const [hasDigit, setHasDigit] = useState<boolean>(false);
+  const [hasSpecialChar, setHasSpecialChar] = useState<boolean>(false);
+  const [showPasswordRequirements, setShowPasswordRequirements] = useState<boolean>(false);
+
+  // Validate password whenever it changes
+  useEffect(() => {
+    setHasMinLength(password.length >= 6);
+    setHasUpperCase(/[A-Z]/.test(password));
+    setHasLowerCase(/[a-z]/.test(password));
+    setHasDigit(/[0-9]/.test(password));
+    setHasSpecialChar(/[^A-Za-z0-9]/.test(password));
+  }, [password]);
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     // Validate passwords match
     if (password !== repeatPassword) {
       setPasswordError("Passwords do not match");
+      return;
+    }
+
+    // Validate password meets all requirements
+    if (!hasMinLength || !hasUpperCase || !hasLowerCase || !hasDigit || !hasSpecialChar) {
+      setPasswordError("Password does not meet all requirements");
+      setShowPasswordRequirements(true);
       return;
     }
 
@@ -123,9 +151,55 @@ const RegisterModal = (props: ModalProps) => {
                   margin="dense"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onFocus={() => setShowPasswordRequirements(true)}
                   disabled={isLoading}
                   required
                 />
+
+                {showPasswordRequirements && (
+                  <List dense sx={{ bgcolor: 'background.paper', mt: 1, mb: 1, borderRadius: 1, border: '1px solid #e0e0e0' }}>
+                    <ListItem>
+                      <ListItemIcon>
+                        <Typography sx={{ color: hasMinLength ? 'success.main' : 'error.main', fontWeight: 'bold' }}>
+                          {hasMinLength ? '✓' : '✗'}
+                        </Typography>
+                      </ListItemIcon>
+                      <ListItemText primary="At least 6 characters" />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <Typography sx={{ color: hasUpperCase ? 'success.main' : 'error.main', fontWeight: 'bold' }}>
+                          {hasUpperCase ? '✓' : '✗'}
+                        </Typography>
+                      </ListItemIcon>
+                      <ListItemText primary="At least one uppercase letter" />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <Typography sx={{ color: hasLowerCase ? 'success.main' : 'error.main', fontWeight: 'bold' }}>
+                          {hasLowerCase ? '✓' : '✗'}
+                        </Typography>
+                      </ListItemIcon>
+                      <ListItemText primary="At least one lowercase letter" />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <Typography sx={{ color: hasDigit ? 'success.main' : 'error.main', fontWeight: 'bold' }}>
+                          {hasDigit ? '✓' : '✗'}
+                        </Typography>
+                      </ListItemIcon>
+                      <ListItemText primary="At least one digit" />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <Typography sx={{ color: hasSpecialChar ? 'success.main' : 'error.main', fontWeight: 'bold' }}>
+                          {hasSpecialChar ? '✓' : '✗'}
+                        </Typography>
+                      </ListItemIcon>
+                      <ListItemText primary="At least one special character" />
+                    </ListItem>
+                  </List>
+                )}
                 <TextField
                   id="repeatPassword"
                   label="Repeat password"

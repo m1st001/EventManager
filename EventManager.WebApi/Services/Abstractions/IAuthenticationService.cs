@@ -1,4 +1,5 @@
 ﻿using EventManager.WebApi.Data.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace EventManager.WebApi.Services.Abstractions;
 
@@ -11,7 +12,7 @@ public interface IAuthenticationService
     /// <param name="email">Email profile</param>
     /// <param name="password">Password profile</param>
     /// <returns>User model</returns>
-    Task<User?> Register(string username, string? email, string password);
+    Task<IdentityResult> Register(string username, string? email, string password);
 
     /// <summary>
     /// Login in system
