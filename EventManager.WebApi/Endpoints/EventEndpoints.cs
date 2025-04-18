@@ -11,6 +11,12 @@ public static class EventEndpoints
         
         events.MapGet("/", async (IEventService eventService)
             => TypedResults.Ok(await eventService.GetAllEventsAsync()));
+
+        events.MapGet("/registered", async (IEventService eventService, int userId) =>
+        {
+            var result = await eventService.GetAllRegisteredEventsAsync(userId);
+            return result.Count != 0 ? Results.Ok(result) : Results.NoContent();
+        } );
         
         events.MapGet("/{id:int}", async (int id, IEventService eventService) =>
         {

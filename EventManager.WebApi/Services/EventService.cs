@@ -15,6 +15,13 @@ public class EventService(AppDbContext context, ILogger<EventService> logger) : 
         return await context.Events.ToListAsync();
     }
 
+    public async Task<List<Event>> GetAllRegisteredEventsAsync(int userId)
+    {
+        _logger.LogInformation("GetAllRegisteredEvents was successfully completed");
+        var user = await context.Users.FindAsync(userId);
+        return user == null ? [] : context.Events.Where(e => e.Participants.Contains(user)).ToList();
+    }
+
     public async Task<Event?> GetEventByIdAsync(int id)
     {
         _logger.LogInformation("GetEventById was successfully completed");

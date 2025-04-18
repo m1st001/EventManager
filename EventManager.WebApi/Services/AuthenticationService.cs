@@ -10,18 +10,34 @@ public class AuthenticationService(
     SignInManager<User> signInManager,
     ILogger<AuthenticationService> logger) : IAuthenticationService
 {
-    private readonly UserManager<User> _userManager = userManager;
-    private readonly SignInManager<User> _signInManager = signInManager;
     private readonly ILogger _logger = logger;
 
     /// <inheritdoc cref="IAuthenticationService.Register"/>
-    public async Task<User?> Register(string username, string? email, string password)
+    public async Task<IdentityResult> Register(string username, string? email, string password)
     {
-        var existedUser = await _userManager.FindByNameAsync(username);
-        if (existedUser is not null)
+        var existingUser = await userManager.FindByNameAsync(username);
+        if (existingUser is not null)
         {
-            _logger.LogError("User {} already exists", username);
-            return null;
+            _logger.LogError("User {username} already exists", username);
+            return IdentityResult.Failed(new IdentityError 
+            { 
+                Code = "DuplicateUser", 
+                Description = "Username already exists" 
+            });
+        }
+
+        if (!(string.IsNullOrEmpty(email)))
+        {
+            var emailUser = await userManager.FindByEmailAsync(email);
+            if (emailUser is not null)
+            {
+                _logger.LogError("Email {email} is already in use", email);
+                return IdentityResult.Failed(new IdentityError 
+                { 
+                    Code = "DuplicateEmail", 
+                    Description = "Email already in use" 
+                });
+            }
         }
 
         var user = new User
@@ -30,24 +46,33 @@ public class AuthenticationService(
             Email = email
         };
 
-        await _userManager.CreateAsync(user, password);
-        _logger.LogInformation("{username} successfully registered", username);
+        var result = await userManager.CreateAsync(user, password);
+    
+        if (result.Succeeded)
+        {
+            _logger.LogInformation("{username} successfully registered", username);
+        }
+        else
+        {
+            _logger.LogError("Failed to register user {username}: {errors}", 
+                username, string.Join(", ", result.Errors));
+        }
 
-        return user;
+        return result;
     }
 
     /// <inheritdoc cref="IAuthenticationService.Login"/>
     public async Task<User?> Login(string username, string password, bool useCookies)
     {
-        var user = await _userManager.FindByNameAsync(username);
+        var user = await userManager.FindByNameAsync(username);
         if (user is null)
         {
-            _logger.LogError("User {username} not found", username);
+            _logger.LogError("User {username} was not found", username);
             return null;
         }
 
-        var result = await _signInManager.PasswordSignInAsync(user, password, useCookies, false);
-        _logger.LogInformation("{username} successfully logged", username);
+        var result = await signInManager.PasswordSignInAsync(user, password, useCookies, false);
+        _logger.LogInformation("{username} has successfully logged in", username);
 
         return result.Succeeded ? user : null;
     }
@@ -55,7 +80,7 @@ public class AuthenticationService(
     /// <inheritdoc cref="IAuthenticationService.Logout"/>
     public async Task Logout()
     {
-        await _signInManager.SignOutAsync();
+        await signInManager.SignOutAsync();
         _logger.LogError("User successfully logged out");
     }
 }

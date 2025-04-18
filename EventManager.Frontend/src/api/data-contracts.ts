@@ -22,6 +22,12 @@ export interface CreateEventRequest {
   /** @format int32 */
   creatorId?: number;
   tags?: string[] | null;
+  /**
+   * @format int32
+   * @min 2
+   * @max 2147483647
+   */
+  maxParticipants: number;
 }
 
 export interface Event {
@@ -39,6 +45,8 @@ export interface Event {
   /** @format date-time */
   createdDate: string;
   participants?: User[] | null;
+  /** @format int32 */
+  maxParticipants?: number;
   /** @format int32 */
   creatorId?: number;
   tags?: string[] | null;

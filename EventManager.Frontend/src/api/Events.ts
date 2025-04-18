@@ -47,6 +47,27 @@ export class Events<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    * No description
    *
    * @tags Events
+   * @name RegisteredList
+   * @request GET:/events/registered
+   */
+  registeredList = (
+    query: {
+      /** @format int32 */
+      userId: number;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<Void, any>({
+      path: `/events/registered`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Events
    * @name EventsDetail
    * @request GET:/events/{id}
    */
