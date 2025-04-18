@@ -27,6 +27,7 @@ const CreateEventForm = () => {
       startDate: "",
       creatorId: -1,
       tags: [],
+      maxParticipants: 0
     };
 
     eventsClient.eventsCreate(request);
