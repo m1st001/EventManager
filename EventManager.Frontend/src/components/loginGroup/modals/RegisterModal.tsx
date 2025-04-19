@@ -20,6 +20,8 @@ import { RegisterRequest } from "../../../api/data-contracts.ts";
 import { useDispatch } from "react-redux";
 import { register } from "../../../store/thunks/authThunk.ts";
 import { AppDispatch } from "../../../store/store.ts";
+import ErrorIcon from "@mui/icons-material/Error";
+import CheckIcon from "@mui/icons-material/Check";
 
 interface ModalProps {
   open: boolean;
@@ -43,7 +45,8 @@ const RegisterModal = (props: ModalProps) => {
   const [hasLowerCase, setHasLowerCase] = useState<boolean>(false);
   const [hasDigit, setHasDigit] = useState<boolean>(false);
   const [hasSpecialChar, setHasSpecialChar] = useState<boolean>(false);
-  const [showPasswordRequirements, setShowPasswordRequirements] = useState<boolean>(false);
+  const [showPasswordRequirements, setShowPasswordRequirements] =
+    useState<boolean>(false);
 
   // Validate password whenever it changes
   useEffect(() => {
@@ -64,7 +67,13 @@ const RegisterModal = (props: ModalProps) => {
     }
 
     // Validate password meets all requirements
-    if (!hasMinLength || !hasUpperCase || !hasLowerCase || !hasDigit || !hasSpecialChar) {
+    if (
+      !hasMinLength ||
+      !hasUpperCase ||
+      !hasLowerCase ||
+      !hasDigit ||
+      !hasSpecialChar
+    ) {
       setPasswordError("Password does not meet all requirements");
       setShowPasswordRequirements(true);
       return;
@@ -94,7 +103,9 @@ const RegisterModal = (props: ModalProps) => {
       }
     } catch (error: unknown) {
       if (error instanceof Error)
-      setRegisterError(error.message || "An error occurred during registration.");
+        setRegisterError(
+          error.message || "An error occurred during registration.",
+        );
     } finally {
       setIsLoading(false);
     }
@@ -157,44 +168,63 @@ const RegisterModal = (props: ModalProps) => {
                 />
 
                 {showPasswordRequirements && (
-                  <List dense sx={{ bgcolor: 'background.paper', mt: 1, mb: 1, borderRadius: 1, border: '1px solid #e0e0e0' }}>
+                  <List
+                    dense
+                    sx={{
+                      bgcolor: "background.paper",
+                      mt: 1,
+                      mb: 1,
+                      borderRadius: 1,
+                      border: "1px solid #e0e0e0",
+                    }}
+                  >
                     <ListItem>
                       <ListItemIcon>
-                        <Typography sx={{ color: hasMinLength ? 'success.main' : 'error.main', fontWeight: 'bold' }}>
-                          {hasMinLength ? '✓' : '✗'}
-                        </Typography>
+                        {hasMinLength ? (
+                          <CheckIcon color="success" />
+                        ) : (
+                          <ErrorIcon color="error" />
+                        )}
                       </ListItemIcon>
                       <ListItemText primary="At least 6 characters" />
                     </ListItem>
                     <ListItem>
                       <ListItemIcon>
-                        <Typography sx={{ color: hasUpperCase ? 'success.main' : 'error.main', fontWeight: 'bold' }}>
-                          {hasUpperCase ? '✓' : '✗'}
-                        </Typography>
+                        {hasUpperCase ? (
+                          <CheckIcon color="success" />
+                        ) : (
+                          <ErrorIcon color="error" />
+                        )}
                       </ListItemIcon>
                       <ListItemText primary="At least one uppercase letter" />
                     </ListItem>
                     <ListItem>
                       <ListItemIcon>
-                        <Typography sx={{ color: hasLowerCase ? 'success.main' : 'error.main', fontWeight: 'bold' }}>
-                          {hasLowerCase ? '✓' : '✗'}
-                        </Typography>
+                        {hasLowerCase ? (
+                          <CheckIcon color="success" />
+                        ) : (
+                          <ErrorIcon color="error" />
+                        )}
                       </ListItemIcon>
                       <ListItemText primary="At least one lowercase letter" />
                     </ListItem>
                     <ListItem>
                       <ListItemIcon>
-                        <Typography sx={{ color: hasDigit ? 'success.main' : 'error.main', fontWeight: 'bold' }}>
-                          {hasDigit ? '✓' : '✗'}
-                        </Typography>
+                        {hasDigit ? (
+                          <CheckIcon color="success" />
+                        ) : (
+                          <ErrorIcon color="error" />
+                        )}
                       </ListItemIcon>
                       <ListItemText primary="At least one digit" />
                     </ListItem>
                     <ListItem>
                       <ListItemIcon>
-                        <Typography sx={{ color: hasSpecialChar ? 'success.main' : 'error.main', fontWeight: 'bold' }}>
-                          {hasSpecialChar ? '✓' : '✗'}
-                        </Typography>
+                        {hasSpecialChar ? (
+                          <CheckIcon color="success" />
+                        ) : (
+                          <ErrorIcon color="error" />
+                        )}
                       </ListItemIcon>
                       <ListItemText primary="At least one special character" />
                     </ListItem>
@@ -216,17 +246,14 @@ const RegisterModal = (props: ModalProps) => {
               </Box>
             </CardContent>
             <CardActions>
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 disabled={isLoading}
                 startIcon={isLoading ? <CircularProgress size={20} /> : null}
               >
-                {isLoading ? 'Registering...' : 'Register'}
+                {isLoading ? "Registering..." : "Register"}
               </Button>
-              <Button 
-                onClick={props.onClose} 
-                disabled={isLoading}
-              >
+              <Button onClick={props.onClose} disabled={isLoading}>
                 Cancel
               </Button>
             </CardActions>

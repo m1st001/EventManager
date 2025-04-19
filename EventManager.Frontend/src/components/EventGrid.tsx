@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import EventCard from "./EventCard.tsx";
 import { Event } from "../api/data-contracts.ts";
-import { Grid2 as Grid } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import { StyledContentBox } from "./styles.ts";
 import { eventsClient } from "../api/apiConfig.ts";
 
@@ -16,7 +16,6 @@ const EventGrid = () => {
 
     fetchEvents();
   }, []);
-
 
   return (
     <StyledContentBox sx={{ flexGrow: 1 }}>
