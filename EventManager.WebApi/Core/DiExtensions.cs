@@ -1,4 +1,6 @@
-﻿using EventManager.WebApi.Data;
+﻿using Amazon.Runtime;
+using Amazon.S3;
+using EventManager.WebApi.Data;
 using EventManager.WebApi.Data.Models;
 using EventManager.WebApi.Endpoints;
 using EventManager.WebApi.Services;
@@ -64,5 +66,20 @@ public static class DiExtensions
         app.RegisterUserEndpoints();
 
         return app;
+    }
+
+    public static IServiceCollection AddMinio(this IServiceCollection services)
+    {
+        services.AddSingleton<IAmazonS3>(_ => new AmazonS3Client(
+            new BasicAWSCredentials("minioadmin", "minioadmin"), // Default MinIO credentials
+            new AmazonS3Config
+            {
+                ServiceURL = "http://minio:9000", // Matches the Aspire service name
+                ForcePathStyle = true, // Required for MinIO
+                UseHttp = true // Disable HTTPS in dev
+            }
+        ));
+
+        return services;
     }
 }
