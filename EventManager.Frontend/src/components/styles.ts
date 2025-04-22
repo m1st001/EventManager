@@ -8,7 +8,19 @@ import {
   styled,
 } from "@mui/material";
 
-export const StyledNavbar = styled(AppBar)<AppBarProps>(() => ({}));
+export const StyledNavbar = styled(AppBar)<AppBarProps>(() => ({
+  backgroundColor: "#1e1e1e",
+  color: "#fff",
+  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.3)",
+}));
+
+export const StyledBottomBar = styled(AppBar)<AppBarProps>(() => ({
+  top: "auto",
+  bottom: 0,
+  backgroundColor: "#1e1e1e",
+  color: "#fff",
+  boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.3)",
+}));
 export const StyledContentBox = styled(Box)<BoxProps>(() => ({
   marginTop: 20,
   marginBottom: 20,

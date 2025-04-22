@@ -1,7 +1,7 @@
 import React from "react";
-import { StyledNavbar } from "./styles.ts";
 import { Box, Button, Container, Toolbar } from "@mui/material";
 import LoginGroup from "./loginGroup/LoginGroup.tsx";
+import { StyledNavbar } from "./styles.ts";
 
 interface Page {
   name: string;
