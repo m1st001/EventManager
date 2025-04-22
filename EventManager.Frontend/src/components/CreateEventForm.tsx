@@ -206,26 +206,30 @@ const CreateEventForm = () => {
                     onChange={(newTime) => setStartTime(newTime)}
                     disabled={isLoading}
                   />
+                  <TextField 
+                    id="participants" 
+                    label="Max Participants" 
+                    type="number"
+                    value={maxParticipants}
+                    onChange={(e) => setMaxParticipants(e.target.value)}
+                    error={!!participantsError}
+                    helperText={participantsError}
+                    disabled={isLoading}
+                    inputProps={{ min: 2 }}
+                    required
+                  />
                 </LocalizationProvider>
                 {dateTimeError && (
                   <Typography color="error" variant="caption" display="block" sx={{ mt: 1 }}>
                     {dateTimeError}
                   </Typography>
                 )}
+                {participantsError && (
+                  <Typography color="error" variant="caption" display="block" sx={{ mt: 1 }}>
+                    {participantsError}
+                  </Typography>
+                )}
               </Box>
-              <TextField 
-                id="participants" 
-                label="Max Participants" 
-                type="number"
-                value={maxParticipants}
-                onChange={(e) => setMaxParticipants(e.target.value)}
-                error={!!participantsError}
-                helperText={participantsError}
-                disabled={isLoading}
-                sx={{ mt: 2 }}
-                inputProps={{ min: 2 }}
-                required
-              />
             </Box>
           </CardContent>
 
