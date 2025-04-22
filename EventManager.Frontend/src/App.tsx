@@ -38,10 +38,10 @@ const App = () => {
     { basename: import.meta.env.BASE_URL },
   );
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <ThemeProvider theme={darkTheme}>
         <Navbar />
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" sx={{ flex: 1, mb: 8 }}>
           <RouterProvider router={router} />
         </Container>
         <BottomBar />

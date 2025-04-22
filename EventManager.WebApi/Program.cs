@@ -1,4 +1,6 @@
 using System.Runtime.CompilerServices;
+using Amazon.Runtime;
+using Amazon.S3;
 using EventManager.WebApi.Core;
 using EventManager.WebApi.Data;
 using EventManager.WebApi.Endpoints;
@@ -18,6 +20,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddAllScoped();
 builder.Services.AddIdentity();
 builder.Services.ConfigureCookies();
+builder.Services.AddMinio();
 
 builder.AddNpgsqlDbContext<AppDbContext>(connectionName: "postgresDb", options =>
 {

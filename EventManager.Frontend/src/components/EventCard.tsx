@@ -26,7 +26,11 @@ const EventCard = (eventProps: Event) => {
   return (
     <>
       <StyledEventCard sx={{ width: 345 }} onClick={handleOpenModal}>
-        <CardMedia sx={{ height: 140 }} title="green iguana" />
+        <CardMedia
+          sx={{ height: 140 }}
+          title="green iguana"
+          image="src/assets/contemplative-reptile.jpg"
+        />
         <CardContent>
           <Typography>{formatDate(eventProps.startDate)}</Typography>
           <Typography gutterBottom variant="h5" component="div">
