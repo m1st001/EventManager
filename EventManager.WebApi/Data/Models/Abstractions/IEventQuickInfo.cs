@@ -1,13 +1,12 @@
 ﻿namespace EventManager.WebApi.Data.Models.Abstractions;
 
 /// <summary>
-/// Interface for an Event entity.
+/// Minimal representation of an Event entity.
 /// </summary>
-public interface IEvent
+public interface IEventQuickInfo
 {
     public int Id { get; set; }
     public string? Name { get; set; }
     public string[] Tags { get; set; }
     public DateTime StartDate { get; set; }
-    public DateTime CreatedDate { get; }
 }

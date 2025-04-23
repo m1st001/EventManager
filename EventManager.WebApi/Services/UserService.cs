@@ -1,5 +1,6 @@
 using EventManager.WebApi.Data;
 using EventManager.WebApi.Data.Models;
+using EventManager.WebApi.Data.Models.Abstractions;
 using EventManager.WebApi.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,5 +37,10 @@ public class UserService(AppDbContext context, ILogger<UserService> logger) : IU
         _logger.LogInformation("User with userName: {userName} was found", name);
 
         return user;
+    }
+
+    public async Task<IUserProfile?> GetUserProfileById(int userId)
+    {
+        throw new NotImplementedException();
     }
 }

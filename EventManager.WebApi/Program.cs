@@ -1,9 +1,5 @@
-using System.Runtime.CompilerServices;
-using Amazon.Runtime;
-using Amazon.S3;
 using EventManager.WebApi.Core;
 using EventManager.WebApi.Data;
-using EventManager.WebApi.Endpoints;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);

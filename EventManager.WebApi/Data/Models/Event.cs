@@ -4,7 +4,7 @@ using EventManager.WebApi.Data.Models.Requests.Events;
 
 namespace EventManager.WebApi.Data.Models;
 
-public class Event()
+public class Event() : IEvent, IEventQuickInfo
 {
     public Event(CreateEventRequest request) : this()
     {
