@@ -18,25 +18,21 @@ public class Event() : IEvent, IEventQuickInfo
     }
     
     public int Id { get; set; }
-    
     [MinLength(3)]
     [MaxLength(20)]
     public string Name { get; set; }
-    
     [MaxLength(80)]
     public string Description { get; set; }
-
     [Required]
     public DateTime StartDate { get; set; }
-    
     [Required]
     public DateTime CreatedDate { get; } = DateTime.UtcNow;
-    
     public ICollection<User> Participants { get; set; } = new List<User>();
-    
     public int MaxParticipants { get; set; }
-    
     public int CreatorId { get; set; }
-    
     public string[] Tags { get; set; }
+    
+    public EventStatus Status { get; set; }
+    
+    public EventAvailability Availability { get; set; }
 }

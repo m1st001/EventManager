@@ -10,4 +10,38 @@ public interface IEvent
     public string[] Tags { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime CreatedDate { get; }
+    public EventStatus Status { get; set; }
+    public EventAvailability Availability { get; set; }
+    public ICollection<User> Participants { get; set; }
+    public int MaxParticipants { get; set; }
+    public int CreatorId { get; set; }
+}
+
+
+/// <summary>
+/// Represents <see cref="Event"/> status.
+/// </summary>
+public enum EventStatus
+{
+    /// <summary>
+    /// Event is planned.
+    /// </summary>
+    Planned = 0,
+    /// <summary>
+    /// Event was completed.
+    /// </summary>
+    Completed = 1,
+    /// <summary>
+    /// Event was cancelled.
+    /// </summary>
+    Canceled = 2,
+}
+
+/// <summary>
+/// Represents if <see cref="Event"/> needs more participants.
+/// </summary>
+public enum EventAvailability
+{
+    Available = 0,
+    Reserved = 1,
 }
