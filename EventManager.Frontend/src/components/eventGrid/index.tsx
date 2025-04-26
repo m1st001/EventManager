@@ -2,7 +2,7 @@ import React, { useState, SyntheticEvent } from "react";
 import { Tabs, Tab, Box } from "@mui/material";
 import { StyledContentBox } from "../styles.ts";
 import { useSelector } from "react-redux";
-import { TabPanel, a11yProps } from "./utils.tsx";
+import { TabPanel, tabsProps } from "./utils.tsx";
 import AllEventsTab from "./AllEventsTab.tsx";
 import SubscribedEventsTab from "./SubscribedEventsTab.tsx";
 import EventHistoryTab from "./EventHistoryTab.tsx";
@@ -15,9 +15,20 @@ const EventGrid = () => {
   const handleTabChange = (_event: SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
+  
+  interface ITab {
+      index: number;
+      name: string;
+  }
+  
+  const tabs : ITab[] = [
+      {index: 0, name: "All Events"},
+      {index: 1, name: "My Subscriptions"},
+      {index: 2, name: "My Event History"}
+  ];
 
   return (
-    <StyledContentBox sx={{ flexGrow: 1, flexDirection: "column" }}>
+    <StyledContentBox sx={{ flexGrow: 1, flexDirection: "column", marginTop: 0 }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs 
           value={tabValue} 
@@ -25,19 +36,9 @@ const EventGrid = () => {
           aria-label="event tabs"
           centered
         >
-          <Tab label="All Events" {...a11yProps(0)} />
-          <Tab 
-            label="My Subscriptions" 
-            {...a11yProps(1)} 
-            disabled={!isLoggedIn}
-            title={!isLoggedIn ? "Please log in to view your subscriptions" : ""}
-          />
-          <Tab 
-            label="My Event History" 
-            {...a11yProps(2)} 
-            disabled={!isLoggedIn}
-            title={!isLoggedIn ? "Please log in to view your event history" : ""}
-          />
+            {tabs.map((tab) => {
+                return <Tab label={tab.name} {...tabsProps(tab.index)} />;
+            })}
         </Tabs>
       </Box>
 

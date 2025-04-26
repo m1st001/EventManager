@@ -25,7 +25,7 @@ export function TabPanel(props: TabPanelProps) {
   );
 }
 
-export function a11yProps(index: number) {
+export function tabsProps(index: number) {
   return {
     id: `event-tab-${index}`,
     'aria-controls': `event-tabpanel-${index}`,
