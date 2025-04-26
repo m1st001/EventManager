@@ -3,13 +3,14 @@ import { Event } from "../../api/data-contracts.ts";
 import { useSelector } from "react-redux";
 import EventsRenderer from "./EventsRenderer.tsx";
 import { Typography } from "@mui/material";
+import { RootState } from "../../store/store.ts";
 
 const EventHistoryTab = () => {
   const [participatedEvents, setParticipatedEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { userId, isLoggedIn } = useSelector((state: any) => state.session);
+  const { userId, isLoggedIn } = useSelector((state: RootState) => state.session);
 
   // Fetch participated events history
   useEffect(() => {
@@ -27,7 +28,7 @@ const EventHistoryTab = () => {
 
           // Mock data for development
           setParticipatedEvents([]);
-          
+
           // Inform the user that this is mock data
           setError("Using sample data. API endpoint is not ready yet.");
         } catch (err) {

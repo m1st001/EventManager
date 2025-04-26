@@ -6,10 +6,11 @@ import { TabPanel, a11yProps } from "./utils.tsx";
 import AllEventsTab from "./AllEventsTab.tsx";
 import SubscribedEventsTab from "./SubscribedEventsTab.tsx";
 import EventHistoryTab from "./EventHistoryTab.tsx";
+import { RootState } from "../../store/store.ts";
 
 const EventGrid = () => {
   const [tabValue, setTabValue] = useState(0);
-  const { isLoggedIn } = useSelector((state: any) => state.session);
+  const { isLoggedIn } = useSelector((state: RootState) => state.session);
 
   const handleTabChange = (_event: SyntheticEvent, newValue: number) => {
     setTabValue(newValue);

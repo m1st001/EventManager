@@ -4,13 +4,14 @@ import { eventsClient } from "../../api/apiConfig.ts";
 import { useSelector } from "react-redux";
 import EventsRenderer from "./EventsRenderer.tsx";
 import { Typography } from "@mui/material";
+import { RootState } from "../../store/store.ts";
 
 const SubscribedEventsTab = () => {
   const [subscribedEvents, setSubscribedEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { userId, isLoggedIn } = useSelector((state: any) => state.session);
+  const { userId, isLoggedIn } = useSelector((state: RootState) => state.session);
 
   // Fetch subscribed events
   useEffect(() => {
