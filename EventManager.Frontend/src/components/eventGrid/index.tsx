@@ -10,49 +10,44 @@ import { RootState } from "../../store/store.ts";
 
 const EventGrid = () => {
   const [tabValue, setTabValue] = useState(0);
-  const { isLoggedIn } = useSelector((state: RootState) => state.session);
 
   const handleTabChange = (_event: SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
-  
+
   interface ITab {
-      index: number;
-      name: string;
+    index: number;
+    name: string;
+    content: React.ReactNode;
   }
-  
-  const tabs : ITab[] = [
-      {index: 0, name: "All Events"},
-      {index: 1, name: "My Subscriptions"},
-      {index: 2, name: "My Event History"}
+
+  const tabs: ITab[] = [
+    { index: 0, name: "All Events", content: <AllEventsTab /> },
+    { index: 1, name: "My Subscriptions", content: <SubscribedEventsTab /> },
+    { index: 2, name: "My Event History", content: <EventHistoryTab /> },
   ];
 
   return (
-    <StyledContentBox sx={{ flexGrow: 1, flexDirection: "column", marginTop: 0 }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs 
-          value={tabValue} 
-          onChange={handleTabChange} 
-          aria-label="event tabs"
-          centered
-        >
-            {tabs.map((tab) => {
-                return <Tab label={tab.name} {...tabsProps(tab.index)} />;
-            })}
+    <StyledContentBox
+      sx={{ flexGrow: 1, flexDirection: "column", marginTop: 0 }}
+    >
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs value={tabValue} onChange={handleTabChange} centered>
+          {tabs.map((tab) => {
+            return (
+              <Tab label={tab.name} {...tabsProps(tab.index)} key={tab.index} />
+            );
+          })}
         </Tabs>
       </Box>
 
-      <TabPanel value={tabValue} index={0}>
-        <AllEventsTab />
-      </TabPanel>
-
-      <TabPanel value={tabValue} index={1}>
-        <SubscribedEventsTab />
-      </TabPanel>
-
-      <TabPanel value={tabValue} index={2}>
-        <EventHistoryTab />
-      </TabPanel>
+      {tabs.map((tab) => {
+        return (
+          <TabPanel value={tabValue} index={tab.index} key={tab.index}>
+            {tab.content}
+          </TabPanel>
+        );
+      })}
     </StyledContentBox>
   );
 };
