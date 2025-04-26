@@ -14,7 +14,7 @@ import { StyledBottomBar } from "../styles.ts";
 const BottomBar = () => {
   return (
     <Container>
-      <StyledBottomBar position="fixed" sx={{ width: "100%", left: 0 }}>
+      <StyledBottomBar position="static" sx={{ width: "100%", left: 0 }}>
         <Container maxWidth="xl">
           <Toolbar
             disableGutters
