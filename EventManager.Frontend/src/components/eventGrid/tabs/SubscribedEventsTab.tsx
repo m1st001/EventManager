@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Event } from "../../api/data-contracts.ts";
-import { eventsClient } from "../../api/apiConfig.ts";
+import { Event } from "../../../api/data-contracts.ts";
+import { eventsClient } from "../../../api/apiConfig.ts";
 import { useSelector } from "react-redux";
-import EventsRenderer from "./EventsRenderer.tsx";
+import EventsRenderer from "../EventsRenderer.tsx";
 import { Typography } from "@mui/material";
-import { RootState } from "../../store/store.ts";
+import { RootState } from "../../../store/store.ts";
 
 const SubscribedEventsTab = () => {
   const [subscribedEvents, setSubscribedEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { userId, isLoggedIn } = useSelector((state: RootState) => state.session);
+  const { userId, isLoggedIn } = useSelector(
+    (state: RootState) => state.session,
+  );
 
   // Fetch subscribed events
   useEffect(() => {
@@ -29,7 +31,9 @@ const SubscribedEventsTab = () => {
             // Mock data for development
             // In a real implementation, you would use the actual response data
             setSubscribedEvents([]);
-            setError("No subscribed events found or API returned invalid data.");
+            setError(
+              "No subscribed events found or API returned invalid data.",
+            );
           } else {
             setSubscribedEvents(response.data);
           }
@@ -47,13 +51,15 @@ const SubscribedEventsTab = () => {
 
   if (!isLoggedIn) {
     return (
-      <Typography variant="body1" sx={{ textAlign: 'center', p: 3 }}>
+      <Typography variant="body1" sx={{ textAlign: "center", p: 3 }}>
         Please log in to view your subscribed events.
       </Typography>
     );
   }
 
-  return <EventsRenderer events={subscribedEvents} loading={loading} error={error} />;
+  return (
+    <EventsRenderer events={subscribedEvents} loading={loading} error={error} />
+  );
 };
 
 export default SubscribedEventsTab;

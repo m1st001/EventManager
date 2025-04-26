@@ -2,7 +2,7 @@ import React from "react";
 import CreateEventForm from "../components/CreateEventForm.tsx";
 import { RootState } from "../store/store.ts";
 import { useSelector } from "react-redux";
-import NotLoggedIn from "../components/NotLoggedIn.tsx";
+import RequireLogin from "../components/global/RequireLogin.tsx";
 
 const CreateEventPage = () => {
   const IsLoggedIn = useSelector(
@@ -11,7 +11,7 @@ const CreateEventPage = () => {
   return IsLoggedIn ? (
     <CreateEventForm />
   ) : (
-    <NotLoggedIn message="Login or Register to create events" />
+    <RequireLogin message="Login or Register to create events" />
   );
 };
 

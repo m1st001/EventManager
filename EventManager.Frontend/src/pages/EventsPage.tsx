@@ -2,7 +2,7 @@ import React from "react";
 import EventGrid from "../components/eventGrid/index.tsx";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store.ts";
-import NotLoggedIn from "../components/NotLoggedIn.tsx";
+import RequireLogin from "../components/global/RequireLogin.tsx";
 
 const EventsPage = () => {
   const IsLoggedIn = useSelector(
@@ -11,7 +11,7 @@ const EventsPage = () => {
   return IsLoggedIn ? (
     <EventGrid />
   ) : (
-    <NotLoggedIn message="Login or Register to browse events" />
+    <RequireLogin message="Login or Register to browse events" />
   );
 };
 

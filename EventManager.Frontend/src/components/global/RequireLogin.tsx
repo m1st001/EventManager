@@ -1,8 +1,8 @@
 ﻿import React from "react";
 import { Chip } from "@mui/material";
-import { StyledContentBox } from "./styles.ts";
+import { StyledContentBox } from "../styles.ts";
 
-const NotLoggedIn = ({ message }: { message: string }) => {
+const RequireLogin = ({ message }: { message: string }) => {
   return (
     <StyledContentBox>
       <Chip
@@ -18,4 +18,4 @@ const NotLoggedIn = ({ message }: { message: string }) => {
   );
 };
 
-export default NotLoggedIn;
+export default RequireLogin;

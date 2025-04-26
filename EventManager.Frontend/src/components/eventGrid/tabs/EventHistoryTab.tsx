@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Event } from "../../api/data-contracts.ts";
+import { Event } from "../../../api/data-contracts.ts";
 import { useSelector } from "react-redux";
-import EventsRenderer from "./EventsRenderer.tsx";
+import EventsRenderer from "../EventsRenderer.tsx";
 import { Typography } from "@mui/material";
-import { RootState } from "../../store/store.ts";
+import { RootState } from "../../../store/store.ts";
 
 const EventHistoryTab = () => {
   const [participatedEvents, setParticipatedEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { userId, isLoggedIn } = useSelector((state: RootState) => state.session);
+  const { userId, isLoggedIn } = useSelector(
+    (state: RootState) => state.session,
+  );
 
   // Fetch participated events history
   useEffect(() => {
@@ -24,7 +26,7 @@ const EventHistoryTab = () => {
           // In a real implementation, you would make an API call here
 
           // Simulate a delay to show loading state
-          await new Promise(resolve => setTimeout(resolve, 1000));
+          await new Promise((resolve) => setTimeout(resolve, 1000));
 
           // Mock data for development
           setParticipatedEvents([]);
@@ -45,13 +47,19 @@ const EventHistoryTab = () => {
 
   if (!isLoggedIn) {
     return (
-      <Typography variant="body1" sx={{ textAlign: 'center', p: 3 }}>
+      <Typography variant="body1" sx={{ textAlign: "center", p: 3 }}>
         Please log in to view your event history.
       </Typography>
     );
   }
 
-  return <EventsRenderer events={participatedEvents} loading={loading} error={error} />;
+  return (
+    <EventsRenderer
+      events={participatedEvents}
+      loading={loading}
+      error={error}
+    />
+  );
 };
 
 export default EventHistoryTab;

@@ -1,12 +1,10 @@
 import React, { useState, SyntheticEvent } from "react";
 import { Tabs, Tab, Box } from "@mui/material";
 import { StyledContentBox } from "../styles.ts";
-import { useSelector } from "react-redux";
 import { TabPanel, tabsProps } from "./utils.tsx";
-import AllEventsTab from "./AllEventsTab.tsx";
-import SubscribedEventsTab from "./SubscribedEventsTab.tsx";
-import EventHistoryTab from "./EventHistoryTab.tsx";
-import { RootState } from "../../store/store.ts";
+import AllEventsTab from "./tabs/AllEventsTab.tsx";
+import SubscribedEventsTab from "./tabs/SubscribedEventsTab.tsx";
+import EventHistoryTab from "./tabs/EventHistoryTab.tsx";
 
 const EventGrid = () => {
   const [tabValue, setTabValue] = useState(0);

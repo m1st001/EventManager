@@ -4,8 +4,8 @@ import LandingPage from "./pages/LandingPage.tsx";
 import CreateEventPage from "./pages/CreateEventPage.tsx";
 import EventsPage from "./pages/EventsPage.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
-import Navbar from "./components/Navbar.tsx";
-import BottomBar from "./components/BottomBar.tsx";
+import Navbar from "./components/global/Navbar.tsx";
+import BottomBar from "./components/global/BottomBar.tsx";
 import { Container, createTheme, ThemeProvider } from "@mui/material";
 
 const App = () => {
@@ -38,7 +38,9 @@ const App = () => {
     { basename: import.meta.env.BASE_URL },
   );
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    >
       <ThemeProvider theme={darkTheme}>
         <Navbar />
         <Container maxWidth="lg" sx={{ flex: 1, mb: 8 }}>
