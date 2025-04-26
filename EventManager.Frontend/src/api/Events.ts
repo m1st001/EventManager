@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import { CreateEventRequest, Event, Void } from "./data-contracts";
+import { CreateEventRequest, IEvent, Void } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Events<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -21,7 +21,7 @@ export class Events<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    * @request GET:/events
    */
   eventsList = (params: RequestParams = {}) =>
-    this.request<Event[], any>({
+    this.request<IEvent[], any>({
       path: `/events`,
       method: "GET",
       format: "json",

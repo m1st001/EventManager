@@ -50,6 +50,39 @@ export interface Event {
   /** @format int32 */
   creatorId?: number;
   tags?: string[] | null;
+  status?: EventStatus;
+  availability?: EventAvailability;
+}
+
+/** @format int32 */
+export enum EventAvailability {
+  Value0 = 0,
+  Value1 = 1,
+}
+
+/** @format int32 */
+export enum EventStatus {
+  Value0 = 0,
+  Value1 = 1,
+  Value2 = 2,
+}
+
+export interface IEvent {
+  /** @format int32 */
+  id?: number;
+  name?: string | null;
+  tags?: string[] | null;
+  /** @format date-time */
+  startDate?: string;
+  /** @format date-time */
+  createdDate?: string;
+  status?: EventStatus;
+  availability?: EventAvailability;
+  participants?: User[] | null;
+  /** @format int32 */
+  maxParticipants?: number;
+  /** @format int32 */
+  creatorId?: number;
 }
 
 export interface LoginRequest {
