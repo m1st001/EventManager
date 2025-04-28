@@ -31,4 +31,15 @@ public static class SeedData
         var events = testEvents.Generate(20);
         modelBuilder.Entity<Event>().HasData(events);
     }
+
+    public static async Task SeedAdminUser(UserManager<User> userManager)
+    {
+        var adminUser = new User
+        {
+            UserName = "admin",
+            Email = "admin@admin.com",
+        };
+        
+        var result = await userManager.CreateAsync(adminUser, "_admIn123");
+    }
 }

@@ -1,4 +1,5 @@
-﻿using EventManager.WebApi.Data.Models;
+﻿using EventManager.WebApi.Data.Helpers;
+using EventManager.WebApi.Data.Models;
 using EventManager.WebApi.Services.Abstractions;
 using Microsoft.AspNetCore.Identity;
 
@@ -8,6 +9,7 @@ namespace EventManager.WebApi.Services;
 public class AuthenticationService(
     UserManager<User> userManager,
     SignInManager<User> signInManager,
+    IWebHostEnvironment env,
     ILogger<AuthenticationService> logger) : IAuthenticationService
 {
     private readonly ILogger _logger = logger;
@@ -64,6 +66,12 @@ public class AuthenticationService(
     /// <inheritdoc cref="IAuthenticationService.Login"/>
     public async Task<User?> Login(string username, string password, bool useCookies)
     {
+        // Adding admin user for development purposes
+        if (env.IsDevelopment())
+        {
+            await SeedData.SeedAdminUser(userManager);
+        }
+        
         var user = await userManager.FindByNameAsync(username);
         if (user is null)
         {

@@ -6,12 +6,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventManager.WebApi.Data;
 
-public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
+public sealed class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    private readonly IWebHostEnvironment _env;
+    
+    public AppDbContext(DbContextOptions<AppDbContext> options, IWebHostEnvironment env) : base(options)
     {
-        Database.EnsureDeleted();
-        Database.EnsureCreated();
+        _env = env;
+        if (_env.IsDevelopment())
+        {
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
+        }
     }
     
     public DbSet<Event> Events { get; set; }
@@ -22,6 +28,9 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
         modelBuilder.Entity<Event>()
             .HasMany(e => e.Participants)
             .WithMany(u => u.SubscribedToEvents);
-        SeedData.SeedContext(modelBuilder);
+        if (_env.IsDevelopment())
+        {
+            SeedData.SeedContext(modelBuilder);
+        }
     }
 }

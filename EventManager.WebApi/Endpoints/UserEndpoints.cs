@@ -13,7 +13,7 @@ public static class UserEndpoints
             => TypedResults.Ok(await userService.GetUserByIdAsync(id)));
         
         users.MapGet("/{name}", async (string name, IUserService userService)
-            => TypedResults.Ok(await userService.GetUserByNameAsync(name)));
+            => await userService.GetUserByNameAsync(name) is {} user ? TypedResults.Ok(user) : Results.NoContent());
 
         users.MapGet("/profile/{userId:int}", async (int userId, IUserService userService) => 
             await userService.GetUserProfileById(userId) is { } userProfile
