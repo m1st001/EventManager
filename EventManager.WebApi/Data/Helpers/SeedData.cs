@@ -24,7 +24,7 @@ public static class SeedData
         var testEvents = new Faker<Event>()
             .RuleFor(e => e.Id, f => eventId++)
             .RuleFor(e => e.Name, f => f.Commerce.ProductAdjective() + "Event")
-            .RuleFor(e => e.Description, f => f.Lorem.Sentence(4, 5))
+            .RuleFor(e => e.Description, f => f.Lorem.Sentence(4, 3))
             .RuleFor(e => e.StartDate, f => f.Date.Future(1).ToUniversalTime())
             .RuleFor(e => e.CreatorId, f => f.PickRandom(1, 20))
             .RuleFor(e => e.Tags, f => f.Lorem.Words(f.Random.Int(1, 4)));
@@ -40,6 +40,6 @@ public static class SeedData
             Email = "admin@admin.com",
         };
         
-        var result = await userManager.CreateAsync(adminUser, "_admIn123");
+        var result = await userManager.CreateAsync(adminUser, "Admin123");
     }
 }
