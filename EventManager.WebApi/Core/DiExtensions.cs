@@ -19,7 +19,7 @@ public static class DiExtensions
     {
         services.AddIdentity<User, IdentityRole<int>>(options =>
             {
-                options.Password.RequireDigit = false;
+                options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 0;
                 options.Password.RequireNonAlphanumeric = false;
