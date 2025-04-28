@@ -50,3 +50,9 @@ export const ModalBox = styled(Box)<BoxProps>(() => ({
   width: 400,
   p: 4,
 }));
+export const StyledWarningCard = styled(Card)<CardProps>(() => ({
+  border: "solid",
+  borderColor: "crimson",
+  color: "",
+  maxWidth: "275px",
+}));
