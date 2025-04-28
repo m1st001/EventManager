@@ -38,7 +38,7 @@ public class SubscribeService(AppDbContext context, ILogger<SubscribeService> lo
        @event.Participants.Remove(user);
        await context.SaveChangesAsync();
        
-       _logger.LogInformation("Successfully unsubscribed to the event: {event}", eventId);
+       _logger.LogInformation("Successfully unsubscribed from event: {event}", eventId);
        return true;
     }
 }

@@ -1,4 +1,4 @@
-﻿using EventManager.WebApi.Data.Models;
+﻿using EventManager.WebApi.Data.Models.Abstractions;
 using EventManager.WebApi.Data.Models.Requests.Events;
 
 namespace EventManager.WebApi.Services.Abstractions;
@@ -12,20 +12,35 @@ public interface IEventService
     /// Get list of all events.
     /// </summary>
     /// <returns>All events in the database.</returns>
-    Task<List<Event>> GetAllEventsAsync();
+    Task<List<IEvent>> GetAllEventsAsync();
+    
+    /// <summary>
+    /// Gets all events with the specified status.
+    /// </summary>
+    /// <param name="status"><see cref="EventStatus"/></param>
+    /// <returns></returns>
+    Task<List<IEvent>> GetAllEventsByStatus(EventStatus status);
+    
+    /// <summary>
+    /// Gets all events by availability.
+    /// </summary>
+    /// <param name="availability"><see cref="EventAvailability"/></param>
+    /// <returns></returns>
+    Task<List<IEvent>> GetAllEventsByAvailability(EventAvailability availability);
+    
     /// <summary>
     /// Get an event by id.
     /// </summary>
     /// <param name="id">Event.Id</param>
     /// <returns>Event instance, null if not found.</returns>
-    Task<Event?> GetEventByIdAsync(int id);
+    Task<IEvent?> GetEventByIdAsync(int id);
     
     /// <summary>
     /// Gets all events userId:user is registered to.
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    Task<List<Event>> GetAllRegisteredEventsAsync(int userId);
+    Task<List<IEvent>> GetAllRegisteredEventsAsync(int userId);
 
     /// <summary>
     /// Create a new event.
@@ -40,7 +55,7 @@ public interface IEventService
     /// <param name="id"></param>
     /// <param name="request"></param>
     /// <returns>Updated event entity.</returns>
-    Task<Event?> UpdateEventAsync(int id, CreateEventRequest request);
+    Task<IEvent?> UpdateEventAsync(int id, CreateEventRequest request);
     
     /// <summary>
     /// Delete an event.
@@ -48,4 +63,20 @@ public interface IEventService
     /// <param name="id">id of event to delete.</param>
     /// <returns>true if deleted successfully.</returns>
     Task<bool> DeleteEventAsync(int id);
+    
+    /// <summary>
+    /// Gets last n:count events user:userId has participated in.
+    /// </summary>
+    /// <param name="userId">User.Id</param>
+    /// <param name="count">Count of events to get</param>
+    /// <returns></returns>
+    Task<List<IEventQuickInfo>> GetEventsHistoryByUserIdAsync(int userId, int count = 5);
+    
+    /// <summary>
+    /// Gets last n:count events user:userId has registered to.
+    /// </summary>
+    /// <param name="userId">User.Id</param>
+    /// <param name="count">Count of events to get</param>
+    /// <returns></returns>
+    Task<List<IEventQuickInfo>> GetEventsRegistrationsByUserIdAsync(int userId, int count = 5);
 }

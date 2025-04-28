@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import { User } from "./data-contracts";
+import { User, Void } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 
 export class Users<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -39,6 +39,20 @@ export class Users<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
   usersDetail2 = (name: string, params: RequestParams = {}) =>
     this.request<User, any>({
       path: `/users/${name}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Users
+   * @name ProfileDetail
+   * @request GET:/users/profile/{userId}
+   */
+  profileDetail = (userId: number, params: RequestParams = {}) =>
+    this.request<Void, any>({
+      path: `/users/profile/${userId}`,
       method: "GET",
       format: "json",
       ...params,

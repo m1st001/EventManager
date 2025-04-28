@@ -1,5 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export interface IAuthInfo {
+  isLoggedIn: boolean;
+  userName: string | null;
+  userId: number;
+  userToken: string | null;
+  loading: boolean;
+  error: any | null;
+}
+
 const userToken = localStorage.getItem("userToken")
   ? localStorage.getItem("userToken")
   : null;
@@ -13,7 +22,7 @@ const authSlice = createSlice({
     userToken,
     loading: false,
     error: null,
-  },
+  } as IAuthInfo,
   reducers: {
     updateSession: (state, action) => {
       state.isLoggedIn = action.payload.isLoggedIn;

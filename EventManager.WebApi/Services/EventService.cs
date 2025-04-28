@@ -1,5 +1,6 @@
 using EventManager.WebApi.Data;
 using EventManager.WebApi.Data.Models;
+using EventManager.WebApi.Data.Models.Abstractions;
 using EventManager.WebApi.Data.Models.Requests.Events;
 using EventManager.WebApi.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
@@ -9,20 +10,30 @@ namespace EventManager.WebApi.Services;
 public class EventService(AppDbContext context, ILogger<EventService> logger) : IEventService
 {
     private readonly ILogger _logger = logger;
-    public async Task<List<Event>> GetAllEventsAsync()
+    public async Task<List<IEvent>> GetAllEventsAsync()
     {
         _logger.LogInformation("GetAllEvents was successfully completed");
-        return await context.Events.ToListAsync();
+        return await context.Events.ToListAsync<IEvent>();
     }
 
-    public async Task<List<Event>> GetAllRegisteredEventsAsync(int userId)
+    public async Task<List<IEvent>> GetAllEventsByStatus(EventStatus status)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<List<IEvent>> GetAllEventsByAvailability(EventAvailability availability)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<List<IEvent>> GetAllRegisteredEventsAsync(int userId)
     {
         _logger.LogInformation("GetAllRegisteredEvents was successfully completed");
         var user = await context.Users.FindAsync(userId);
-        return user == null ? [] : context.Events.Where(e => e.Participants.Contains(user)).ToList();
+        return user == null ? [] : context.Events.Where(e => e.Participants.Contains(user)).ToList<IEvent>();
     }
 
-    public async Task<Event?> GetEventByIdAsync(int id)
+    public async Task<IEvent?> GetEventByIdAsync(int id)
     {
         _logger.LogInformation("GetEventById was successfully completed");
         return await context.Events.FindAsync(id);
@@ -33,17 +44,17 @@ public class EventService(AppDbContext context, ILogger<EventService> logger) : 
         var created = context.Events.Add(new Event(request));
         await context.SaveChangesAsync();
         
-        _logger.LogInformation("AddEventAsync was successfully completed");
+        _logger.LogInformation("Event {id} was successfully created", created.Entity.Id);
         
         return created.Entity is not null ? created.Entity.Id : -1;
     }
 
-    public async Task<Event?> UpdateEventAsync(int id, CreateEventRequest request)
+    public async Task<IEvent?> UpdateEventAsync(int id, CreateEventRequest request)
     {
         var updated = context.Events.Update(new Event(request));
         await context.SaveChangesAsync();
         
-        _logger.LogInformation("UpdateEvent was successfully completed");
+        _logger.LogInformation("Event {id} was successfully completed", id);
         
         return updated.Entity is not null ? updated.Entity : null;
     }
@@ -60,8 +71,19 @@ public class EventService(AppDbContext context, ILogger<EventService> logger) : 
         context.Events.Remove(eventToDelete);
         await context.SaveChangesAsync();
         
-        _logger.LogInformation("DeleteEvent was successfully completed");
+        _logger.LogInformation("Event {id} was successfully deleted.", id);
         
         return true;
+    }
+
+    public async Task<List<IEventQuickInfo>> GetEventsHistoryByUserIdAsync(int userId, int count)
+    {
+        _logger.LogInformation("Successfully fetched Event history for user {userId}", userId);
+        throw new NotImplementedException();
+    }
+
+    public async Task<List<IEventQuickInfo>> GetEventsRegistrationsByUserIdAsync(int userId, int count = 5)
+    {
+        throw new NotImplementedException();
     }
 }

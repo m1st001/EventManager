@@ -1,4 +1,5 @@
 ﻿using EventManager.WebApi.Data.Models;
+using EventManager.WebApi.Data.Models.Abstractions;
 
 namespace EventManager.WebApi.Services.Abstractions;
 
@@ -20,4 +21,11 @@ public interface IUserService
     /// <param name="name">User.Name</param>
     /// <returns>User instance with give name, null if not found.</returns>
     Task<User?> GetUserByNameAsync(string name);
+    
+    /// <summary>
+    /// Get User's profile.
+    /// </summary>
+    /// <param name="userId">User.Id</param>
+    /// <returns>User's profile if found.</returns>
+    Task<IUserProfile?> GetUserProfileById(int userId);
 }
