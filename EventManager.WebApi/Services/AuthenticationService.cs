@@ -80,7 +80,16 @@ public class AuthenticationService(
         }
 
         var result = await signInManager.PasswordSignInAsync(user, password, useCookies, false);
-        _logger.LogInformation("{username} has successfully logged in", username);
+        
+        if (result.Succeeded)
+        {
+            _logger.LogInformation("{username} has successfully logged in", username);
+        }
+        else
+        {
+            _logger.LogInformation("{username} login failed", username);
+        }
+        
 
         return result.Succeeded ? user : null;
     }
