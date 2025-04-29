@@ -1,11 +1,8 @@
-import React from 'react';
+import React from "react";
+import ContentGrid from "../components/landingGroup/ContentGrid.tsx";
 
 const LandingPage = () => {
-    return (
-        <div>
-            <h1>Landing</h1>
-        </div>
-    );
+  return <ContentGrid />;
 };
 
 export default LandingPage;

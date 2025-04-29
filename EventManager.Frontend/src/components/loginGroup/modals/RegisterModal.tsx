@@ -41,20 +41,14 @@ const RegisterModal = (props: ModalProps) => {
 
   // Password validation states
   const [hasMinLength, setHasMinLength] = useState<boolean>(false);
-  const [hasUpperCase, setHasUpperCase] = useState<boolean>(false);
-  const [hasLowerCase, setHasLowerCase] = useState<boolean>(false);
   const [hasDigit, setHasDigit] = useState<boolean>(false);
-  const [hasSpecialChar, setHasSpecialChar] = useState<boolean>(false);
   const [showPasswordRequirements, setShowPasswordRequirements] =
     useState<boolean>(false);
 
   // Validate password whenever it changes
   useEffect(() => {
     setHasMinLength(password.length >= 6);
-    setHasUpperCase(/[A-Z]/.test(password));
-    setHasLowerCase(/[a-z]/.test(password));
     setHasDigit(/[0-9]/.test(password));
-    setHasSpecialChar(/[^A-Za-z0-9]/.test(password));
   }, [password]);
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -67,13 +61,7 @@ const RegisterModal = (props: ModalProps) => {
     }
 
     // Validate password meets all requirements
-    if (
-      !hasMinLength ||
-      !hasUpperCase ||
-      !hasLowerCase ||
-      !hasDigit ||
-      !hasSpecialChar
-    ) {
+    if (!hasMinLength || !hasDigit) {
       setPasswordError("Password does not meet all requirements");
       setShowPasswordRequirements(true);
       return;
@@ -190,26 +178,6 @@ const RegisterModal = (props: ModalProps) => {
                     </ListItem>
                     <ListItem>
                       <ListItemIcon>
-                        {hasUpperCase ? (
-                          <CheckIcon color="success" />
-                        ) : (
-                          <ErrorIcon color="error" />
-                        )}
-                      </ListItemIcon>
-                      <ListItemText primary="At least one uppercase letter" />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemIcon>
-                        {hasLowerCase ? (
-                          <CheckIcon color="success" />
-                        ) : (
-                          <ErrorIcon color="error" />
-                        )}
-                      </ListItemIcon>
-                      <ListItemText primary="At least one lowercase letter" />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemIcon>
                         {hasDigit ? (
                           <CheckIcon color="success" />
                         ) : (
@@ -217,16 +185,6 @@ const RegisterModal = (props: ModalProps) => {
                         )}
                       </ListItemIcon>
                       <ListItemText primary="At least one digit" />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemIcon>
-                        {hasSpecialChar ? (
-                          <CheckIcon color="success" />
-                        ) : (
-                          <ErrorIcon color="error" />
-                        )}
-                      </ListItemIcon>
-                      <ListItemText primary="At least one special character" />
                     </ListItem>
                   </List>
                 )}
