@@ -7,6 +7,8 @@ using EventManager.WebApi.Services;
 using EventManager.WebApi.Services.Abstractions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Logs;
 
 namespace EventManager.WebApi.Core;
 
@@ -30,6 +32,18 @@ public static class DiExtensions
             .AddDefaultTokenProviders();
 
         return services;
+    }
+
+    public static WebApplicationBuilder ConfigureOtLogging(this WebApplicationBuilder builder)
+    {
+        builder.Logging.ClearProviders();
+        builder.Logging.AddOpenTelemetry(options => options.AddOtlpExporter(x =>
+            {
+                x.Endpoint = new Uri("http://localhost:5341/ingest/otlp/v1/logs");
+                x.Protocol = OtlpExportProtocol.HttpProtobuf;
+            }
+        ));
+        return builder;
     }
 
     /// <summary>

@@ -18,14 +18,14 @@ builder.Services.AddIdentity();
 builder.Services.ConfigureCookies();
 builder.Services.AddMinio();
 
+builder.ConfigureOtLogging();
+
 builder.AddNpgsqlDbContext<AppDbContext>(connectionName: "postgresDb", options =>
 {
     options.CommandTimeout = 300;
 });
 
 var app = builder.Build();
-
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
