@@ -12,17 +12,32 @@
 import { SubscribeEventRequest } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
-export class Subscribe<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+export class Sub<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
    * No description
    *
    * @tags Subscriptions
    * @name SubscribeCreate
-   * @request POST:/subscribe
+   * @request POST:/sub/subscribe
    */
   subscribeCreate = (data: SubscribeEventRequest, params: RequestParams = {}) =>
     this.request<void, any>({
-      path: `/subscribe`,
+      path: `/sub/subscribe`,
+      method: "POST",
+      body: data,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Subscriptions
+   * @name UnsubscribeCreate
+   * @request POST:/sub/unsubscribe
+   */
+  unsubscribeCreate = (data: SubscribeEventRequest, params: RequestParams = {}) =>
+    this.request<void, any>({
+      path: `/sub/unsubscribe`,
       method: "POST",
       body: data,
       type: ContentType.Json,

@@ -1,6 +1,7 @@
 import { HttpClient } from "./http-client";
 import { Events } from "./Events";
 import { Authentication } from "./Authentication";
+import { Sub } from "./Sub";
 
 // Get the API URL from environment variables
 const API_URL = import.meta.env.VITE_API_URL;
@@ -22,3 +23,4 @@ export function createApiClient<T extends HttpClient, Args extends any[]>(
 // Export pre-configured instances of commonly used API clients
 export const eventsClient = createApiClient(Events);
 export const authClient = createApiClient(Authentication);
+export const subClient = createApiClient(Sub);

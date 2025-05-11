@@ -37,7 +37,7 @@ export class Users<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @duplicate
    */
   usersDetail2 = (name: string, params: RequestParams = {}) =>
-    this.request<User, any>({
+    this.request<Void, any>({
       path: `/users/${name}`,
       method: "GET",
       format: "json",
