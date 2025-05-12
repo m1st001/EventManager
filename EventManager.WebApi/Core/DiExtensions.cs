@@ -54,6 +54,8 @@ public static class DiExtensions
                 x.Protocol = OtlpExportProtocol.HttpProtobuf;
             }
         ));
+        builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
+        
         return builder;
     }
 
