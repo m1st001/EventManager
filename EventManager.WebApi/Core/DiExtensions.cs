@@ -66,7 +66,7 @@ public static class DiExtensions
     {
         services.AddScoped<IEventService, EventService>();
         services.AddScoped<IUserService, UserService>();
-        services.AddScoped<ISubscribeService, SubscribeService>();
+        services.AddScoped<ISubscriptionService, SubscriptionService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
 
         return services;
