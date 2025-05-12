@@ -1,7 +1,9 @@
 using Bogus;
 using EventManager.WebApi.Data.Models;
+using EventManager.WebApi.Data.Models.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Trace;
 
 namespace EventManager.WebApi.Data.Helpers;
 
@@ -27,7 +29,9 @@ public static class SeedData
             .RuleFor(e => e.Description, f => f.Lorem.Sentence(4, 3))
             .RuleFor(e => e.StartDate, f => f.Date.Future(1).ToUniversalTime())
             .RuleFor(e => e.CreatorId, f => f.PickRandom(1, 20))
-            .RuleFor(e => e.Tags, f => f.Lorem.Words(f.Random.Int(1, 4)));
+            .RuleFor(e => e.Tags, f => f.Lorem.Words(f.Random.Int(1, 4)))
+            .RuleFor(e => e.Status, f => f.PickRandom<EventStatus>())
+            .RuleFor(e => e.Availability, f => f.PickRandom<EventAvailability>());
         var events = testEvents.Generate(20);
         modelBuilder.Entity<Event>().HasData(events);
     }
