@@ -4,7 +4,7 @@ using EventManager.WebApi.Data.Models.Requests.Events;
 
 namespace EventManager.WebApi.Data.Models;
 
-public class Event() : IEvent, IEventQuickInfo
+public class Event() : IEvent, IEventQuickInfo, ISubscribable
 {
     public Event(CreateEventRequest request) : this()
     {
@@ -29,4 +29,14 @@ public class Event() : IEvent, IEventQuickInfo
     public EventStatus Status { get; set; }
     public EventAvailability Availability =>
         Participants.Count < MaxParticipants ? EventAvailability.Available : EventAvailability.Reserved;
+    
+    public bool Subscribe(int userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool Unsubscribe(int userId)
+    {
+        throw new NotImplementedException();
+    }
 }

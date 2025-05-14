@@ -88,7 +88,7 @@ const EventActions = ({
   onSubscribe: () => void 
 }) => {
   return (
-    <CardActions>
+    <CardActions sx={{pt:0, pb:2}}>
       <Button 
         variant="contained" 
         color="primary" 
@@ -159,7 +159,7 @@ const EventModal = (props: EventModalProps) => {
     <Modal open={props.open} onClose={props.onClose}>
       <ModalBox>
         <Card>
-          <CardContent>
+          <CardContent sx={{pb:1}}>
             {notification.show && (
               <Box mb={2}>
                 <Alert 

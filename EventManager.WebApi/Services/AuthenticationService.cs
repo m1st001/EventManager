@@ -1,4 +1,5 @@
-﻿using EventManager.WebApi.Data.Helpers;
+﻿using System.Security.Claims;
+using EventManager.WebApi.Data.Helpers;
 using EventManager.WebApi.Data.Models;
 using EventManager.WebApi.Services.Abstractions;
 using Microsoft.AspNetCore.Identity;
@@ -99,5 +100,12 @@ public class AuthenticationService(
     {
         await signInManager.SignOutAsync();
         _logger.LogError("User successfully logged out");
+    }
+
+    public async Task<User?> GetMe(ClaimsPrincipal principal)
+    {
+        var user = await userManager.GetUserAsync(principal);
+    
+        return user ?? null;
     }
 }

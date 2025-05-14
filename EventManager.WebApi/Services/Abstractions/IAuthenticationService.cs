@@ -1,4 +1,5 @@
-﻿using EventManager.WebApi.Data.Models;
+﻿using System.Security.Claims;
+using EventManager.WebApi.Data.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace EventManager.WebApi.Services.Abstractions;
@@ -28,4 +29,11 @@ public interface IAuthenticationService
     /// </summary>
     /// <returns></returns>
     Task Logout();
+    
+    /// <summary>
+    /// Gets info on current user.
+    /// </summary>
+    /// <param name="principal"></param>
+    /// <returns></returns>
+    Task<User?> GetMe(ClaimsPrincipal principal);
 }

@@ -18,6 +18,24 @@ public interface IEvent
     public int CreatorId { get; set; }
 }
 
+/// <summary>
+/// 
+/// </summary>
+public interface ISubscribable
+{
+    /// <summary>
+    /// Subscribe user to an event.
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns>True if successfully subscribed, false otherwise.</returns>
+    public bool Subscribe(int userId);
+    /// <summary>
+    /// Unsubscribe user from an event.
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns>True if successfully unsubscribed, false otherwise.</returns>
+    public bool Unsubscribe(int userId);
+}
 
 /// <summary>
 /// Represents <see cref="Event"/> status.
