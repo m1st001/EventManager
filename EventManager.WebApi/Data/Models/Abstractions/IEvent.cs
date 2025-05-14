@@ -11,8 +11,8 @@ public interface IEvent
     public string[] Tags { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime CreatedDate { get; }
-    public EventStatus Status { get; set; }
-    public EventAvailability Availability { get; set; }
+    public EventStatus Status { get; }
+    public EventAvailability Availability { get; }
     public ICollection<User> Participants { get; set; }
     public int MaxParticipants { get; set; }
     public int CreatorId { get; set; }
@@ -35,7 +35,7 @@ public enum EventStatus
     /// <summary>
     /// Event was cancelled.
     /// </summary>
-    Canceled = 2,
+    Cancelled = 2,
 }
 
 /// <summary>

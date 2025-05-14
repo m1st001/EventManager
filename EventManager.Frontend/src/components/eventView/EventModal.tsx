@@ -8,7 +8,6 @@ import {
   CardActions,
   CardContent,
   Chip,
-  Divider,
   Modal,
   Stack,
   Typography,
@@ -30,9 +29,9 @@ interface EventModalProps {
 const EventInfo = ({ event }: { event: Event }) => {
   return (
     <Box>
-      <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
+      <Box justifyContent="space-between" alignItems="center" marginBottom={2}>
         <Typography variant="h4">{event.name}</Typography>
-        <Stack direction="row" spacing={1}>
+        <Stack direction="row" spacing={1} sx={{my:1}}>
           <Chip 
             label={getStatusText(event.status)} 
             color={getStatusColor(event.status)}
@@ -63,19 +62,17 @@ const EventInfo = ({ event }: { event: Event }) => {
       </Typography>
 
       {event.tags && event.tags.length > 0 && (
-        <Box sx={{ mb: 2 }}>
-          <Typography variant="body2" sx={{ mb: 1 }}>
+        <Box display="flex">
+          <Typography variant="body1" sx={{ mb: 1 }}>
             <strong>Tags:</strong>
           </Typography>
-          <Stack direction="row" spacing={1} flexWrap="wrap">
+          <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ml:1}}>
             {event.tags.map((tag, index) => (
               <Chip key={index} label={tag} size="small" />
             ))}
           </Stack>
         </Box>
       )}
-
-      <Divider sx={{ my: 2 }} />
     </Box>
   );
 };
@@ -97,6 +94,7 @@ const EventActions = ({
         color="primary" 
         onClick={onSubscribe}
         disabled={isSubscribing || event.availability === EventAvailability.Value1}
+        sx={{ml:1}}
       >
         {isSubscribing ? "Subscribing..." : "Subscribe"}
       </Button>

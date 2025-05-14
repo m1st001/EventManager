@@ -19,9 +19,9 @@ export function formatDate(isoDate: string): string {
 export function getStatusText(status?: EventStatus): string {
   switch (status) {
     case EventStatus.Value0:
-      return "Draft";
+      return "Planned";
     case EventStatus.Value1:
-      return "Published";
+      return "Completed";
     case EventStatus.Value2:
       return "Cancelled";
     default:
