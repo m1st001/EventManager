@@ -39,7 +39,7 @@ public static class IdentityEndpoints
         auth.MapPost("me", async (HttpContext context,IAuthenticationService authenticationService) =>
         {
             var result = await authenticationService.GetMe(context.User);
-            return result is null ? TypedResults.Ok("User not found") : Results.BadRequest();
-        });
+            return result is null ? TypedResults.Ok("User not found") : Results.Unauthorized();
+        }).RequireAuthorization();
     }
 }

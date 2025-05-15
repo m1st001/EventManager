@@ -6,8 +6,8 @@ import ButtonGroup from "./ButtonGroup.tsx";
 import { useSelector } from "react-redux";
 
 const LoginGroup = () => {
-  const session = useSelector((state: RootState) => state.session);
-  if (session.isLoggedIn) {
+  const session = useSelector((state: RootState) => state.auth);
+  if (session.isAuthenticated) {
     const username = session.userName ? session.userName : "";
     return (
       <StyledLoginGroup>

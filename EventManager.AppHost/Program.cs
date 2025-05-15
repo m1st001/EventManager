@@ -47,7 +47,7 @@ var frontend = builder.AddNpmApp("frontend", "../eventmanager.frontend")
     .WithReference(webapi)
     .WaitFor(webapi)
     .WithEnvironment("BROWSER", "none")
-    .WithHttpEndpoint(env: "VITE_PORT")
+    .WithHttpEndpoint(port: 5173, env: "VITE_PORT")
     .WithExternalHttpEndpoints();
 
 var app = builder.Build();
