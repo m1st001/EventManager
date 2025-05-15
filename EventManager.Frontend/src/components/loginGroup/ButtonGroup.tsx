@@ -26,7 +26,7 @@ const ButtonGroup = () => {
   if (isAuthenticated) {
     return (
       <Box display="flex" alignItems="center">
-        {user && <Typography sx={{ mr: 2 }}>Welcome, {user.userName || user.username || 'User'}</Typography>} {/* Отображаем имя пользователя, если доступно */}
+        {user && <Typography sx={{ mr: 2 }}>Welcome, {user.userName || 'User'}</Typography>} {/* Отображаем имя пользователя, если доступно */}
         <Button onClick={handleLogout} disabled={isAuthLoading}>
           {isAuthLoading ? 'Logging out...' : 'Log out'}
         </Button>

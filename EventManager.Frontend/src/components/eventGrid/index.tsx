@@ -4,7 +4,7 @@ import { StyledContentBox } from "../styles.ts";
 import { TabPanel, tabsProps } from "./utils.tsx";
 import AllEventsTab from "./tabs/AllEventsTab.tsx";
 import SubscribedEventsTab from "./tabs/SubscribedEventsTab.tsx";
-import EventHistoryTab from "./tabs/EventHistoryTab.tsx";
+import {EventHistoryTab} from "./tabs/EventHistoryTab.tsx";
 
 const EventGrid = () => {
   const [tabValue, setTabValue] = useState(0);
