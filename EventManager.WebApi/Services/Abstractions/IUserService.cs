@@ -28,4 +28,11 @@ public interface IUserService
     /// <param name="userId">User.Id</param>
     /// <returns>User's profile if found.</returns>
     Task<IUserProfile?> GetUserProfileById(int userId);
+    
+    /// <summary>
+    /// Gets all events user is subscribed to.
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    Task<List<IEvent>> GetSubscriptions(int userId);
 }

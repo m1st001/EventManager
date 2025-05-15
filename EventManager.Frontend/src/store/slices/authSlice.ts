@@ -1,54 +1,82 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { loginUser, logoutUser, checkAuthStatus } from '../thunks/authThunk';
+import {User} from "../../api/data-contracts.ts";
 
-export interface IAuthInfo {
-  isLoggedIn: boolean;
-  userName: string | null;
-  userId: number;
-  userToken: string | null;
-  loading: boolean;
-  error: any | null;
+interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null | undefined;
 }
 
-const userToken = localStorage.getItem("userToken")
-  ? localStorage.getItem("userToken")
-  : null;
+const initialState: AuthState = {
+  user: null,
+  isAuthenticated: false,
+  isLoading: false,
+  error: null,
+};
 
 const authSlice = createSlice({
-  name: "session",
-  initialState: {
-    isLoggedIn: false,
-    userName: null,
-    userId: -1,
-    userToken,
-    loading: false,
-    error: null,
-  } as IAuthInfo,
+  name: 'auth',
+  initialState,
   reducers: {
-    updateSession: (state, action) => {
-      state.isLoggedIn = action.payload.isLoggedIn;
-    },
-    loginSuccess: (state, action) => {
-      state.isLoggedIn = true;
-      state.userName = action.payload.userName;
-      state.userToken = action.payload.userToken;
-      state.userId = action.payload.userId;
-    },
-    loginStart: (state) => {
-      state.loading = true;
+    clearAuthError: (state) => {
       state.error = null;
     },
-    loginFailure: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
-    logout: (state) => {
-      state.userName = null;
-      state.userToken = null;
-      state.isLoggedIn = false;
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+        .addCase(loginUser.pending, (state) => {
+          state.isLoading = true;
+          state.error = null;
+        })
+        .addCase(loginUser.fulfilled, (state, action: PayloadAction<User | null>) => {
+          state.isLoading = false;
+          state.isAuthenticated = true;
+          state.user = action.payload;
+          state.error = null;
+        })
+        .addCase(loginUser.rejected, (state, action) => {
+          state.isLoading = false;
+          state.isAuthenticated = false;
+          state.user = null;
+          state.error = action.payload as string || 'Login failed';
+        })
+        // Logout User
+        .addCase(logoutUser.pending, (state) => {
+          state.isLoading = true;
+          state.error = null;
+        })
+        .addCase(logoutUser.fulfilled, (state) => {
+          state.isLoading = false;
+          state.isAuthenticated = false;
+          state.user = null;
+          state.error = null;
+        })
+        .addCase(logoutUser.rejected, (state, action) => {
+          state.isLoading = false;
+          state.isAuthenticated = false;
+          state.user = null;
+          state.error = action.payload as string || 'Logout failed';
+        })
+        // Check Auth Status
+        .addCase(checkAuthStatus.pending, (state) => {
+          state.isLoading = true;
+          state.error = null;
+        })
+        .addCase(checkAuthStatus.fulfilled, (state, action: PayloadAction<User | null>) => {
+          state.isLoading = false;
+          state.isAuthenticated = !!action.payload;
+          state.user = action.payload;
+          state.error = null;
+        })
+        .addCase(checkAuthStatus.rejected, (state, action) => {
+          state.isLoading = false;
+          state.isAuthenticated = false;
+          state.user = null;
+        });
   },
 });
 
-export const { updateSession, loginStart, loginSuccess, loginFailure, logout } =
-  authSlice.actions;
+export const { clearAuthError } = authSlice.actions;
 export default authSlice.reducer;

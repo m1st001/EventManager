@@ -8,7 +8,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowMyFrontend",
+        policyBuilder =>
+        {
+            policyBuilder.WithOrigins("http://localhost:5173", "http://localhost:5237")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
+});
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
 builder.Services.AddAuthorization();
 
@@ -18,6 +28,8 @@ builder.Services.AddIdentity();
 builder.Services.ConfigureCookies();
 builder.Services.AddMinio();
 
+builder.ConfigureOtLogging();
+
 builder.AddNpgsqlDbContext<AppDbContext>(connectionName: "postgresDb", options =>
 {
     options.CommandTimeout = 300;
@@ -25,15 +37,10 @@ builder.AddNpgsqlDbContext<AppDbContext>(connectionName: "postgresDb", options =
 
 var app = builder.Build();
 
-app.UseHttpsRedirection();
+app.UseCors("AllowMyFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseCors(static builder => 
-    builder.AllowAnyMethod()
-        .AllowAnyHeader()
-        .AllowAnyOrigin());
 
 app.MapEndpoints();
 

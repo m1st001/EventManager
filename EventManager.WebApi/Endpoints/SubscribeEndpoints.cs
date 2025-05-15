@@ -7,12 +7,14 @@ public static class SubscribeEndpoints
 {
     public static void RegisterSubscribeEndpoints(this WebApplication app)
     {
-        app.MapPost("/subscribe", async (ISubscribeService subscribeService, SubscribeEventRequest request) =>
-            await subscribeService.SubscribeAsync(request.UserId, request.EventId) ? Results.Ok() : Results.BadRequest())
+        var subGroup = app.MapGroup("/sub").WithDisplayName("Subscriptions").WithDescription("Endpoints for managing event subscriptions.");
+        
+        subGroup.MapPost("/subscribe", async (ISubscriptionService subscriptionService, SubscribeEventRequest request) =>
+            await subscriptionService.SubscribeAsync(request.UserId, request.EventId) ? Results.Ok() : Results.BadRequest())
             .WithTags("Subscriptions");
         
-        app.MapPost("/unsubscribe", async (ISubscribeService subscribeService, SubscribeEventRequest request) =>
-            await subscribeService.UnsubscribeAsync(request.UserId, request.EventId) ? Results.Ok() : Results.BadRequest())
+        subGroup.MapPost("/unsubscribe", async (ISubscriptionService subscriptionService, SubscribeEventRequest request) =>
+            await subscriptionService.UnsubscribeAsync(request.UserId, request.EventId) ? Results.Ok() : Results.BadRequest())
             .WithTags("Subscriptions");
     }
 }

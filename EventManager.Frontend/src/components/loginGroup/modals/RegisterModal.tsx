@@ -18,10 +18,10 @@ import {
 import { ModalBox } from "../../styles.ts";
 import { RegisterRequest } from "../../../api/data-contracts.ts";
 import { useDispatch } from "react-redux";
-import { register } from "../../../store/thunks/authThunk.ts";
 import { AppDispatch } from "../../../store/store.ts";
 import ErrorIcon from "@mui/icons-material/Error";
 import CheckIcon from "@mui/icons-material/Check";
+import {registerUser} from "../../../store/thunks/authThunk.ts";
 
 interface ModalProps {
   open: boolean;
@@ -79,7 +79,7 @@ const RegisterModal = (props: ModalProps) => {
     };
 
     try {
-      const result = await dispatch(register(credentials)).unwrap();
+      const result = await dispatch(registerUser(credentials)).unwrap();
       if (result) {
         setRegisterSuccess(true);
         // Close the modal after a short delay to show the success message

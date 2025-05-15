@@ -6,8 +6,8 @@ import RequireLogin from "../components/global/RequireLogin.tsx";
 
 const CreateEventPage = () => {
   const IsLoggedIn = useSelector(
-    (state: RootState) => state.session,
-  ).isLoggedIn;
+    (state: RootState) => state.auth,
+  ).isAuthenticated;
   return IsLoggedIn ? (
     <CreateEventForm />
   ) : (

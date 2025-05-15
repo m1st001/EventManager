@@ -42,7 +42,7 @@ const CreateEventForm = () => {
   const [participantsError, setParticipantsError] = useState<string>("");
 
   // Get current user ID from Redux store
-  const userId = useSelector((state: RootState) => state.session.userId);
+  const userId = useSelector((state: RootState) => state.auth.user?.id);
 
   const validateForm = (): boolean => {
     let isValid = true;

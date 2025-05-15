@@ -34,6 +34,12 @@ public static class IdentityEndpoints
         {
             await authenticationService.Logout();
             return TypedResults.Ok("Successfully logged out");
-        }); // Logout user
+        });
+
+        auth.MapGet("me", async (HttpContext context,IAuthenticationService authenticationService) =>
+        {
+            var result = await authenticationService.GetMe(context.User);
+            return result is not null ? TypedResults.Ok(result) : Results.Unauthorized();
+        }).RequireAuthorization();
     }
 }

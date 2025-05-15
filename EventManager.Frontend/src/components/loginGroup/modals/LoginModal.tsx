@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Alert,
   Box,
@@ -13,11 +13,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ModalBox } from "../../styles.ts";
-import { LoginRequest } from "../../../api/data-contracts.ts";
-import { useDispatch } from "react-redux";
-import { login } from "../../../store/thunks/authThunk.ts";
-import { AppDispatch } from "../../../store/store.ts";
+import { ModalBox } from "../../styles";
+import { LoginRequest } from "../../../api/data-contracts";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../../store/thunks/authThunk";
+import { AppDispatch, RootState } from "../../../store/store";
+import { clearAuthError } from "../../../store/slices/authSlice";
 
 interface ModalProps {
   open: boolean;
@@ -26,98 +27,102 @@ interface ModalProps {
 
 const LoginModal = (props: ModalProps) => {
   const dispatch: AppDispatch = useDispatch();
+  const { isLoading, error: authError, isAuthenticated } = useSelector((state: RootState) => state.auth);
+
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [loginError, setLoginError] = useState<string>("");
-  const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
+  const [rememberMe, setRememberMe] = useState<boolean>(false); // Для чекбокса "Remember me"
+
+  const [loginSuccessMessage, setLoginSuccessMessage] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (props.open) {
+      dispatch(clearAuthError());
+      setLoginSuccessMessage(false);
+    }
+  }, [props.open, dispatch]);
+
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setIsLoading(true);
-    setLoginError("");
-    setLoginSuccess(false);
+    dispatch(clearAuthError());
+    setLoginSuccessMessage(false);
 
     const credentials: LoginRequest = {
       username: username,
       password: password,
     };
 
-    try {
-      const result = await dispatch(login(credentials)).unwrap();
-      if (result) {
-        setLoginSuccess(true);
-        // Close the modal after a short delay to show the success message
-        setTimeout(() => {
-          props.onClose();
-        }, 1500);
-      } else {
-        setLoginError("Login failed. Please check your credentials.");
-      }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        setLoginError(error.message || "An error occurred during login.");
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    await dispatch(loginUser({ credentials, rememberMe })).unwrap();
+    setLoginSuccessMessage(true);
+    setTimeout(() => {
+      props.onClose();
+      setLoginSuccessMessage(false); // Сбрасываем сообщение перед следующим открытием
+    }, 1500);
   };
+
   return (
-    <>
       <Modal open={props.open} onClose={props.onClose}>
         <form onSubmit={handleSubmit}>
           <ModalBox>
             <Card>
               <CardContent>
                 <Box marginBottom={2}>
-                  <Typography variant="h4" justifySelf="center">
+                  <Typography variant="h4" component="h2" align="center"> {/* Используем component и align для лучшей семантики и выравнивания */}
                     Login
                   </Typography>
                 </Box>
                 <Box display="flex" flexDirection="column">
-                  {loginSuccess && (
-                    <Alert severity="success" sx={{ mb: 2 }}>
-                      Login successful! Redirecting...
-                    </Alert>
+                  {loginSuccessMessage && (
+                      <Alert severity="success" sx={{ mb: 2 }}>
+                        Login successful! Redirecting...
+                      </Alert>
                   )}
-                  {loginError && (
-                    <Alert severity="error" sx={{ mb: 2 }}>
-                      {loginError}
-                    </Alert>
+                  {authError && !loginSuccessMessage && ( // Показываем ошибку только если нет сообщения об успехе
+                      <Alert severity="error" sx={{ mb: 2 }}>
+                        {authError}
+                      </Alert>
                   )}
                   <TextField
-                    id="username"
-                    label="Username"
-                    size="small"
-                    margin="dense"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    disabled={isLoading}
-                    required
+                      id="username"
+                      label="Username"
+                      size="small"
+                      margin="dense"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      disabled={isLoading}
+                      required
+                      autoFocus // Удобно для пользователя
                   />
                   <TextField
-                    id="password"
-                    label="Password"
-                    type="password"
-                    size="small"
-                    margin="dense"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    disabled={isLoading}
-                    required
+                      id="password"
+                      label="Password"
+                      type="password"
+                      size="small"
+                      margin="dense"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      disabled={isLoading}
+                      required
                   />
                   <FormControlLabel
-                    control={<Checkbox />}
-                    label="Remember me"
-                    disabled={isLoading}
+                      control={
+                        <Checkbox
+                            checked={rememberMe}
+                            onChange={(e) => setRememberMe(e.target.checked)}
+                            disabled={isLoading}
+                        />
+                      }
+                      label="Remember me"
                   />
                 </Box>
               </CardContent>
-              <CardActions>
-                <Button 
-                  type="submit" 
-                  disabled={isLoading}
-                  startIcon={isLoading ? <CircularProgress size={20} /> : null}
+              <CardActions sx={{ justifyContent: 'flex-end', paddingRight: 2, paddingBottom: 2 }}> {/* Выравниваем кнопку */}
+                <Button
+                    type="submit"
+                    variant="contained" // Делаем кнопку более заметной
+                    disabled={isLoading}
+                    startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : null}
                 >
                   {isLoading ? 'Logging in...' : 'Login'}
                 </Button>
@@ -126,7 +131,6 @@ const LoginModal = (props: ModalProps) => {
           </ModalBox>
         </form>
       </Modal>
-    </>
   );
 };
 

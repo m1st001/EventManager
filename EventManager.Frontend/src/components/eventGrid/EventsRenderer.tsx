@@ -1,7 +1,7 @@
 import React from "react";
 import { Event } from "../../api/data-contracts.ts";
 import { Box, Typography, CircularProgress, Alert, Grid } from "@mui/material";
-import EventCard from "../EventCard.tsx";
+import EventCard from "../eventView/EventCard.tsx";
 
 interface EventsRendererProps {
   events: Event[];

@@ -71,6 +71,7 @@ export interface IEvent {
   /** @format int32 */
   id?: number;
   name?: string | null;
+  description?: string | null;
   tags?: string[] | null;
   /** @format date-time */
   startDate?: string;

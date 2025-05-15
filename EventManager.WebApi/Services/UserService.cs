@@ -43,4 +43,9 @@ public class UserService(AppDbContext context, ILogger<UserService> logger) : IU
     {
         throw new NotImplementedException();
     }
+
+    public Task<List<IEvent>> GetSubscriptions(int userId)
+    {
+        throw new NotImplementedException();
+    }
 }

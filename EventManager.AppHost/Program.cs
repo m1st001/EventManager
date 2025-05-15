@@ -3,8 +3,24 @@ using Microsoft.Extensions.Hosting;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var postgres = builder.AddPostgres("postgres");
+var postgres = builder.AddPostgres("postgres")
+    .WithLifetime(ContainerLifetime.Persistent);
 var postgresDb = postgres.AddDatabase("postgresDb");
+
+var seq = builder.AddContainer("seq", "datalust/seq")
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithVolume("seq-data", "/data") // Persistence
+    .WithEndpoint(
+        name: "ingestion",
+        targetPort: 5341, // Container port
+        port: 5341,      // Host port (optional - will be auto-assigned if null)
+        scheme: "http")
+    .WithEndpoint(
+        name: "ui",
+        targetPort: 80,   // Seq web UI runs on port 80 in container
+        port: 5380,       // Expose on 5380 on host
+        scheme: "http")
+    .WithEnvironment("ACCEPT_EULA", "Y");
 
 // Add MinIO as a containerized service
 var minio = builder.AddContainer("minio", "minio/minio")
@@ -25,13 +41,14 @@ var minio = builder.AddContainer("minio", "minio/minio")
 
 var webapi = builder.AddProject<Projects.EventManager_WebApi>("webapi")
     .WithReference(postgresDb)
+    .WaitFor(seq)
     .WithExternalHttpEndpoints();
 
 var frontend = builder.AddNpmApp("frontend", "../eventmanager.frontend")
     .WithReference(webapi)
     .WaitFor(webapi)
     .WithEnvironment("BROWSER", "none")
-    .WithHttpEndpoint(env: "VITE_PORT")
+    .WithHttpEndpoint(port: 5173, env: "VITE_PORT")
     .WithExternalHttpEndpoints();
 
 var app = builder.Build();

@@ -11,20 +11,20 @@ const SubscribedEventsTab = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { userId, isLoggedIn } = useSelector(
-    (state: RootState) => state.session,
+  const { user, isAuthenticated } = useSelector(
+    (state: RootState) => state.auth,
   );
 
   // Fetch subscribed events
   useEffect(() => {
-    if (isLoggedIn && userId !== -1) {
+    if (isAuthenticated && user?.id !== -1) {
       const fetchSubscribedEvents = async () => {
         try {
           setLoading(true);
           setError(null);
 
           // Using the registeredList endpoint
-          const response = await eventsClient.registeredList({ userId });
+          const response = await eventsClient.registeredList({ userId: user!.id! });
 
           // If the API is not ready yet, we'll use mock data
           if (!response.data || !Array.isArray(response.data)) {
@@ -47,9 +47,9 @@ const SubscribedEventsTab = () => {
 
       fetchSubscribedEvents();
     }
-  }, [isLoggedIn, userId]);
+  }, [isAuthenticated, user]);
 
-  if (!isLoggedIn) {
+  if (!isAuthenticated) {
     return (
       <Typography variant="body1" sx={{ textAlign: "center", p: 3 }}>
         Please log in to view your subscribed events.

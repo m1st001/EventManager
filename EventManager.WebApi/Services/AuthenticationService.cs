@@ -1,4 +1,5 @@
-﻿using EventManager.WebApi.Data.Helpers;
+﻿using System.Security.Claims;
+using EventManager.WebApi.Data.Helpers;
 using EventManager.WebApi.Data.Models;
 using EventManager.WebApi.Services.Abstractions;
 using Microsoft.AspNetCore.Identity;
@@ -80,7 +81,16 @@ public class AuthenticationService(
         }
 
         var result = await signInManager.PasswordSignInAsync(user, password, useCookies, false);
-        _logger.LogInformation("{username} has successfully logged in", username);
+        
+        if (result.Succeeded)
+        {
+            _logger.LogInformation("{username} has successfully logged in", username);
+        }
+        else
+        {
+            _logger.LogInformation("{username} login failed", username);
+        }
+        
 
         return result.Succeeded ? user : null;
     }
@@ -90,5 +100,12 @@ public class AuthenticationService(
     {
         await signInManager.SignOutAsync();
         _logger.LogError("User successfully logged out");
+    }
+
+    public async Task<User?> GetMe(ClaimsPrincipal principal)
+    {
+        var user = await userManager.GetUserAsync(principal);
+    
+        return user ?? null;
     }
 }

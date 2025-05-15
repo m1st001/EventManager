@@ -7,6 +7,8 @@ using EventManager.WebApi.Services;
 using EventManager.WebApi.Services.Abstractions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Logs;
 
 namespace EventManager.WebApi.Core;
 
@@ -25,11 +27,36 @@ public static class DiExtensions
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
+                
             })
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
 
+        // Configure cookie settings
+        services.ConfigureApplicationCookie(options =>
+        {
+            options.Cookie.HttpOnly = true;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Use Always in production
+            options.Cookie.SameSite = SameSiteMode.Strict;
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+            options.SlidingExpiration = true;
+        });
+        
         return services;
+    }
+
+    public static WebApplicationBuilder ConfigureOtLogging(this WebApplicationBuilder builder)
+    {
+        builder.Logging.ClearProviders();
+        builder.Logging.AddOpenTelemetry(options => options.AddOtlpExporter(x =>
+            {
+                x.Endpoint = new Uri("http://localhost:5341/ingest/otlp/v1/logs");
+                x.Protocol = OtlpExportProtocol.HttpProtobuf;
+            }
+        ));
+        builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
+        
+        return builder;
     }
 
     /// <summary>
@@ -39,7 +66,7 @@ public static class DiExtensions
     {
         services.AddScoped<IEventService, EventService>();
         services.AddScoped<IUserService, UserService>();
-        services.AddScoped<ISubscribeService, SubscribeService>();
+        services.AddScoped<ISubscriptionService, SubscriptionService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
 
         return services;

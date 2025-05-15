@@ -18,12 +18,14 @@ public class EventService(AppDbContext context, ILogger<EventService> logger) : 
 
     public async Task<List<IEvent>> GetAllEventsByStatus(EventStatus status)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation("Fetched all events with {status} status", status);
+        return await context.Events.Where(e => e.Status == status).ToListAsync<IEvent>();
     }
 
     public async Task<List<IEvent>> GetAllEventsByAvailability(EventAvailability availability)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation("Fetched all events with {availability} availability", availability);
+        return await context.Events.Where(e => e.Availability == availability).ToListAsync<IEvent>();
     }
 
     public async Task<List<IEvent>> GetAllRegisteredEventsAsync(int userId)
@@ -44,7 +46,7 @@ public class EventService(AppDbContext context, ILogger<EventService> logger) : 
         var created = context.Events.Add(new Event(request));
         await context.SaveChangesAsync();
         
-        _logger.LogInformation("Event {id} was successfully created", created.Entity.Id);
+        _logger.LogInformation("Event {id} was successfully created.", created.Entity.Id);
         
         return created.Entity is not null ? created.Entity.Id : -1;
     }
@@ -54,9 +56,8 @@ public class EventService(AppDbContext context, ILogger<EventService> logger) : 
         var updated = context.Events.Update(new Event(request));
         await context.SaveChangesAsync();
         
-        _logger.LogInformation("Event {id} was successfully completed", id);
-        
-        return updated.Entity is not null ? updated.Entity : null;
+        _logger.LogInformation("Event {id} was edited.", id);
+        return updated.Entity;
     }
 
     public async Task<bool> DeleteEventAsync(int id)

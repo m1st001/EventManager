@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Event } from "../api/data-contracts.ts";
+import { Event } from "../../api/data-contracts.ts";
 import { CardContent, CardMedia, Typography } from "@mui/material";
-import { StyledEventCard } from "./styles.ts";
+import { StyledEventCard } from "../styles.ts";
 import EventModal from "./EventModal.tsx";
 
 function formatDate(isoDate: string): string {

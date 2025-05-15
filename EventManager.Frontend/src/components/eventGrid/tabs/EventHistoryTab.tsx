@@ -5,18 +5,18 @@ import EventsRenderer from "../EventsRenderer.tsx";
 import { Typography } from "@mui/material";
 import { RootState } from "../../../store/store.ts";
 
-const EventHistoryTab = () => {
+export const EventHistoryTab = () => {
   const [participatedEvents, setParticipatedEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { userId, isLoggedIn } = useSelector(
-    (state: RootState) => state.session,
+  const { user, isAuthenticated } = useSelector(
+    (state: RootState) => state.auth,
   );
 
   // Fetch participated events history
   useEffect(() => {
-    if (isLoggedIn && userId !== -1) {
+    if (isAuthenticated && user?.id !== -1) {
       const fetchParticipatedEvents = async () => {
         try {
           setLoading(true);
@@ -43,9 +43,9 @@ const EventHistoryTab = () => {
 
       fetchParticipatedEvents();
     }
-  }, [isLoggedIn, userId]);
+  }, [isAuthenticated, user]);
 
-  if (!isLoggedIn) {
+  if (!isAuthenticated) {
     return (
       <Typography variant="body1" sx={{ textAlign: "center", p: 3 }}>
         Please log in to view your event history.
@@ -61,5 +61,3 @@ const EventHistoryTab = () => {
     />
   );
 };
-
-export default EventHistoryTab;
