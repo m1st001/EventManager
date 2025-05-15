@@ -13,12 +13,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ModalBox } from "../../styles"; // Проверьте путь
+import { ModalBox } from "../../styles";
 import { LoginRequest } from "../../../api/data-contracts";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../../store/thunks/authThunk"; // Обновленный thunk
-import { AppDispatch, RootState } from "../../../store/store"; // RootState для useSelector
-import { clearAuthError } from "../../../store/slices/authSlice"; // Для сброса ошибок
+import { loginUser } from "../../../store/thunks/authThunk";
+import { AppDispatch, RootState } from "../../../store/store";
+import { clearAuthError } from "../../../store/slices/authSlice";
 
 interface ModalProps {
   open: boolean;
@@ -35,18 +35,17 @@ const LoginModal = (props: ModalProps) => {
 
   const [loginSuccessMessage, setLoginSuccessMessage] = useState<boolean>(false);
 
-  // Сбрасываем ошибку при открытии/закрытии модального окна или при изменении полей
   useEffect(() => {
     if (props.open) {
       dispatch(clearAuthError());
-      setLoginSuccessMessage(false); // Сбрасываем сообщение об успехе
+      setLoginSuccessMessage(false);
     }
   }, [props.open, dispatch]);
 
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    dispatch(clearAuthError()); // Очищаем предыдущие ошибки
+    dispatch(clearAuthError());
     setLoginSuccessMessage(false);
 
     const credentials: LoginRequest = {
@@ -54,22 +53,12 @@ const LoginModal = (props: ModalProps) => {
       password: password,
     };
 
-    try {
-      // Используем unwrap для получения результата thunk'а или выброса ошибки
-      await dispatch(loginUser({ credentials, rememberMe })).unwrap();
-      // Если unwrap не выбросил ошибку, значит логин (и последующий checkAuthStatus) успешен
-      setLoginSuccessMessage(true);
-      // Закрываем модальное окно после небольшой задержки
-      setTimeout(() => {
-        props.onClose();
-        setLoginSuccessMessage(false); // Сбрасываем сообщение перед следующим открытием
-      }, 1500);
-    } catch (error) {
-      // Ошибка уже должна быть в authError из Redux state,
-      // но можно оставить локальный обработчик, если нужно специфичное поведение.
-      // authError из Redux state будет отображен ниже.
-      console.error("Login failed:", error);
-    }
+    await dispatch(loginUser({ credentials, rememberMe })).unwrap();
+    setLoginSuccessMessage(true);
+    setTimeout(() => {
+      props.onClose();
+      setLoginSuccessMessage(false); // Сбрасываем сообщение перед следующим открытием
+    }, 1500);
   };
 
   return (

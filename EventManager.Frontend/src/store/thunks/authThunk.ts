@@ -53,7 +53,7 @@ export const checkAuthStatus = createAsyncThunk<User | null, void, { rejectValue
     'auth/checkAuthStatus',
     async (_, { rejectWithValue }) => {
         try {
-            const response = await authClient.postAuthentication();
+            const response = await authClient.getAuthentication();
             if (response.ok) {
                 const data = await response.json();
                 return data as User;

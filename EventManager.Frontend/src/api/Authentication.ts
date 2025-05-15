@@ -70,13 +70,13 @@ export class Authentication<SecurityDataType = unknown> extends HttpClient<Secur
    * No description
    *
    * @tags Identity
-   * @name PostAuthentication
-   * @request POST:/authentication/me
+   * @name GetAuthentication
+   * @request GET:/authentication/me
    */
-  postAuthentication = (params: RequestParams = {}) =>
+  getAuthentication = (params: RequestParams = {}) =>
     this.request<Void, any>({
       path: `/authentication/me`,
-      method: "POST",
+      method: "GET",
       format: "json",
       ...params,
     });
