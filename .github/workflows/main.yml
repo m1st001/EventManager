@@ -14,7 +14,7 @@ jobs:
       IMAGE_NAME: m1stym1st/dotnet-webapi
       YC_SERVERLESS_CONTAINER_NAME: api-events
       YC_SERVICE_ACCOUNT_ID: ajecnv18e2v9t936e40c
-      YC_AUTHORIZED_KEY_JSON: ${{ secrets.key }}
+      YC_AUTHORIZED_KEY_JSON: ${{ secrets.YCKEY }}
       YC_FOLDER_ID: b1gts99os6kais5qm3ab
     defaults:
       run:
