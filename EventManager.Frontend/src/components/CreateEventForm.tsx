@@ -118,7 +118,7 @@ const CreateEventForm = () => {
     };
 
     try {
-      await eventsClient.eventsCreate(request);
+      await eventsClient.eventsCreate(request, {credentials:"include"});
       setSuccess(true);
 
       // Reset form after successful submission

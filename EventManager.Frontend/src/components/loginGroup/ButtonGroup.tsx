@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Typography, Box } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import { StyledLoginGroup } from "../styles"; // Проверьте путь
 import LoginModal from "./modals/LoginModal";
 import RegisterModal from "./modals/RegisterModal";
@@ -26,7 +26,6 @@ const ButtonGroup = () => {
   if (isAuthenticated) {
     return (
       <Box display="flex" alignItems="center">
-        {user && <Typography sx={{ mr: 2 }}>Welcome, {user.userName || 'User'}</Typography>} {/* Отображаем имя пользователя, если доступно */}
         <Button onClick={handleLogout} disabled={isAuthLoading}>
           {isAuthLoading ? 'Logging out...' : 'Log out'}
         </Button>

@@ -48,7 +48,7 @@ public class EventService(AppDbContext context, ILogger<EventService> logger) : 
         
         _logger.LogInformation("Event {id} was successfully created.", created.Entity.Id);
         
-        return created.Entity is not null ? created.Entity.Id : -1;
+        return created.Entity.Id;
     }
 
     public async Task<IEvent?> UpdateEventAsync(int id, CreateEventRequest request)

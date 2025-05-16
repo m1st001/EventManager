@@ -11,7 +11,7 @@ public class Event() : IEvent, IEventQuickInfo, ISubscribable
         Name = request.Name;
         Description = request.Description;
         CreatorId = request.CreatorId;
-        StartDate = request.StartDate;
+        StartDate = request.StartDate.ToUniversalTime();
         CreatorId = request.CreatorId;
         MaxParticipants = request.MaxParticipants;
         Tags = request.Tags;
