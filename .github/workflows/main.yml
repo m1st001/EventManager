@@ -58,7 +58,7 @@ jobs:
       id: deploy-sls-container
       uses: yc-actions/yc-sls-container-deploy@v3
       with:
-        yc-sa-id: ${{ secrets.YC_SERVICE_ACCOUNT_ID }}
+        yc-iam-token: ${{ steps.issue-iam-token.outputs.token }}
         container-name: $YC_SERVERLESS_CONTAINER_NAME
         folder-id: $YC_FOLDER_ID
         revision-service-account-id: $YC_SERVICE_ACCOUNT_ID
