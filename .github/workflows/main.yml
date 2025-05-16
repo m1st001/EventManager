@@ -35,16 +35,36 @@ jobs:
     - name: Publish .NET Web API
       run: dotnet publish --configuration Release -o out 
 
-    - name: install-yc
+    - name: Install and configure Yandex Cloud CLI
       run: |
-        curl -o ./yc-install.sh -L https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -a
-        echo 'source /root/yandex-cloud/completion.zsh.inc' >>  ~/.zshrc
-        chmod +x ./yc-install.sh && ./yc-install.sh -i /tmp/yc -n && mv /tmp/yc/bin/yc /usr/bin/yc
-        echo "$YC_AUTHORIZED_KEY_JSON" > key.json
-        yc config profile create sa-profile
-        yc config set service-account-key key.json
-        yc config set format json
-        yc config set folder-id $YC_FOLDER_ID
+          # Install yc to local directory
+          echo "Installing Yandex Cloud CLI..."
+          curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -i $HOME/.yc -n
+          echo "$HOME/.yc/bin" >> $GITHUB_PATH
+    
+          # Configure authentication using only the key
+          echo "Configuring authentication..."
+          KEY_FILE="$HOME/yandex_key.json"
+          echo "${{ secrets.YC_SERVICE_ACCOUNT_KEY }}" > $KEY_FILE
+    
+          # Automatically extract folder_id from the key
+          FOLDER_ID=$(jq -r '.folder_id' $KEY_FILE)
+    
+          $HOME/.yc/bin/yc config set service-account-key $KEY_FILE
+          $HOME/.yc/bin/yc config set folder-id $FOLDER_ID
+    
+          # Configure Docker
+          echo "Configuring Docker registry access..."
+          $HOME/.yc/bin/yc container registry configure-docker
+    
+          # Verify configuration
+          echo "Verifying configuration..."
+          $HOME/.yc/bin/yc config list
+          $HOME/.yc/bin/yc container registry list
+    
+          # Cleanup
+          rm -f $KEY_FILE
+          echo "Setup completed successfully"
       
     - name: docker-login
       run: yc container registry configure-docker --profile sa-profile
