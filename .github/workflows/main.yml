@@ -33,12 +33,6 @@ jobs:
       with:
         dotnet-version: '9.0.x' # Specify your .NET version
 
-    - name: Build .NET Web API
-      run: dotnet build --configuration Release
-
-    - name: Publish .NET Web API
-      run: dotnet publish --configuration Release -o out 
-
     - name: IAM Token
       id: issue-iam-token
       uses: yc-actions/yc-iam-token@v1
