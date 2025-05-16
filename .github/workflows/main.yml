@@ -9,6 +9,13 @@ jobs:
   build_and_deploy_dotnet:
     name: Build and Deploy .NET Web API
     runs-on: ubuntu-latest
+    env:
+      YC_DOCKER_REGISTRY_URI: cr.yandex/crphhtvgjecg3ue303sg
+      IMAGE_NAME: m1stym1st/dotnet-webapi
+      YC_SERVERLESS_CONTAINER_NAME: api-events
+      YC_SERVICE_ACCOUNT_ID: ajecnv18e2v9t936e40c
+      YC_AUTHORIZED_KEY_JSON: ${{ secrets.key }}
+      YC_FOLDER_ID: b1gts99os6kais5qm3ab
     defaults:
       run:
         working-directory: ./EventManager.WebApi
@@ -28,14 +35,27 @@ jobs:
     - name: Publish .NET Web API
       run: dotnet publish --configuration Release -o out 
 
-    - name: Build Docker image for .NET Web API
-      run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/dotnet-webapi . 
+    - name: install-yc
+      run: |
+        curl -o ./yc-install.sh -L https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -a
+        echo 'source /root/yandex-cloud/completion.zsh.inc' >>  ~/.zshrc
+        chmod +x ./yc-install.sh && ./yc-install.sh -i /tmp/yc -n && mv /tmp/yc/bin/yc /usr/bin/yc
+        echo "$YC_AUTHORIZED_KEY_JSON" > key.json
+        yc config profile create sa-profile
+        yc config set service-account-key key.json
+        yc config set format json
+        yc config set folder-id $YC_FOLDER_ID
+      
+    - name: docker-login
+      run: yc container registry configure-docker --profile sa-profile
 
-    - name: Login to DockerHub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+    - name: docker-build-push
+      run: |
+          docker build --tag $YC_DOCKER_REGISTRY_URI/$IMAGE_NAME --platform linux/amd64 .
+          docker push $YC_DOCKER_REGISTRY_URI/$IMAGE_NAME:latest
+    
+    - name: docker-logout
+      run: docker logout $YC_DOCKER_REGISTRY_URI
 
-    - name: Push Docker image for .NET Web API
-      run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/dotnet-webapi
+    - name: create-serverless
+      run: yc serverless container revision deploy  --container-name $YC_SERVERLESS_CONTAINER_NAME --image $YC_DOCKER_REGISTRY_URI/$IMAGE_NAME:latest --service-account-id $YC_SERVICE_ACCOUNT_ID
