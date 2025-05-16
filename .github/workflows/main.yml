@@ -37,12 +37,11 @@ jobs:
 
     - name: Try to install yc cli and login into yandex cloud
       uses: lxhan/yc-install@v3
+      with:
+        SA_KEY: YC_AUTHORIZED_KEY_JSON
       
     - name: Configure Yandex Cloud CLI
       run: |
-        echo "$YC_AUTHORIZED_KEY_JSON" > key.json
-        yc config profile create sa-profile
-        yc config set service-account-key key.json
         yc config set format json
         yc config set folder-id $YC_FOLDER_ID
       
