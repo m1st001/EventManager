@@ -43,14 +43,14 @@ jobs:
       id: issue-iam-token
       uses: yc-actions/yc-iam-token@v1
       with:
-        yc-sa-json-credentials: ${{ secrets.YCKEY }}
+        yc-sa-json-credentials: $YC_AUTHORIZED_KEY_JSON
 
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
         registry: cr.yandex
         username: iam
-        password: ${{ steps.get-iam-token.outputs.token }}
+        password: ${{ steps.issue-iam-token.outputs.token }}
 
     - name: Build, tag, and push image to Yandex Cloud Container Registry
       env:
