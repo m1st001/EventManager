@@ -39,7 +39,7 @@ jobs:
       run: |
         curl -o ./yc-install.sh -L https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -a
         echo 'source /root/yandex-cloud/completion.zsh.inc' >>  ~/.zshrc
-        sudo chmod +x ./yc-install.sh && ./yc-install.sh -i /tmp/yc -n && mv /tmp/yc/bin/yc /usr/bin/yc
+        sudo chmod +x ./yc-install.sh && ./yc-install.sh -i /usr/bin/yc -n
         echo "$YC_AUTHORIZED_KEY_JSON" > key.json
         yc config profile create sa-profile
         yc config set service-account-key key.json
