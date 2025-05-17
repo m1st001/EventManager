@@ -1,4 +1,4 @@
-name: Build Docker images
+name: Build and Deploy EventManager.WebApi to YC Serveless Containers
 
 on: 
   schedule:
