@@ -16,7 +16,6 @@ jobs:
     env:
       YC_DOCKER_REGISTRY_URI: cr.yandex/crptg6nm3l5g6e4nn43a
       IMAGE_NAME: m1stym1st/dotnet-webapi
-      YC_SERVERLESS_CONTAINER_NAME: api-events
       YC_AUTHORIZED_KEY_JSON: ${{ secrets.YCKEY }}
     defaults:
       run:
@@ -58,7 +57,7 @@ jobs:
       uses: yc-actions/yc-sls-container-deploy@v3
       with:
         yc-iam-token: ${{ steps.issue-iam-token.outputs.token }}
-        container-name: $YC_SERVERLESS_CONTAINER_NAME
+        container-name: api-events
         folder-id: ${{ secrets.YC_FOLDER_ID }}
         revision-service-account-id: ${{ secrets.YC_SERVICE_ACCOUNT_ID }}
         revision-cores: 1
