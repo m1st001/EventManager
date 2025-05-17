@@ -18,7 +18,6 @@ jobs:
       IMAGE_NAME: m1stym1st/dotnet-webapi
       YC_SERVERLESS_CONTAINER_NAME: api-events
       YC_AUTHORIZED_KEY_JSON: ${{ secrets.YCKEY }}
-      YC_FOLDER_ID: b1gts99os6kais5qm3ab
     defaults:
       run:
         working-directory: ./EventManager.WebApi
@@ -60,8 +59,8 @@ jobs:
       with:
         yc-iam-token: ${{ steps.issue-iam-token.outputs.token }}
         container-name: $YC_SERVERLESS_CONTAINER_NAME
-        folder-id: $YC_FOLDER_ID
-        revision-service-account-id: $YC_SERVICE_ACCOUNT_ID
+        folder-id: ${{ secrets.YC_FOLDER_ID }}
+        revision-service-account-id: ${{ secrets.YC_SERVICE_ACCOUNT_ID }}
         revision-cores: 1
         revision-memory: 512Mb
         revision-core-fraction: 20
