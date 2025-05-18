@@ -27,9 +27,9 @@ const EventGrid = () => {
 
   return (
     <StyledContentBox
-      sx={{ flexGrow: 1, flexDirection: "column", marginTop: 0 }}
+      sx={{ flexDirection: "column", marginTop: 0 }}
     >
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Box>
         <Tabs value={tabValue} onChange={handleTabChange} centered>
           {tabs.map((tab) => {
             return (

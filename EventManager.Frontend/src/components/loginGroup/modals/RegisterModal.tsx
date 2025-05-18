@@ -79,16 +79,7 @@ const RegisterModal = (props: ModalProps) => {
     };
 
     try {
-      const result = await dispatch(registerUser(credentials)).unwrap();
-      if (result) {
-        setRegisterSuccess(true);
-        // Close the modal after a short delay to show the success message
-        setTimeout(() => {
-          props.onClose();
-        }, 1500);
-      } else {
-        setRegisterError("Registration failed. Please try again.");
-      }
+      await dispatch(registerUser(credentials)).unwrap();
     } catch (error: unknown) {
       if (error instanceof Error)
         setRegisterError(
