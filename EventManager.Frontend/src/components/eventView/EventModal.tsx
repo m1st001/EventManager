@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Event, EventAvailability, SubscribeEventRequest } from "../../api/data-contracts.ts";
+import { EventAvailability, IEvent, SubscribeEventRequest} from "../../api/data-contracts.ts";
 import {
   Alert,
   Box,
@@ -21,12 +21,12 @@ import { formatDate, getStatusText, getStatusColor, getAvailabilityText, getAvai
 interface EventModalProps {
   open: boolean;
   onClose: () => void;
-  eventProps: Event;
+  eventProps: IEvent;
 }
 
 
 // EventInfo component to display event details
-const EventInfo = ({ event }: { event: Event }) => {
+const EventInfo = ({ event }: { event: IEvent }) => {
   return (
     <Box>
       <Box justifyContent="space-between" alignItems="center" marginBottom={2}>
@@ -46,11 +46,11 @@ const EventInfo = ({ event }: { event: Event }) => {
       </Box>
 
       <Typography sx={{ mb: 2 }}>
-        <strong>Start Date:</strong> {formatDate(event.startDate)}
+        <strong>Start Date:</strong> {formatDate(event.startDate!)}
       </Typography>
 
       <Typography sx={{ mb: 2 }}>
-        <strong>Created Date:</strong> {formatDate(event.createdDate)}
+        <strong>Created Date:</strong> {formatDate(event.createdDate!)}
       </Typography>
 
       <Typography sx={{ mb: 2 }}>
@@ -83,7 +83,7 @@ const EventActions = ({
   isSubscribing, 
   onSubscribe 
 }: { 
-  event: Event, 
+  event: IEvent,
   isSubscribing: boolean, 
   onSubscribe: () => void 
 }) => {

@@ -48,3 +48,33 @@ export default tseslint.config({
   },
 })
 ```
+
+---
+
+## Running with Docker
+
+This project includes a Docker setup for building and running the React + TypeScript + Vite app in a containerized environment.
+
+- **Node.js version:** The Dockerfile uses `node:22.13.1-slim` for both build and production stages.
+- **Ports:** The app exposes port **5173** (the default Vite preview port). This is mapped to your host in the Docker Compose file.
+- **Environment variables:**
+  - You can use either `.env.development` or `.env.production` files for environment-specific configuration. Uncomment the relevant `env_file` line in `docker-compose.yml` to enable this.
+- **No external dependencies:** The current Docker Compose setup only runs the frontend app. If you add a backend or database, update the compose file accordingly.
+
+### Build and Run
+
+To build and start the app using Docker Compose:
+
+```sh
+docker compose up --build
+```
+
+This will:
+- Build the Docker image for the frontend app
+- Start the container and expose the app at [http://localhost:5173](http://localhost:5173)
+
+### Customization
+- To use custom environment variables, edit `.env.development` or `.env.production` and uncomment the corresponding `env_file` line in `docker-compose.yml`.
+- The app runs as a non-root user inside the container for improved security.
+
+---

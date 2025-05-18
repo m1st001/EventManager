@@ -19,7 +19,7 @@ const Navbar = () => {
     <>
       <Container>
         <StyledNavbar position="static">
-          <Container maxWidth="xl">
+          <Container>
             <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
               <Box>
                 {pages.map((page) => (

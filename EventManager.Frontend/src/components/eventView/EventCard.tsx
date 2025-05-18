@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Event } from "../../api/data-contracts.ts";
+import { IEvent } from "../../api/data-contracts.ts";
 import { CardContent, CardMedia, Typography } from "@mui/material";
 import { StyledEventCard } from "../styles.ts";
 import EventModal from "./EventModal.tsx";
@@ -18,7 +18,7 @@ function formatDate(isoDate: string): string {
   return date.toLocaleString("ru-RU", options);
 }
 
-const EventCard = (eventProps: Event) => {
+const EventCard = (eventProps: IEvent) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -32,7 +32,7 @@ const EventCard = (eventProps: Event) => {
           image="src/assets/contemplative-reptile.jpg"
         />
         <CardContent>
-          <Typography>{formatDate(eventProps.startDate)}</Typography>
+          <Typography>{formatDate(eventProps.startDate!)}</Typography>
           <Typography gutterBottom variant="h5" component="div">
             {eventProps.name}
           </Typography>

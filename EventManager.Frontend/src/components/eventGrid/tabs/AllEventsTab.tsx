@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Event } from "../../../api/data-contracts.ts";
+import { IEvent } from "../../../api/data-contracts.ts";
 import { eventsClient } from "../../../api/apiConfig.ts";
 import EventsRenderer from "../EventsRenderer.tsx";
 
 const AllEventsTab = () => {
-  const [allEvents, setAllEvents] = useState<Event[]>([]);
+  const [allEvents, setAllEvents] = useState<IEvent[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
