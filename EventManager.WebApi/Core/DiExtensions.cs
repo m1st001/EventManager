@@ -50,7 +50,7 @@ public static class DiExtensions
         builder.Logging.ClearProviders();
         builder.Logging.AddOpenTelemetry(options => options.AddOtlpExporter(x =>
             {
-                x.Endpoint = new Uri("http://localhost:5341/ingest/otlp/v1/logs");
+                x.Endpoint = new Uri(builder.Configuration["SeqUrl"]!);
                 x.Protocol = OtlpExportProtocol.HttpProtobuf;
             }
         ));
