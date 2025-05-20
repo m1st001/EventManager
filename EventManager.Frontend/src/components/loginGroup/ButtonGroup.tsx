@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Box } from "@mui/material";
-import { StyledLoginGroup } from "../styles"; // Проверьте путь
+import { StyledLoginGroup } from "../styles";
 import LoginModal from "./modals/LoginModal";
 import RegisterModal from "./modals/RegisterModal";
 import { useDispatch, useSelector } from "react-redux";

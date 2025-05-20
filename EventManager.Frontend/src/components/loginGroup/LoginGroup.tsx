@@ -10,7 +10,6 @@ const LoginGroup = () => {
   const [showContent, setShowContent] = useState<React.ReactNode | null>(null);
 
   useEffect(() => {
-    // Only update the UI when we have a definitive state (not during loading)
     if (!session.isLoading) {
       if (session.isAuthenticated && session.user) {
         const username = session.user.userName || "";
@@ -24,7 +23,6 @@ const LoginGroup = () => {
         setShowContent(<ButtonGroup />);
       }
     }
-    // We don't update the UI during loading, which prevents the flash
   }, [session]);
 
   return <StyledLoginGroup>{showContent}</StyledLoginGroup>;

@@ -28,7 +28,7 @@ builder.Services.AddMinio();
 
 builder.ConfigureOtLogging();
 
-builder.AddNpgsqlDbContext<AppDbContext>(connectionName: "postgresDb", options =>
+builder.AddNpgsqlDbContext<AppDbContext>(connectionName: builder.Configuration["PostgresConnection"]!, options =>
 {
     options.CommandTimeout = 300;
 });
