@@ -1,33 +1,44 @@
-import React, { useState, useEffect } from "react";
-import { StyledLoginGroup } from "../styles.ts";
-import { Avatar, Box, Button } from "@mui/material";
-import { RootState } from "../../store/store.ts";
+import React, {useEffect, useState} from "react";
+import {StyledLoginGroup} from "../styles.ts";
+import {Avatar, Box, Button} from "@mui/material";
+import {RootState} from "../../store/store.ts";
 import ButtonGroup from "./ButtonGroup.tsx";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
+import PopoverMenu from "./PopoverMenu.tsx";
 
 const LoginGroup = () => {
-  const session = useSelector((state: RootState) => state.auth);
-  const [showContent, setShowContent] = useState<React.ReactNode | null>(null);
+    const session = useSelector((state: RootState) => state.auth);
+    const [showContent, setShowContent] = useState<React.ReactNode | null>(null);
 
-  useEffect(() => {
-    // Only update the UI when we have a definitive state (not during loading)
-    if (!session.isLoading) {
-      if (session.isAuthenticated && session.user) {
-        const username = session.user.userName || "";
-        setShowContent(
-          <Box display="flex" gap={2} justifyContent="space-between">
-            <Button>{username}</Button>
-            <Avatar>{username.charAt(0)}</Avatar>
-          </Box>
-        );
-      } else {
-        setShowContent(<ButtonGroup />);
-      }
+    const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+
+    const openDropdown = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        setAnchorEl(event.currentTarget);
     }
-    // We don't update the UI during loading, which prevents the flash
-  }, [session]);
 
-  return <StyledLoginGroup>{showContent}</StyledLoginGroup>;
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    useEffect(() => {
+        if (!session.isLoading) {
+            if (session.user) {
+                const username = session.user.userName;
+                setShowContent(
+                    <Box display="flex" gap={2} justifyContent="space-between">
+                        <Button onClick={openDropdown}>{username}</Button>
+                        <PopoverMenu handleClose={handleClose} anchorEl={anchorEl!}/>
+                        <Avatar>{username!.charAt(0)}</Avatar>
+                    </Box>
+                );
+            } else {
+                setShowContent(<ButtonGroup/>);
+            }
+        }
+    }, [session, anchorEl]);
+
+    return <StyledLoginGroup>{showContent}</StyledLoginGroup>;
 };
 
 export default LoginGroup;

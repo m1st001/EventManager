@@ -10,13 +10,13 @@ export const EventHistoryTab = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { user, isAuthenticated } = useSelector(
+  const { user } = useSelector(
     (state: RootState) => state.auth,
   );
 
   // Fetch participated events history
   useEffect(() => {
-    if (isAuthenticated && user?.id !== -1) {
+    if (user && user?.id !== -1) {
       const fetchParticipatedEvents = async () => {
         try {
           setLoading(true);
@@ -43,9 +43,9 @@ export const EventHistoryTab = () => {
 
       fetchParticipatedEvents();
     }
-  }, [isAuthenticated, user]);
+  }, [user]);
 
-  if (!isAuthenticated) {
+  if (!user) {
     return (
       <Typography variant="body1" sx={{ textAlign: "center", p: 3 }}>
         Please log in to view your event history.

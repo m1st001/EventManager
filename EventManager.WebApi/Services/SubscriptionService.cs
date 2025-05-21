@@ -13,9 +13,15 @@ public class SubscriptionService(AppDbContext context, ILogger<SubscriptionServi
             .FirstOrDefaultAsync(u => u.Id == userId);
         var @event = await context.Events.FindAsync(eventId);
         
-        if (user is null || @event is null)
+        if (user is null)
         {
-            _logger.LogError("{user} or {event} not found", user, eventId);
+            _logger.LogError("User {userId} not found", userId);
+            return false;
+        }
+
+        if (@event is null)
+        {
+            _logger.LogError("Event {event} not found", eventId);
             return false;
         }
         

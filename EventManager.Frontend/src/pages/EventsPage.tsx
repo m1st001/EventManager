@@ -7,7 +7,7 @@ import RequireLogin from "../components/global/RequireLogin.tsx";
 const EventsPage = () => {
   const IsLoggedIn = useSelector(
     (state: RootState) => state.auth,
-  ).isAuthenticated;
+  ).user;
   return IsLoggedIn ? (
     <EventGrid />
   ) : (

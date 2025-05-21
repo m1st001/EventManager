@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
@@ -30,7 +28,7 @@ builder.Services.AddMinio();
 
 builder.ConfigureOtLogging();
 
-builder.AddNpgsqlDbContext<AppDbContext>(connectionName: "postgresDb", options =>
+builder.AddNpgsqlDbContext<AppDbContext>(connectionName: builder.Configuration["PostgresConnection"]!, options =>
 {
     options.CommandTimeout = 300;
 });
@@ -44,7 +42,6 @@ app.UseAuthorization();
 
 app.MapEndpoints();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
