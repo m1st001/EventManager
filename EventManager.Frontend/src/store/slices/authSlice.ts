@@ -8,8 +8,9 @@ interface AuthState {
   error: string | null;
 }
 
+const savedUser = localStorage.getItem('authUser');
 const initialState: AuthState = {
-  user: null,
+  user: savedUser ? JSON.parse(savedUser) : null,
   isLoading: false,
   error: null,
 };

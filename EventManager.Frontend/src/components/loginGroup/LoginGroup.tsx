@@ -12,11 +12,11 @@ const LoginGroup = () => {
   useEffect(() => {
     if (!session.isLoading) {
       if (session.user) {
-        const username = session.user.userName || "";
+        const username = session.user.userName;
         setShowContent(
           <Box display="flex" gap={2} justifyContent="space-between">
             <Button>{username}</Button>
-            <Avatar>{username.charAt(0)}</Avatar>
+            <Avatar>{username!.charAt(0)}</Avatar>
           </Box>
         );
       } else {
