@@ -25,7 +25,7 @@ const BottomBar = () => {
             </Typography>
             <Box>
               <Link
-                href="https://github.com"
+                href="https://github.com/m1st001/EventManager"
                 target="_blank"
                 rel="noopener"
                 color="inherit"
