@@ -13,6 +13,7 @@ const LoginGroup = () => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
     const openDropdown = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
         setAnchorEl(event.currentTarget);
     }
 

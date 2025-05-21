@@ -1,8 +1,8 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import {createAsyncThunk} from '@reduxjs/toolkit';
 import {LoginRequest, RegisterRequest} from "../../api/data-contracts.ts";
 import {authClient} from "../../api/apiConfig.ts";
 
-export const loginUser = createAsyncThunk('auth/login', async (credentials: LoginRequest, { rejectWithValue }) => {
+export const loginUser = createAsyncThunk('auth/login', async (credentials: LoginRequest, {rejectWithValue}) => {
     try {
         const response = await authClient.loginCreate({rememberMe: true}, credentials);
         localStorage.setItem('authUser', JSON.stringify(response.data));
@@ -12,16 +12,15 @@ export const loginUser = createAsyncThunk('auth/login', async (credentials: Logi
     }
 });
 
-export const registerUser = createAsyncThunk('auth/register', async (credentials: RegisterRequest, { rejectWithValue }) => {
+export const registerUser = createAsyncThunk('auth/register', async (credentials: RegisterRequest, {rejectWithValue}) => {
     try {
-        const response = await authClient.registerCreate(credentials);
-        return response.data;
+        return await authClient.registerCreate(credentials);
     } catch (error: any) {
         return rejectWithValue(error.response?.data || 'Registration failed');
     }
 });
 
-export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValue }) => {
+export const logout = createAsyncThunk('auth/logout', async (_, {rejectWithValue}) => {
     try {
         await authClient.logoutCreate();
         localStorage.removeItem('authUser');
@@ -31,7 +30,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValu
     }
 });
 
-export const fetchMe = createAsyncThunk('auth/me', async (_, { rejectWithValue }) => {
+export const fetchMe = createAsyncThunk('auth/me', async (_, {rejectWithValue}) => {
     try {
         const response = await authClient.getAuthentication();
         return response.data;
