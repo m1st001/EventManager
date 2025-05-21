@@ -11,7 +11,7 @@ const LoginGroup = () => {
 
   useEffect(() => {
     if (!session.isLoading) {
-      if (session.isAuthenticated && session.user) {
+      if (session.user) {
         const username = session.user.userName || "";
         setShowContent(
           <Box display="flex" gap={2} justifyContent="space-between">

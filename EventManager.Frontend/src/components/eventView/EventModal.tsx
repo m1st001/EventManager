@@ -116,7 +116,7 @@ const EventModal = (props: EventModalProps) => {
 
   // Get the current user's ID from the Redux store
   const userId = useSelector((state: RootState) => state.auth.user?.id);
-  const isLoggedIn = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const isLoggedIn = useSelector((state: RootState) => state.auth.user);
 
   // Handle subscribe button click
   const handleSubscribe = async () => {

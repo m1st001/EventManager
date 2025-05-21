@@ -1,69 +1,39 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import {LoginRequest, RegisterRequest, User} from '../../api/data-contracts';
+import {LoginRequest, RegisterRequest} from "../../api/data-contracts.ts";
 import {authClient} from "../../api/apiConfig.ts";
 
-interface LoginPayload {
-    credentials: LoginRequest;
-    rememberMe: boolean;
-}
-
-export const loginUser = createAsyncThunk<User | null, LoginPayload, { rejectValue: string }>(
-    'auth/loginUser',
-    async ({ credentials, rememberMe }, { rejectWithValue, dispatch }) => {
-        try {
-            await authClient.loginCreate({ rememberMe }, credentials);
-            const userAction = await dispatch(checkAuthStatus());
-            if (checkAuthStatus.fulfilled.match(userAction)) {
-                return userAction.payload as User | null;
-            } else {
-                return rejectWithValue('Login succeeded but failed to verify session.');
-            }
-        } catch (error: any) {
-            const message = error.response?.data?.message || error.message || 'An unknown error occurred during login.';
-            return rejectWithValue(message);
-        }
+export const loginUser = createAsyncThunk('auth/login', async (credentials: LoginRequest, { rejectWithValue }) => {
+    try {
+        const response = await authClient.loginCreate({rememberMe: true}, credentials);
+        return response.data;
+    } catch (error: any) {
+        return rejectWithValue(error.response?.data || 'Login failed');
     }
-);
+});
 
-export const registerUser = createAsyncThunk<void, RegisterRequest, { rejectValue: string }>(
-    'auth/registerUser',
-    async (data, { rejectWithValue }) => {
-        try {
-            await authClient.registerCreate(data);
-        } catch (error: any) {
-            const message = error.response?.data?.message || error.message || 'An unknown error occurred during registration.';
-            return rejectWithValue(message);
-        }
+export const registerUser = createAsyncThunk('auth/register', async (credentials: RegisterRequest, { rejectWithValue }) => {
+    try {
+        const response = await authClient.registerCreate(credentials);
+        return response.data;
+    } catch (error: any) {
+        return rejectWithValue(error.response?.data || 'Registration failed');
     }
-);
+});
 
-export const logoutUser = createAsyncThunk<void, void, { rejectValue: string }>(
-    'auth/logoutUser',
-    async (_, { rejectWithValue }) => {
-        try {
-            await authClient.logoutCreate();
-        } catch (error: any) {
-            const message = error.response?.data?.message || error.message || 'An unknown error occurred during logout.';
-            return rejectWithValue(message);
-        }
+export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValue }) => {
+    try {
+        await authClient.logoutCreate();
+        return null;
+    } catch (error: any) {
+        return rejectWithValue('Logout failed');
     }
-);
+});
 
-export const checkAuthStatus = createAsyncThunk<User | null, void, { rejectValue: string }>(
-    'auth/checkAuthStatus',
-    async (_, { rejectWithValue }) => {
-        try {
-            const response = await authClient.getAuthentication({credentials:"include"});
-            if (response.ok) {
-                const data = await response.json();
-                return data as User;
-            } else if (response.status === 401) {
-                return null;
-            } else {
-                return rejectWithValue(`Failed to fetch user status: ${response.status}`);
-            }
-        } catch (error: any) {
-            return rejectWithValue(error.message || 'Failed to check auth status');
-        }
+export const fetchMe = createAsyncThunk('auth/me', async (_, { rejectWithValue }) => {
+    try {
+        const response = await authClient.getAuthentication();
+        return response.data;
+    } catch (error: any) {
+        return rejectWithValue('Fetch user data failed');
     }
-);
+});

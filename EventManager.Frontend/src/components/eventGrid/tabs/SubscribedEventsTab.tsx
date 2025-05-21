@@ -11,13 +11,13 @@ const SubscribedEventsTab = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { user, isAuthenticated } = useSelector(
+  const { user } = useSelector(
     (state: RootState) => state.auth,
   );
 
   // Fetch subscribed events
   useEffect(() => {
-    if (isAuthenticated && user?.id !== -1) {
+    if (user && user?.id !== -1) {
       const fetchSubscribedEvents = async () => {
         try {
           setLoading(true);
@@ -47,9 +47,9 @@ const SubscribedEventsTab = () => {
 
       fetchSubscribedEvents();
     }
-  }, [isAuthenticated, user]);
+  }, [user]);
 
-  if (!isAuthenticated) {
+  if (!user) {
     return (
       <Typography variant="body1" sx={{ textAlign: "center", p: 3 }}>
         Please log in to view your subscribed events.

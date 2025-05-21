@@ -19,7 +19,6 @@ import { LoginRequest } from "../../../api/data-contracts";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../../store/thunks/authThunk";
 import { AppDispatch, RootState } from "../../../store/store";
-import { clearAuthError } from "../../../store/slices/authSlice";
 
 interface ModalProps {
   open: boolean;
@@ -28,7 +27,6 @@ interface ModalProps {
 
 const LoginModal = (props: ModalProps) => {
   const dispatch: AppDispatch = useDispatch();
-  const { isLoading, error: authError, isAuthenticated } = useSelector((state: RootState) => state.auth);
 
   const {
     register,
@@ -45,22 +43,21 @@ const LoginModal = (props: ModalProps) => {
     },
   });
 
+  const { isLoading } = useSelector((state: RootState) => state.auth);
   const [loginSuccessMessage, setLoginSuccessMessage] = React.useState<boolean>(false);
   const rememberMe = watch("rememberMe");
 
   useEffect(() => {
     if (props.open) {
-      dispatch(clearAuthError());
       setLoginSuccessMessage(false);
       reset();
     }
   }, [props.open, dispatch, reset]);
 
   const onSubmit = async (data: LoginRequest) => {
-    dispatch(clearAuthError());
     setLoginSuccessMessage(false);
 
-    await dispatch(loginUser({ credentials: data, rememberMe })).unwrap();
+    await dispatch(loginUser({ ...data })).unwrap();
     setLoginSuccessMessage(true);
     setTimeout(() => {
       props.onClose();
@@ -82,11 +79,6 @@ const LoginModal = (props: ModalProps) => {
                 {loginSuccessMessage && (
                     <Alert severity="success" sx={{ mb: 2 }}>
                       Login successful! Redirecting...
-                    </Alert>
-                )}
-                {authError && !loginSuccessMessage && (
-                    <Alert severity="error" sx={{ mb: 2 }}>
-                      {authError}
                     </Alert>
                 )}
                 <TextField
