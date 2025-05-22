@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { EventAvailability, IEvent, SubscribeEventRequest} from "../../api/data-contracts.ts";
+import {
+  EventAvailability,
+  IEvent,
+  SubscribeEventRequest,
+} from "../../api/data-contracts.ts";
 import {
   Alert,
   Box,
@@ -16,7 +20,13 @@ import { ModalBox } from "../styles.ts";
 import { subClient } from "../../api/apiConfig.ts";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store.ts";
-import { formatDate, getStatusText, getStatusColor, getAvailabilityText, getAvailabilityColor } from "./eventHelpers.ts";
+import {
+  formatDate,
+  getAvailabilityColor,
+  getAvailabilityText,
+  getStatusColor,
+  getStatusText,
+} from "./eventHelpers.ts";
 
 interface EventModalProps {
   open: boolean;
@@ -24,21 +34,20 @@ interface EventModalProps {
   eventProps: IEvent;
 }
 
-
 // EventInfo component to display event details
 const EventInfo = ({ event }: { event: IEvent }) => {
   return (
     <Box>
       <Box justifyContent="space-between" alignItems="center" marginBottom={2}>
         <Typography variant="h4">{event.name}</Typography>
-        <Stack direction="row" spacing={1} sx={{my:1}}>
-          <Chip 
-            label={getStatusText(event.status)} 
+        <Stack direction="row" spacing={1} sx={{ my: 1 }}>
+          <Chip
+            label={getStatusText(event.status)}
             color={getStatusColor(event.status)}
             size="small"
           />
-          <Chip 
-            label={getAvailabilityText(event.availability)} 
+          <Chip
+            label={getAvailabilityText(event.availability)}
             color={getAvailabilityColor(event.availability)}
             size="small"
           />
@@ -54,7 +63,8 @@ const EventInfo = ({ event }: { event: IEvent }) => {
       </Typography>
 
       <Typography sx={{ mb: 2 }}>
-        <strong>Participants:</strong> {event.participants?.length || 0} / {event.maxParticipants}
+        <strong>Participants:</strong> {event.participants?.length || 0} /{" "}
+        {event.maxParticipants}
       </Typography>
 
       <Typography variant="body1" sx={{ mb: 2 }}>
@@ -66,7 +76,7 @@ const EventInfo = ({ event }: { event: IEvent }) => {
           <Typography variant="body1" sx={{ mb: 1 }}>
             <strong>Tags:</strong>
           </Typography>
-          <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ml:1}}>
+          <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ ml: 1 }}>
             {event.tags.map((tag, index) => (
               <Chip key={index} label={tag} size="small" />
             ))}
@@ -78,25 +88,38 @@ const EventInfo = ({ event }: { event: IEvent }) => {
 };
 
 // EventActions component to handle event actions like subscribing
-const EventActions = ({ 
-  event, 
-  isSubscribing, 
-  onSubscribe 
-}: { 
-  event: IEvent,
-  isSubscribing: boolean, 
-  onSubscribe: () => void 
+const EventActions = ({
+  event,
+  isSubscribing,
+  onSubscribe,
+}: {
+  event: IEvent;
+  isSubscribing: boolean;
+  onSubscribe: () => void;
 }) => {
   return (
-    <CardActions sx={{pt:0, pb:2}}>
-      <Button 
-        variant="contained" 
-        color="primary" 
+    <CardActions sx={{ pt: 0, pb: 2 }}>
+      <Button
+        variant="contained"
+        color="primary"
         onClick={onSubscribe}
-        disabled={isSubscribing || event.availability === EventAvailability.Value1}
-        sx={{ml:1}}
+        disabled={
+          isSubscribing || event.availability === EventAvailability.Value1
+        }
+        sx={{ ml: 1 }}
       >
         {isSubscribing ? "Subscribing..." : "Subscribe"}
+      </Button>
+      <Button
+        variant="outlined"
+        color="error"
+        onClick={onSubscribe}
+        disabled={
+          isSubscribing || event.availability === EventAvailability.Value1
+        }
+        sx={{ ml: 1 }}
+      >
+        {isSubscribing ? "Unsubscribing..." : "Unsubscribe"}
       </Button>
     </CardActions>
   );
@@ -134,7 +157,7 @@ const EventModal = (props: EventModalProps) => {
     try {
       const subscribeRequest: SubscribeEventRequest = {
         userId: userId,
-        eventId: props.eventProps.id
+        eventId: props.eventProps.id,
       };
 
       await subClient.subscribeCreate(subscribeRequest);
@@ -159,12 +182,14 @@ const EventModal = (props: EventModalProps) => {
     <Modal open={props.open} onClose={props.onClose}>
       <ModalBox>
         <Card>
-          <CardContent sx={{pb:1}}>
+          <CardContent sx={{ pb: 1 }}>
             {notification.show && (
               <Box mb={2}>
-                <Alert 
+                <Alert
                   severity={notification.severity}
-                  onClose={() => setNotification({ ...notification, show: false })}
+                  onClose={() =>
+                    setNotification({ ...notification, show: false })
+                  }
                 >
                   {notification.message}
                 </Alert>
@@ -174,10 +199,10 @@ const EventModal = (props: EventModalProps) => {
             <EventInfo event={props.eventProps} />
           </CardContent>
 
-          <EventActions 
-            event={props.eventProps} 
-            isSubscribing={isSubscribing} 
-            onSubscribe={handleSubscribe} 
+          <EventActions
+            event={props.eventProps}
+            isSubscribing={isSubscribing}
+            onSubscribe={handleSubscribe}
           />
         </Card>
       </ModalBox>
