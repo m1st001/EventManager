@@ -70,13 +70,5 @@ public interface IEventService
     /// <param name="userId">User.Id</param>
     /// <param name="count">Count of events to get</param>
     /// <returns></returns>
-    Task<List<IEventQuickInfo>> GetEventsHistoryByUserIdAsync(int userId, int count = 5);
-    
-    /// <summary>
-    /// Gets last n:count events user:userId has registered to.
-    /// </summary>
-    /// <param name="userId">User.Id</param>
-    /// <param name="count">Count of events to get</param>
-    /// <returns></returns>
-    Task<List<IEventQuickInfo>> GetEventsRegistrationsByUserIdAsync(int userId, int count = 5);
+    Task<List<IEvent>> GetEventsHistoryByUserIdAsync(int userId, int count = 5);
 }

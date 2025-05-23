@@ -14,7 +14,9 @@ const AllEventsTab = () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await eventsClient.eventsList();
+        const response = await eventsClient.plannedList({
+          credentials: "include",
+        });
         setAllEvents(response.data);
       } catch (err) {
         setError("Failed to load events. Please try again later.");

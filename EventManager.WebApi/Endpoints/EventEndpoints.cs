@@ -1,4 +1,5 @@
-﻿using EventManager.WebApi.Data.Models.Requests.Events;
+﻿using EventManager.WebApi.Data.Models.Abstractions;
+using EventManager.WebApi.Data.Models.Requests.Events;
 using EventManager.WebApi.Services.Abstractions;
 
 namespace EventManager.WebApi.Endpoints;
@@ -7,7 +8,7 @@ public static class EventEndpoints
 {
     public static void RegisterEventEndpoints(this WebApplication app)
     {
-        var events = app.MapGroup("/events").WithOpenApi().WithTags("Events");
+        var events = app.MapGroup("/events").WithOpenApi().WithTags("Events").RequireAuthorization();
         
         events.MapGet("/", async (IEventService eventService)
             => TypedResults.Ok(await eventService.GetAllEventsAsync()));
@@ -44,5 +45,11 @@ public static class EventEndpoints
 
         events.MapDelete("/{id:int}", async (int id, IEventService eventService) =>
             await eventService.DeleteEventAsync(id) ? TypedResults.Ok(id) : Results.NoContent());
+
+        events.MapGet("/planned", async (IEventService eventService) =>
+            await eventService.GetAllEventsByStatus(EventStatus.Planned));
+        
+        events.MapGet("/{userId:int}/history", async (int userId,IEventService eventService) =>
+            await eventService.GetEventsHistoryByUserIdAsync(userId));
     }
 }
