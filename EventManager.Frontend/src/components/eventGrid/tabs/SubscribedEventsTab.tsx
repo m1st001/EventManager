@@ -11,9 +11,7 @@ const SubscribedEventsTab = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { user } = useSelector(
-    (state: RootState) => state.auth,
-  );
+  const { user } = useSelector((state: RootState) => state.auth);
 
   // Fetch subscribed events
   useEffect(() => {
@@ -24,7 +22,10 @@ const SubscribedEventsTab = () => {
           setError(null);
 
           // Using the registeredList endpoint
-          const response = await eventsClient.registeredList({ userId: user!.id! });
+          const response = await eventsClient.registeredList(
+            { userId: user!.id! },
+            { credentials: "include" },
+          );
 
           // If the API is not ready yet, we'll use mock data
           if (!response.data || !Array.isArray(response.data)) {
