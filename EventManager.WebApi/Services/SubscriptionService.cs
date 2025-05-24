@@ -9,8 +9,9 @@ public class SubscriptionService(AppDbContext context, ILogger<SubscriptionServi
     private readonly ILogger _logger = logger;
     public async Task<bool> SubscribeAsync(int userId, int eventId)
     {
-        var user = await context.Users.Include(u => u.SubscribedToEvents)
-            .FirstOrDefaultAsync(u => u.Id == userId);
+        var user = context.Users
+            .Include(u => u.SubscribedToEvents) // Explicitly include related events
+            .FirstOrDefault(u => u.Id == userId);
         var @event = await context.Events.FindAsync(eventId);
         
         if (user is null)
@@ -21,7 +22,7 @@ public class SubscriptionService(AppDbContext context, ILogger<SubscriptionServi
 
         if (@event is null)
         {
-            _logger.LogError("Event {event} not found", eventId);
+            _logger.LogError("Event {eventId} not found", eventId);
             return false;
         }
         
