@@ -19,7 +19,7 @@ public sealed class AppDbContext : IdentityDbContext<User, IdentityRole<int>, in
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Event>()
             .HasMany(e => e.Participants)
-            .WithMany(u => u.SubscribedToEvents);
+            .WithMany(u => u.Events);
 
         modelBuilder.Entity<Event>()
             .HasOne(e => e.Community)

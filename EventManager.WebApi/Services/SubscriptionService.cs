@@ -10,7 +10,7 @@ public class SubscriptionService(AppDbContext context, ILogger<SubscriptionServi
     public async Task<bool> SubscribeAsync(int userId, int eventId)
     {
         var user = context.Users
-            .Include(u => u.SubscribedToEvents) // Explicitly include related events
+            .Include(u => u.Events) // Explicitly include related events
             .FirstOrDefault(u => u.Id == userId);
         var @event = await context.Events.FindAsync(eventId);
         
@@ -26,12 +26,12 @@ public class SubscriptionService(AppDbContext context, ILogger<SubscriptionServi
             return false;
         }
         
-        if (user.SubscribedToEvents.Any(e => e.Id == eventId))
+        if (user.Events.Any(e => e.Id == eventId))
         {
             return true;
         }
         
-        user.SubscribedToEvents.Add(@event);
+        user.Events.Add(@event);
         await context.SaveChangesAsync();
         
         _logger.LogInformation("User {user} has successfully subscribed to the event: {event}", userId, eventId);
@@ -55,7 +55,7 @@ public class SubscriptionService(AppDbContext context, ILogger<SubscriptionServi
            return false;
        }
        
-       user.SubscribedToEvents.Remove(@event);
+       user.Events.Remove(@event);
        await context.SaveChangesAsync();
        
        _logger.LogInformation("Successfully unsubscribed user {user} from event {event}", userId, eventId);
@@ -66,7 +66,7 @@ public class SubscriptionService(AppDbContext context, ILogger<SubscriptionServi
     {
         return await context.Users
             .Where(u => u.Id == userId)
-            .SelectMany(u => u.SubscribedToEvents)
+            .SelectMany(u => u.Events)
             .AnyAsync(e => e.Id == eventId);
     }
 }

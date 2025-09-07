@@ -31,8 +31,8 @@ public class Event() : IEvent, IEventQuickInfo, ISubscribable
     public EventAvailability Availability =>
         Participants.Count < MaxParticipants ? EventAvailability.Available : EventAvailability.Reserved;
 
-    public int CommunityId { get; set; }
-    public Community? Community { get; set; }
+    public int CommunityId { get; init; }
+    public Community? Community { get; init; }
     
     public bool Subscribe(int userId)
     {

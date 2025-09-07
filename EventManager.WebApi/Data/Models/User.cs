@@ -8,9 +8,6 @@ namespace EventManager.WebApi.Data.Models;
 /// </summary>
 public class User : IdentityUser<int>, IUser
 {
-    public ICollection<Event> SubscribedToEvents { get; set; } = new List<Event>();
-    
-    public ICollection<int> ParticipatedInEventsIds { get; set; } = new List<int>();
-
+    public ICollection<Event> Events { get; set; } = new List<Event>();
     public ICollection<Community> Communities { get; set; } = new List<Community>();
 }
