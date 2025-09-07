@@ -15,6 +15,7 @@ public class Event() : IEvent, IEventQuickInfo, ISubscribable
         CreatorId = request.CreatorId;
         MaxParticipants = request.MaxParticipants;
         Tags = request.Tags;
+        CommunityId = request.CommunityId;
     }
 
     public int Id { get; set; }
@@ -29,6 +30,9 @@ public class Event() : IEvent, IEventQuickInfo, ISubscribable
     public EventStatus Status { get; set; }
     public EventAvailability Availability =>
         Participants.Count < MaxParticipants ? EventAvailability.Available : EventAvailability.Reserved;
+
+    public int CommunityId { get; set; }
+    public Community? Community { get; set; }
     
     public bool Subscribe(int userId)
     {

@@ -1,4 +1,3 @@
-using EventManager.WebApi.Data.Helpers;
 using EventManager.WebApi.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -8,19 +7,12 @@ namespace EventManager.WebApi.Data;
 
 public sealed class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
 {
-    private readonly IWebHostEnvironment _env;
-    
-    public AppDbContext(DbContextOptions<AppDbContext> options, IWebHostEnvironment env) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
-        _env = env;
-        if (_env.IsDevelopment())
-        {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
-        }
     }
     
     public DbSet<Event> Events { get; set; }
+    public DbSet<Community> Communities { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,9 +20,15 @@ public sealed class AppDbContext : IdentityDbContext<User, IdentityRole<int>, in
         modelBuilder.Entity<Event>()
             .HasMany(e => e.Participants)
             .WithMany(u => u.SubscribedToEvents);
-        if (_env.IsDevelopment())
-        {
-            SeedData.SeedContext(modelBuilder);
-        }
+
+        modelBuilder.Entity<Event>()
+            .HasOne(e => e.Community)
+            .WithMany(c => c.Events)
+            .HasForeignKey(e => e.CommunityId)
+            .IsRequired();
+
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.Communities)
+            .WithMany(c => c.Members);
     }
 }

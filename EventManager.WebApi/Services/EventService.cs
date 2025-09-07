@@ -12,7 +12,6 @@ public class EventService(AppDbContext context, ILogger<EventService> logger) : 
     private readonly ILogger _logger = logger;
     public async Task<List<IEvent>> GetAllEventsAsync()
     {
-        _logger.LogInformation("GetAllEvents was successfully completed");
         return await context.Events.ToListAsync<IEvent>();
     }
 
@@ -32,7 +31,9 @@ public class EventService(AppDbContext context, ILogger<EventService> logger) : 
     {
         _logger.LogInformation("GetAllRegisteredEvents was successfully completed");
         var user = await context.Users.FindAsync(userId);
-        return user == null ? [] : context.Events.Where(e => e.Participants.Contains(user)).ToList<IEvent>();
+        return user is null ? [] : 
+            context.Events.Where(e => e.Participants.Contains(user) && e.Status == EventStatus.Planned)
+                .ToList<IEvent>();
     }
 
     public async Task<IEvent?> GetEventByIdAsync(int id)
@@ -77,14 +78,16 @@ public class EventService(AppDbContext context, ILogger<EventService> logger) : 
         return true;
     }
 
-    public async Task<List<IEventQuickInfo>> GetEventsHistoryByUserIdAsync(int userId, int count)
+    public async Task<List<IEvent>> GetEventsHistoryByUserIdAsync(int userId, int count)
     {
-        _logger.LogInformation("Successfully fetched Event history for user {userId}", userId);
-        throw new NotImplementedException();
-    }
-
-    public async Task<List<IEventQuickInfo>> GetEventsRegistrationsByUserIdAsync(int userId, int count = 5)
-    {
-        throw new NotImplementedException();
+        var user = await context.Users.FindAsync(userId);
+        if (user is null)
+        {
+            return [];
+        }
+        
+        var eventHistory = context.Events.Where(e => e.Participants.Contains(user) && e.Status == EventStatus.Completed).ToList<IEvent>();
+        _logger.LogInformation("Successfully fetched event history for user {userId}", userId);
+        return eventHistory;
     }
 }

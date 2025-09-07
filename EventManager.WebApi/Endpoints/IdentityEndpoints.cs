@@ -26,7 +26,7 @@ public static class IdentityEndpoints
             var user = await authenticationService.Register(request.Username, request.Email, request.Password); // Register user
 
             return user is not null
-                ? TypedResults.Ok("Successfully registered")
+                ? TypedResults.Ok(user)
                 : Results.BadRequest("User is already registered");
         });
 

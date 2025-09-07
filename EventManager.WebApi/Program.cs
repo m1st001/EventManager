@@ -23,7 +23,6 @@ builder.Services.AddAuthorization();
 // Registering custom services
 builder.Services.AddAllScoped();
 builder.Services.AddIdentity();
-builder.Services.ConfigureCookies();
 builder.Services.AddMinio();
 
 builder.ConfigureOtLogging();

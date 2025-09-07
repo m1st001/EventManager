@@ -68,6 +68,7 @@ public static class DiExtensions
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ISubscriptionService, SubscriptionService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<ICommunityService, CommunityService>();
 
         return services;
     }
@@ -99,6 +100,7 @@ public static class DiExtensions
         app.RegisterIdentityEndpoints();
         app.RegisterSubscribeEndpoints();
         app.RegisterUserEndpoints();
+        app.RegisterCommunityEndpoints();
 
         return app;
     }

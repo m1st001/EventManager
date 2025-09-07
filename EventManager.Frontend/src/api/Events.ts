@@ -108,4 +108,32 @@ export class Events<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       format: "json",
       ...params,
     });
+  /**
+   * No description
+   *
+   * @tags Events
+   * @name PlannedList
+   * @request GET:/events/planned
+   */
+  plannedList = (params: RequestParams = {}) =>
+    this.request<IEvent[], any>({
+      path: `/events/planned`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Events
+   * @name HistoryDetail
+   * @request GET:/events/{userId}/history
+   */
+  historyDetail = (userId: number, params: RequestParams = {}) =>
+    this.request<IEvent[], any>({
+      path: `/events/${userId}/history`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
 }
