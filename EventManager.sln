@@ -10,6 +10,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventManager.WebApi", "Even
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "eventmanager.frontend", "EventManager.Frontend\eventmanager.frontend.esproj", "{DC91FCEE-4DC3-4897-90DF-8D7BF2E59419}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aspire", "Aspire", "{96CE4497-1699-452B-9DBC-BAA40AC41FE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,5 +42,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F5395AAD-C5DF-4317-9492-94B9F3520E09}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FE572E9C-81FA-4985-883C-CCF9F87D9E43} = {96CE4497-1699-452B-9DBC-BAA40AC41FE5}
+		{F0E4AB5B-1D4C-46BC-8DFE-3E941C025C14} = {96CE4497-1699-452B-9DBC-BAA40AC41FE5}
 	EndGlobalSection
 EndGlobal
