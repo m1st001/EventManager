@@ -7,6 +7,7 @@ import ErrorPage from "./pages/ErrorPage.tsx";
 import Navbar from "./components/global/Navbar.tsx";
 import BottomBar from "./components/global/BottomBar.tsx";
 import { Container, createTheme, ThemeProvider } from "@mui/material";
+import { DIProvider } from "./ioc/DIContext.tsx";
 
 const App = () => {
   const darkTheme = createTheme({
@@ -42,11 +43,13 @@ const App = () => {
       style={{ display: "flex", flexDirection: "column", minHeight: "97vh" }}
     >
       <ThemeProvider theme={darkTheme}>
-        <Navbar />
-        <Container maxWidth="lg" sx={{ flex: 1, mb: 8 }}>
-          <RouterProvider router={router} />
-        </Container>
-        <BottomBar />
+        <DIProvider>
+          <Navbar />
+          <Container maxWidth="lg" sx={{ flex: 1, mb: 8 }}>
+            <RouterProvider router={router} />
+          </Container>
+          <BottomBar />
+        </DIProvider>
       </ThemeProvider>
     </div>
   );
