@@ -24,4 +24,7 @@ public record CreateEventRequest
     [Required]
     [Range(2, int.MaxValue)]
     public int MaxParticipants { get; set; }
+
+    [Required]
+    public int CommunityId { get; set; }
 };

@@ -99,7 +99,7 @@ public class AuthenticationService(
     public async Task Logout()
     {
         await signInManager.SignOutAsync();
-        _logger.LogError("User successfully logged out");
+        _logger.LogInformation("User successfully logged out");
     }
 
     public async Task<User?> GetMe(ClaimsPrincipal principal)

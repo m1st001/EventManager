@@ -11,4 +11,6 @@ public class User : IdentityUser<int>, IUser
     public ICollection<Event> SubscribedToEvents { get; set; } = new List<Event>();
     
     public ICollection<int> ParticipatedInEventsIds { get; set; } = new List<int>();
+
+    public ICollection<Community> Communities { get; set; } = new List<Community>();
 }
